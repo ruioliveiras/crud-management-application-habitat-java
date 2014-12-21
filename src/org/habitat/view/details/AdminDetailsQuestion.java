@@ -35,7 +35,6 @@ public class AdminDetailsQuestion extends javax.swing.JPanel {
 
         jLabel1.setText("Pergunta:");
 
-        txtAsk.setText("jTextField1");
         txtAsk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtAskActionPerformed(evt);
