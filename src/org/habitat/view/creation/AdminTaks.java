@@ -5,11 +5,15 @@
  */
 package org.habitat.view.creation;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import org.habitat.view.util.UIDimension;
+
 /**
  *
  * @author ruioliveiras
  */
-public class AdminTaks extends javax.swing.JFrame {
+public class AdminTaks extends javax.swing.JFrame implements UIDimension.JCreate<Object>{
 
     /**
      * Creates new form AdminTaks
@@ -107,4 +111,26 @@ public class AdminTaks extends javax.swing.JFrame {
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btSave;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public Object get() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void set(Object a) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public JPanel getPanel() {
+        JPanel p = new JPanel();
+        p.add(this.getContentPane());
+        return p;
+    }
+
+    @Override
+    public JFrame getFrame() {
+        return this;
+    }
 }

@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/view/tabs/FamilyToolBar.java</file>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/view/tabs/FundsToolBar.java</file>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/view/tabs/BuilddingToolBar.java</file>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/view/tabs/AdminToolBar.java</file>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/view/util/AppState.java</file>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/view/tabs/SkelatonPanel.java</file>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/view/MainFrame1.java</file>
+        </group>
     </open-files>
 </project-private>

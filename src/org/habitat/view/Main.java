@@ -5,6 +5,7 @@
  */
 package org.habitat.view;
 
+import org.habitat.view.util.AppState;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -27,8 +28,9 @@ public class Main {
             
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-        MainFrame m = new MainFrame();
-        m.setVisible(true);
+        AppState app = new AppState();
+        
+        app.start();
     }
  
         /**

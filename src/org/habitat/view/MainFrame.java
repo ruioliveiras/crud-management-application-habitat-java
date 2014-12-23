@@ -5,12 +5,20 @@
  */
 package org.habitat.view;
 
+import org.habitat.view.util.AppState;
+import java.awt.HeadlessException;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import org.habitat.view.tabs.SkelatonPanel;
+
 /**
  *
  * @author ruioliveiras
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    private AppState appState;
+    
     /**
      * Creates new form MainFrame
      */
@@ -18,6 +26,18 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
     }
 
+    public MainFrame(AppState appState){
+        initComponents();
+        this.appState = appState;
+        this.adminPanel1.setAppState(appState);
+        JComponent[] component = new JComponent[2];
+        component[0] = new JButton("Ola");
+        component[1] = new JButton("Ola2");
+        SkelatonPanel teste = new SkelatonPanel(component);
+        
+        this.jTabbedPane1.add(teste);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,7 +67,7 @@ public class MainFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 965, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 965, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -5,11 +5,15 @@
  */
 package org.habitat.view.details;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import org.habitat.view.util.UIDimension;
+
 /**
  *
  * @author ruioliveiras
  */
-public class AdminDetailsEmployee extends javax.swing.JPanel {
+public class AdminDetailsEmployee extends javax.swing.JPanel  implements UIDimension.JDetails<Object> {
 
     /**
      * Creates new form AdminDetailsEmployee
@@ -106,4 +110,19 @@ public class AdminDetailsEmployee extends javax.swing.JPanel {
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void set(Object a) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public JPanel getPanel() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public JFrame getFrame() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
