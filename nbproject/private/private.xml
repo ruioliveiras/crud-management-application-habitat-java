@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/view/tabs/FamilyToolBar.java</file>
-            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/view/tabs/FundsToolBar.java</file>
-            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/view/tabs/BuilddingToolBar.java</file>
-            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/view/tabs/AdminToolBar.java</file>
-            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/view/util/AppState.java</file>
-            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/view/tabs/SkelatonPanel.java</file>
-            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/view/MainFrame1.java</file>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/data/util/Attr.java</file>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/data/util/DAO.java</file>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/model/building/Projeto.java</file>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/org/habitat/data/ProjetoDAO.java</file>
         </group>
     </open-files>
 </project-private>
