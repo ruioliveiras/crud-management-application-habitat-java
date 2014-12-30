@@ -1,85 +1,71 @@
 package business.funds;
 
-import business.funds.Donativo;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+public class Evento{
+    private int idEv;
+    private String designacao;
+    private GregorianCalendar data;
+    private int idFunc;
+    private String descricao;
 
-public class Evento {
-	private String designacao;
-	private GregorianCalendar data;
-	private String descricao;
-	private ArrayList<Donativo> donativos;
-
-    public Evento(String designacao, GregorianCalendar data, String descricao, 
-            ArrayList<Donativo> donativos) {
+    public Evento(int idEv, String designacao, GregorianCalendar data, int idFunc, String descricao) {
+        this.idEv = idEv;
         this.designacao = designacao;
         this.data = data;
+        this.idFunc = idFunc;
         this.descricao = descricao;
-        this.donativos = new ArrayList<Donativo>();
-        for(Donativo d : donativos)
-            this.donativos.add(d);
     }
-
+    
     public Evento(Evento e) {
-        designacao = e.getDesignacao();
-        data = e.getData();
-        descricao = e.getDescricao();
-        donativos = e.getDonativos();
-    }
-    
-    
-    public void addDonativo(Donativo d)
-    {
-        donativos.add(d.clone());
-    }
-    
-    
-    public String getDesignacao() {
-        return designacao;
-    }
-
-    public void setDesignacao(String designacao) {
-        this.designacao = designacao;
-    }
+        this.idEv = e.getIdEv();
+        this.designacao = e.getDesignacao();
+        this.data = e.getData();
+        this.idFunc = e.getIdFunc();
+        this.descricao = e.getDescricao();
+    }    
 
     public GregorianCalendar getData() {
         return data;
-    }
-
-    public void setData(GregorianCalendar data) {
-        this.data = data;
     }
 
     public String getDescricao() {
         return descricao;
     }
 
+    public String getDesignacao() {
+        return designacao;
+    }
+
+    public int getIdEv() {
+        return idEv;
+    }
+
+    public int getIdFunc() {
+        return idFunc;
+    }
+
+    public void setData(GregorianCalendar data) {
+        this.data = data;
+    }
+
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
-    public ArrayList<Donativo> getDonativos() 
-    {
-        ArrayList<Donativo> ret = new ArrayList<Donativo>();
-        
-        for(Donativo d : this.donativos)
-            ret.add(d);
-        return ret;
+    public void setDesignacao(String designacao) {
+        this.designacao = designacao;
     }
 
-    public void setDonativos(ArrayList<Donativo> donativos) 
-    {
-        this.donativos.clear();
-        
-        for(Donativo d : donativos)
-            this.donativos.add(d);
+    public void setIdEv(int idEv) {
+        this.idEv = idEv;
+    }
+
+    public void setIdFunc(int idFunc) {
+        this.idFunc = idFunc;
     }
     
-    public Evento clone()
-    {
+    public Evento clone() {
         return new Evento(this);
     }
-        
-        
 }
