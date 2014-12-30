@@ -14,14 +14,16 @@ import javax.naming.NamingException;
 import persistence.util.GenericDAO;
 import business.admin.Funcionario;
 import business.admin.TipoTarefa;
+import java.util.List;
 
 /**
  *
  * @author ruioliveiras
  */
 public class FuncionarioDAO extends GenericDAO<Funcionario>{
+
   public enum Attr{
-       idFunc,tipoFunc,nome,nif,morada,telefone,telemovel,codigoPostal,dataNascimento,localidade
+       idFunc,tipoFunc,nome,nif,morada,telefone,telemovel,codigoPostal,dataNascimento,localidade, password, username
     }
     
     public FuncionarioDAO() {
@@ -44,16 +46,15 @@ public class FuncionarioDAO extends GenericDAO<Funcionario>{
           case codigoPostal:return toSQL(p.getCodigoPostal());
           case dataNascimento:return toSQL(p.getDataNascimento());
           case localidade:return toSQL(p.getLocalidade());
-          default:
+          case username:return toSQL(p.getUsername());
+          case password:return toSQL(p.getPassword());
+            default:
               throw new AssertionError(a.name());
         }
     }
 
     @Override
     public Funcionario newObject(ResultSet rs) throws SQLException {
-        GregorianCalendar g = new GregorianCalendar();
-        java.sql.Date d  = rs.getDate("dataNascimento");
-        g.setTime(new Date(d.getTime()));
         return new Funcionario(
                 rs.getInt("idFunc"),
                 Funcionario.Tipo.valueOf(rs.getNString("tipoFunc")),
@@ -64,11 +65,21 @@ public class FuncionarioDAO extends GenericDAO<Funcionario>{
                 rs.getString("telemovel"),
                 rs.getNString("codigoPostal"),
                 rs.getNString("localidade"),
-                g
+                fromSQL(rs.getDate("dataNascimento")),
+                rs.getNString("username"),
+                rs.getNString("password")
         );    
     }
     
-    
+    public Funcionario getByUsername(String username) throws SQLException {
+        Funcionario f = new Funcionario();
+        f.setUsername(username);
+        List<Funcionario> a = this.getAllBy(f, Attr.username);
+        if (a.size()>0){
+            return a.get(0);
+        }
+        return null;
+    }
 //    
 //    protected Class<Funcionario> classFunc;
 //    protected String[] attrs = {"idFunc","tipoFunc","nome","nif","morada","telefone","telemovel","codigoPostal","dataNascimento","localidade"};
@@ -79,7 +90,11 @@ public class FuncionarioDAO extends GenericDAO<Funcionario>{
     public static void main(String[] args) throws SQLException, NamingException {
         GenericDAO.initConnection();
         FuncionarioDAO f = new FuncionarioDAO();
-        f.insert(new Funcionario(-1,Funcionario.Tipo.FAM, "Rui Pedro",932324, "rua da luz", "915 015 377", null, "4765-343","Oliveira st maria", new GregorianCalendar(1994, 11, 10)));
+        Funcionario a = f.getByUsername("User");
+        
+        f.insert(new Funcionario(-1,Funcionario.Tipo.FAM, "Rui Pedro",932324, 
+                "rua da luz", "915 015 377", null, "4765-343","Oliveira st maria",
+                new GregorianCalendar(1994, 11, 10),"a","a"));
         Funcionario  f1 = f.getById(3);
         Funcionario  f2 = f.getAll().get(2);
         f1.setNome("olha ele");

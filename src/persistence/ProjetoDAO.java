@@ -11,22 +11,26 @@ import java.sql.SQLException;
 import java.util.GregorianCalendar;
 import javax.naming.NamingException;
 import business.building.Projeto;
+import business.building.Tarefa;
+import java.util.List;
 
 /**
  *
  * @author ruioliveiras
  */
 public class ProjetoDAO extends GenericDAO<Projeto> {
-    
+
     protected enum Attr {
 
         idProj, orcamento, prazo, dataInicio, dataFim, idFunc, idCand, designacao, descricao, dataCriaProj
     };
 
+    private TarefasDAO tarefasDAO = new TarefasDAO();
+    
     public ProjetoDAO() {
         super(Attr.values(), 1, "Projeto");
     }
-    
+
     @Override
     protected String getToBD(Projeto p, Enum<?> en) {
         Attr a = (Attr) en;
@@ -76,25 +80,78 @@ public class ProjetoDAO extends GenericDAO<Projeto> {
         );
     }
 
+    public List<Tarefa> getTarefasAllByIdProg(int idtar) throws SQLException{
+        return tarefasDAO.getByIdAll(idtar);
+    }
+    public void getTarefasInsert(Tarefa idtar) throws SQLException{
+        tarefasDAO.insert(idtar);
+    }
+    public void getTarefasDelete(Tarefa t) throws SQLException{
+       tarefasDAO.remove(t);
+    }
+    public void getTarefasUpdate(Tarefa t) throws SQLException{
+       tarefasDAO.update(t);
+    }
+    
+    private static class TarefasDAO extends GenericDAO<Tarefa> {
+
+        protected enum Attr {
+
+            idProj, idTar, dataPlInicio, dataPlFim, DataExInicio, dataExFim
+        };
+        //extra
+
+        public TarefasDAO() {
+            super(TarefasDAO.Attr.values(), 2, "TarefaProjeto", "ViewTarefaProjeto");
+        }
+
+        @Override
+        protected String getToBD(Tarefa p, Enum<?> en) {
+            Attr a = (Attr) en;
+            switch (a){
+                case idProj: return toSQL(p.getIdProj());
+                case idTar:return toSQL(p.getIdTar());
+                case dataPlInicio: return toSQL(p.getDataInicioPrevista());
+                case dataPlFim: return toSQL(p.getDataFimPrevista());
+                case DataExInicio: return toSQL(p.getDataInicio());
+                case dataExFim: return toSQL(p.getDataFim());
+            }
+            return "";
+        }
+
+        @Override
+        public Tarefa newObject(ResultSet rs) throws SQLException {
+            return new Tarefa(
+                    rs.getInt("idProj"),
+                    rs.getInt("idTar"),
+                    fromSQL(rs.getDate("dataPlInicio")),
+                    fromSQL(rs.getDate("dataPlFim")),
+                    fromSQL(rs.getDate("DataExInicio")),
+                    fromSQL(rs.getDate("dataExFim")),
+                    rs.getNString("designacaoTar")
+            );
+        }
+
+    }
+
     public static void main(String[] args) throws SQLException, NamingException {
         GenericDAO.initConnection();
         ProjetoDAO f = new ProjetoDAO();
         /*
-            public Projeto(int id,int idFunc,int idCant, Double orcamento, Double prestacao, String designacao, 
-            String descricao, GregorianCalendar dataInicio, GregorianCalendar dataFim, 
-            GregorianCalendar dataCriaProj, GregorianCalendar prazo) {
-        */
-        f.insert(new Projeto(-1, 1, 12, 100d, 11d, "Quinta do bill", " Muita coisa para fazer", 
-        new GregorianCalendar(), new GregorianCalendar(), new GregorianCalendar(), new GregorianCalendar()));
+         public Projeto(int id,int idFunc,int idCant, Double orcamento, Double prestacao, String designacao, 
+         String descricao, GregorianCalendar dataInicio, GregorianCalendar dataFim, 
+         GregorianCalendar dataCriaProj, GregorianCalendar prazo) {
+         */
+        f.insert(new Projeto(-1, 1, 12, 100d, 11d, "Quinta do bill", " Muita coisa para fazer",
+                new GregorianCalendar(), new GregorianCalendar(), new GregorianCalendar(), new GregorianCalendar()));
         Projeto f1 = f.getById(53);
         Projeto f2 = f.getById(104);
-        
+
         f1.setDesignacao("olha ele");
         f.update(f1);
         f.remove(f2);
     }
 }
-
 
 //    @Override
 //    public Projeto getById(int id) throws SQLException {

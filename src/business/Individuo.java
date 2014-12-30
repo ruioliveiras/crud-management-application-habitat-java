@@ -15,6 +15,7 @@ public abstract class Individuo {
     private String localidade;
     private GregorianCalendar dataNascimento;
 
+
     public Individuo() {
     }
 
@@ -29,6 +30,7 @@ public abstract class Individuo {
         this.codigoPostal = codigoPostal;
         this.localidade = localidade;
         this.dataNascimento = dataNascimento;
+
     }
 
     

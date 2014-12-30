@@ -43,9 +43,23 @@ public abstract class DAO<A> {
     }
     
     protected void executeSQL(String query) throws SQLException{
-        statement.execute(query);
+        statement.executeUpdate(query);
     }
-   
+    protected int executeSQLWithId(String query) throws SQLException{
+        int affectedRows = statement.executeUpdate(query,  Statement.RETURN_GENERATED_KEYS);
+        if (affectedRows == 0) {
+            throw new SQLException("Creating failed, no rows affected.");
+        }
+
+        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+               return generatedKeys.getInt(1);
+            }
+            else {
+                throw new SQLException("Creating failed, no ID obtained.");
+            }
+        }
+    }
     protected void closeStatemnet() throws SQLException{;
         statement.close();
         statement = null;
@@ -55,7 +69,7 @@ public abstract class DAO<A> {
 
     public abstract ArrayList<A> getAll() throws SQLException;
 
-    public abstract void insert(A obj)throws SQLException;
+    public abstract int insert(A obj)throws SQLException;
 
     public abstract void remove(A obj) throws SQLException;
 
@@ -91,6 +105,9 @@ public abstract class DAO<A> {
     }
     
     protected GregorianCalendar fromSQL(Date date){
+        if (date == null){
+            return null;
+        }
         GregorianCalendar g = new GregorianCalendar();
         g.setTime(new java.util.Date(date.getTime()));
         return g;

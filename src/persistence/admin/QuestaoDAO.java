@@ -21,7 +21,7 @@ import business.admin.Questao;
 public class QuestaoDAO extends GenericDAO<Questao>{
     
     public enum Attr{
-       idQuestao, designacao, ativa 
+       idQuestao, descricao, ativa 
     }
     
     public QuestaoDAO() {
@@ -35,7 +35,7 @@ public class QuestaoDAO extends GenericDAO<Questao>{
         Attr a = (Attr) en;
         switch(a){
             case idQuestao: return toSQL(p.getId());
-            case designacao: return toSQL(p.getDescricao());
+            case descricao: return toSQL(p.getDescricao());
             case ativa: return toSQL(p.isAtiva());
             default:
                 return "";
@@ -44,7 +44,7 @@ public class QuestaoDAO extends GenericDAO<Questao>{
 
     @Override
     public Questao newObject(ResultSet rs) throws SQLException {
-        return new Questao(rs.getInt("idQuestao"),rs.getNString("designacao"), rs.getBoolean("ativa"));
+        return new Questao(rs.getInt("idQuestao"),rs.getNString("descricao"), rs.getBoolean("ativa"));
     }
     
     public static void main(String[] args) throws NamingException, SQLException {

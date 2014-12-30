@@ -1,10 +1,9 @@
 package business.familiy;
 
+import business.building.Projeto;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
-import business.admin.Questao;
-import business.building.Projeto;
 
 
 public class Candidatura 
@@ -22,8 +21,19 @@ public class Candidatura
         this.rendimento = rendimento;
         this.id = id;
         this.estado = estado;
-        this.familia = familia;
-        this.projeto = projeto;
+        this.familia = familia.clone();
+        this.projeto = projeto.clone();
+        this.questoes = new HashMap<Integer, Questao>();
+        for(Map.Entry<Integer, Questao> e : questoes.entrySet())
+            this.questoes.put(e.getKey(), e.getValue());
+    }
+    
+    public Candidatura(GregorianCalendar dataCand, int rendimento, int id, 
+            String estado, HashMap<Integer, Questao> questoes) {
+        this.dataCand = dataCand;
+        this.rendimento = rendimento;
+        this.id = id;
+        this.estado = estado;
         this.questoes = new HashMap<Integer, Questao>();
         for(Map.Entry<Integer, Questao> e : questoes.entrySet())
             this.questoes.put(e.getKey(), e.getValue());

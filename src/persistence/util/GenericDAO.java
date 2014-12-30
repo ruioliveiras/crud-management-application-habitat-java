@@ -13,33 +13,72 @@ public abstract class GenericDAO<A> extends DAO<A>{
     protected Enum<?>[] attrs;
     protected int indexNotKey;
     protected String tableName;
-
+    protected String tableNameSelect;
+    
     public GenericDAO(Enum<?>[] attrs, int indexNotKey, String tableName) {
+        this(attrs, indexNotKey, tableName,tableName);
+    }
+
+    public GenericDAO(Enum<?>[] attrs, int indexNotKey, String tableName, String tableNameSelect) {
         this.attrs = attrs;
         this.indexNotKey = indexNotKey;
         this.tableName = tableName;
+        this.tableNameSelect = tableNameSelect;
     }
+    
+    
     
     protected abstract String getToBD(A p, Enum<?> a);
     public abstract A newObject(ResultSet rs)throws SQLException ;
     
     @Override
     public A getById(int id) throws SQLException {
+        ArrayList<A> f = getByIdAll(id);
+        if (f.size() > 0) {
+            return f.get(0);
+        }
+        return null;
+    }
+
+    public ArrayList<A> getByIdAll(int id) throws SQLException {
         newStatement();
     
-        ResultSet rs = executeSelect("Select " + queryBuilderAttrs(0)
-                + " from " + tableName + ""
+        ResultSet rs = executeSelect("Select * " //+ queryBuilderAttrs(0)
+                + " from " + tableNameSelect + ""
                 + " where " + attrs[0].name() + " = " + id 
                 );
-        A f = null;
-        if (rs.next()) {
-            f = newObject(rs);
+        ArrayList<A> list = new ArrayList<>();
+        while (rs.next()) {
+            A f = newObject(rs);
+            list.add(f);
         }
         
         closeStatemnet();
-        return f;
+        return list;
     }
 
+    public ArrayList<A> getAllBy(A a,Enum<?> ...attrs) throws SQLException {
+        newStatement();
+    
+        String query = "Select * " //+ queryBuilderAttrs(0)
+                + " from " + tableNameSelect + " where ";
+        for (Enum<?> attr : attrs) {
+            query += attr.name() + " = " + getToBD(a, attr) + ","; 
+        }
+        query = query.substring(0, query.length()-1);
+        
+        ResultSet rs = executeSelect(query);
+        ArrayList<A> list = new ArrayList<>();
+        while (rs.next()) {
+            A f = newObject(rs);
+            list.add(f);
+        }
+        
+        closeStatemnet();
+        return list;
+    }
+
+    
     /**
      *
      * @return
@@ -49,7 +88,8 @@ public abstract class GenericDAO<A> extends DAO<A>{
     public ArrayList<A> getAll() throws SQLException {
         ArrayList<A> list = new ArrayList<>();
         newStatement();
-        ResultSet rs = executeSelect("Select "+ queryBuilderAttrs(0) +" from " + tableName);
+        //ResultSet rs = executeSelect("Select "+ queryBuilderAttrs(0) +" from " + tableName);
+        ResultSet rs = executeSelect("Select * from " + tableNameSelect);
         while (rs.next()) {
             A f = newObject(rs);
             list.add(f);
@@ -64,14 +104,15 @@ public abstract class GenericDAO<A> extends DAO<A>{
      * @throws SQLException
      */
     @Override
-    public void insert(A obj) throws SQLException {
+    public int insert(A obj) throws SQLException {
         newStatement();
         String query = "INSERT INTO " + tableName
                 + " (" + queryBuilderAttrs(indexNotKey)  + ")"
                 + " VALUES "
                 + " (" + queryBuilderValues(obj, indexNotKey) + ")" ;
-        executeSQL(query);
+        int ret = executeSQLWithId(query);
         closeStatemnet();
+        return ret;
     }
 
     /**

@@ -6,11 +6,11 @@
  */
 package ui;
 
-import ui.util.AppState;
+import java.awt.Component;
+import ui.util.SkelatonPanel;
 import java.awt.HeadlessException;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import ui.tabs.SkelatonPanel;
 
 /**
  *
@@ -35,6 +35,9 @@ public class MainFrame extends javax.swing.JFrame {
         
     }
     
+    public void removeTab(Component a) {
+        jTabbedPane1.remove(a);
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
