@@ -1,46 +1,79 @@
 package persistence;
 
-import business.funds.Doador;
+import business.funds.Equipa;
+import business.funds.Voluntario;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import persistence.util.DAO;
 
-public class DoadorDAO  extends DAO<Doador> {    
+public class VoluntariadoDAO  extends DAO<Voluntariado> {
     
+
     @Override
-    public Doador getById(int id) throws SQLException{
+    public Voluntario getById(int id) throws SQLException{
         newStatement();
+       
         ResultSet rs = executeSelect("Select * from Individuo where idIndiv = "+ id);
+        Voluntario r = newObject(rs);
+       
+        closeStatemnet();
         
-        Doador r = newObject(rs);
-        
+        return r;
+    }
+    
+    
+    public Equipa getByIdEq(int id) throws SQLException{
+        newStatement();
+        ResultSet rs = executeSelect("Select * from Equipa where idEq = "+ id);
+        Equipa r = newEq(rs);
+       
         closeStatemnet();
         
         return r;
     }
 
     @Override
-    public ArrayList<Doador> getAll()throws SQLException {
+    public ArrayList<Voluntario> getAll()throws SQLException {
         newStatement();
-        ArrayList<Doador> r = new ArrayList<>();
+        ArrayList<Voluntario> r = new ArrayList<>();
        
-        ResultSet rs = executeSelect("Select * from Individuo where idDoador=true");
+        ResultSet rs = executeSelect("Select * from Individuo where isVoluntario=true");
         while(rs.next()) {
-            Doador d = newObject(rs);
+            Voluntario d = newObject(rs);
             
             r.add(d);
+        }
+        
+        closeStatemnet();
+        
+        return r;
+    }
+    
+    
+    public ArrayList<Equipa> getAllEq()throws SQLException {
+        newStatement();
+        ArrayList<Equipa> r = new ArrayList<>();
+       
+        ResultSet rs = executeSelect("Select * from Equipa");
+        while(rs.next()) {
+            Equipa e = newEq(rs);
+            
+            r.add(e);
         }
         closeStatemnet();
         
         return r;
     }
+    
+    
+    
 
-    @Override
-    public int insert(Doador d) throws SQLException {
+    //@Override
+    public int insert(Voluntario d) throws SQLException {
         newStatement();
         
-        executeSQL("INSERT INTO Individuo(idIndiv, idFunc, nome, dataNascimento, profissao, morada, codigoPostal, localidade," +
+        executeSQL("INSERT INTO Individuo(idIndiv, idFunc, nome, dataNascimento, profissao, morada, codPostal, localidade," +
                     "email, telefone, telemovel, habilitacoes, conhecimentosLing, formacaoComp, experienciaVolunt, conhecimentoConstr," +
                     "trabalharJuntoVolunt, disponibilidade, comoConheceu, receberInfo, isParceiro, nif, isColetivo, isDoador," +
                     "isVoluntario, nacionalidadeIndiv, dataCriaIndiv)" + "VALUES (" + 
@@ -54,12 +87,23 @@ public class DoadorDAO  extends DAO<Doador> {
                     toSQL(d.getNacionalidadeIndiv()) + "," + toSQL(d.getDataCriaIndiv()) +")");
         closeStatemnet();
         
-        return 1;
+        return 0;
     }
     
- 
-   @Override
-    public void update(Doador d)throws SQLException{
+    
+    //@Override 
+    void insert(Equipa e) throws SQLException{
+        newStatement();
+        
+        executeSQL("INSERT INTO Equipa(idEq, nacionalidadeEq, designacao, dataCriaEq, idfunc) VALUES (" +
+                                    toSQL(e.getIdEq()) + "," + toSQL(e.getNacionalidadeEq()) + "," + toSQL(e.getDesignacao()) + 
+                                    "," + toSQL(e.getDataCriaEq()) + "," + toSQL(e.getIdFunc()));
+        closeStatemnet();
+    }
+    
+    
+    @Override
+    public void update(Voluntario d)throws SQLException{
         newStatement();
         executeSQL("UPDATE Individuo SET " +
                 "idFunc=" + toSQL(d.getIdFunc()) + 
@@ -93,9 +137,23 @@ public class DoadorDAO  extends DAO<Doador> {
         closeStatemnet();
     }
     
+    
 
-    @Override
-    public void remove(Doador d) throws SQLException{
+    public void update(Equipa e)throws SQLException{
+        newStatement();
+        executeSQL("UPDATE Equipa SET " +
+                "nacionalidadeEq=" + toSQL(e.getNacionalidadeEq()) + 
+                ", designacao=" + toSQL(e.getDesignacao()) + 
+                ", dataCriaEq=" + toSQL(e.getDataCriaEq()) +
+                ", idfunc=" + toSQL(e.getIdFunc()) + 
+                " Where idEq=" + toSQL(e.getIdEq())
+        );
+        closeStatemnet();
+    }
+    
+
+    //@Override
+    public void remove(Voluntario d) throws SQLException{
         newStatement();
         executeSQL("DELETE FROM INDIVIDUO WHERE idIndiv = " +  d.getIdIndiv());
         closeStatemnet();
@@ -103,8 +161,16 @@ public class DoadorDAO  extends DAO<Doador> {
     
     
     //@Override
-    public Doador newObject(ResultSet rs) throws SQLException{
-        return new Doador(
+    public void remove(Equipa d) throws SQLException{
+        newStatement();
+        executeSQL("DELETE FROM Equipa WHERE idEq = " +  d.getIdEq());
+        closeStatemnet();
+    }
+    
+        
+    //@Override
+    public Voluntario newObject(ResultSet rs) throws SQLException{
+        return new Voluntario(
             rs.getInt("idIndiv"),
             rs.getInt("idFunc"),
             rs.getNString("nome"),
@@ -132,6 +198,16 @@ public class DoadorDAO  extends DAO<Doador> {
             rs.getBoolean("isVoluntario"),
             rs.getNString("nacionalidadeIndiv"),
             fromSQL(rs.getDate("dataCriaIndiv"))
+        );
+    }
+    
+    public Equipa newEq(ResultSet rs) throws SQLException{
+        return new Equipa(
+            rs.getInt("idEq"),
+            rs.getNString("nacionalidadeEq"),
+            rs.getNString("designacao"),
+            fromSQL(rs.getDate("dataCriaEq")),
+            rs.getInt("idFunc")
         );
     }
 }

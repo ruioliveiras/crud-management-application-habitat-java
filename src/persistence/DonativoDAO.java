@@ -8,7 +8,7 @@ import persistence.util.DAO;
 
 
 
-public class DonativoDAO {/* extends DAO<Donativo> {
+public class DonativoDAO extends DAO<Donativo> {
 
     @Override
     public Donativo getById(int id) throws SQLException{
@@ -34,14 +34,16 @@ public class DonativoDAO {/* extends DAO<Donativo> {
     }
 
     @Override
-    public int insert(Donativo d) throws SQLException{
+    public int insert(Donativo d) throws SQLException {
         newStatement();
         
-        ResultSet rs = executeSQL("INSERT INTO FAMILIA(idDon, descricao, quantInicial, quantAtual, idTipoDon, dataDon, idFunc, idEv, idIndiv" +
-                                   "VALUES (" + toSQL(d.getIdDon()) + "," + toSQL(d.getDescricao()) + "," + toSQL(d.getQuantInicial()) + "," + 
-                                   toSQL(d.getQuantAtual()) + "," + toSQL(d.getIdTipoDon()) + "," + toSQL(d.getDataDon()) + "," + 
-                                   toSQL(d.getIdFunc()) + "," + toSQL(d.getIdEv()) + "," + toSQL(d.getIdIndiv()) + ")");
+        executeSQL("INSERT INTO FAMILIA(idDon, descricao, quantInicial, quantAtual, idTipoDon, dataDon, idFunc, idEv, idIndiv" +
+                        "VALUES (" + toSQL(d.getIdDon()) + "," + toSQL(d.getDescricao()) + "," + toSQL(d.getQuantInicial()) + "," + 
+                        toSQL(d.getQuantAtual()) + "," + toSQL(d.getIdTipoDon()) + "," + toSQL(d.getDataDon()) + "," + 
+                        toSQL(d.getIdFunc()) + "," + toSQL(d.getIdEv()) + "," + toSQL(d.getIdIndiv()) + ")");
         closeStatemnet();
+        
+        return 0;
     }
     
     
@@ -49,10 +51,16 @@ public class DonativoDAO {/* extends DAO<Donativo> {
     @Override
     public void update(Donativo d)throws SQLException{
         newStatement();
-        executeSQL("UPDATE Donativo SET  descricao=" + toSQL(d.getDescricao()) + ", quantInicial=" + toSQL(d.getQuantInicial()) +
-                     ", quantAtual=" + toSQL(d.getQuantAtual()) + ", isTipoDon=" + toSQL(d.getIdTipoDon()) + ", dataDon=" + toSQL(d.getDataDon()) +
-                     ", idFunc=" + toSQL(d.getIdFunc()) + ", idEv=" + toSQL(d.getIdEv()) + ", idIndiv=" + toSQL(d.getIdIndiv()) +
-                     " WHERE idDon=" + toSQL(d.getIdDon()));
+        executeSQL("UPDATE Donativo SET  " +
+                "descricao=" + toSQL(d.getDescricao()) + 
+                ", quantInicial=" + toSQL(d.getQuantInicial()) +
+                ", quantAtual=" + toSQL(d.getQuantAtual()) + 
+                ", isTipoDon=" + toSQL(d.getIdTipoDon()) + 
+                ", dataDon=" + toSQL(d.getDataDon()) +
+                ", idFunc=" + toSQL(d.getIdFunc()) + 
+                ", idEv=" + toSQL(d.getIdEv()) + 
+                ", idIndiv=" + toSQL(d.getIdIndiv()) +
+                " WHERE idDon=" + toSQL(d.getIdDon()));
         closeStatemnet();
     }
     
@@ -64,8 +72,8 @@ public class DonativoDAO {/* extends DAO<Donativo> {
         closeStatemnet();
     }
     
-    @Override
-    public Donativo newObject(ResultSet rs){
+    //@Override
+    public Donativo newObject(ResultSet rs) throws SQLException{
         return new Donativo(
             rs.getInt("idDon"),
             rs.getNString("descricao"),           
@@ -78,5 +86,5 @@ public class DonativoDAO {/* extends DAO<Donativo> {
             rs.getInt("idIndiv")
         );
     }
-*/
+
 }
