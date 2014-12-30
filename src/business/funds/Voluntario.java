@@ -246,7 +246,7 @@ public class Voluntario implements Voluntariado {
         this.isColetivo = isColetivo;
     }
 
-    public void setIsVoluntario(boolean isDoador) {
+    public void setIsDoador(boolean isDoador) {
         this.isDoador = isDoador;
     }
 
@@ -297,8 +297,4 @@ public class Voluntario implements Voluntariado {
     public void setTrabalharJuntoVolunt(boolean trabalharJuntoVolunt) {
         this.trabalharJuntoVolunt = trabalharJuntoVolunt;
     } 
-    
-    public Voluntario clone(){
-        return new Voluntario(this);
-    }
 }
