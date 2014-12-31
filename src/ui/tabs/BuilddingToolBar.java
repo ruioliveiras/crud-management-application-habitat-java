@@ -5,7 +5,13 @@
  */
 package ui.tabs;
 
-import ui.util.AppState;
+import business.building.Projeto;
+import business.building.Tarefa;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import ui.AppState;
 
 /**
  *
@@ -14,7 +20,9 @@ import ui.util.AppState;
 public class BuilddingToolBar extends javax.swing.JPanel {
 
     private AppState appState;
-    
+    private boolean isSelecting = true;
+    private Projeto selectedProject;
+
     /**
      * Creates new form BuilddingToolBar
      */
@@ -25,10 +33,46 @@ public class BuilddingToolBar extends javax.swing.JPanel {
     public BuilddingToolBar(AppState appState) {
         initComponents();
         this.appState = appState;
+        btnSelectProject.setText("Selecionar Projeto");
     }
 
-    
-    
+    public void btnSelectProjectAction() throws SQLException {
+        buttonGroup1.clearSelection();
+        if (isSelecting) {
+            List<Projeto> l = appState.habitat().projetoGetAll();
+            appState.BuildingSelect(Projeto.class, l);
+            btnSelectProject.setText("Selecionar Projeto");
+        } else {
+            selectedProject = appState.get(Projeto.class).listSelected();
+            if (selectedProject != null) {
+                String name = selectedProject.getDesignacao();
+                if (name.length() > 20) {
+                    lnName.setToolTipText(name);
+                    name = name.substring(0, 17) + " ...";
+                    lnName.setText(name);
+                }
+                lnName.setText(name);
+            }
+            btnTarefasAction();
+            btnSelectProject.setText("Voltar a selecionar");
+        }
+        isSelecting = !isSelecting;
+    }
+
+    public void btnTarefasAction() throws SQLException {
+        btnTarefas.setSelected(true);
+        List<Tarefa> l = selectedProject.getTarefas();
+        appState.BuildingSelect(Tarefa.class, l);
+    }
+
+    public void btnDonationsAction() throws SQLException {
+        // TODO add your handling code here:
+    }
+
+    public void btnVoluntersAction() throws SQLException {
+        // TODO add your handling code here:
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,12 +86,12 @@ public class BuilddingToolBar extends javax.swing.JPanel {
         btnEndTaks = new javax.swing.JButton();
         btnGeralVison = new javax.swing.JButton();
         btnSelectProject = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        lnName = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        jToggleButton3 = new javax.swing.JToggleButton();
+        btnTarefas = new javax.swing.JToggleButton();
+        btnDonations = new javax.swing.JToggleButton();
+        btnVolunters = new javax.swing.JToggleButton();
 
         btnEndTaks.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/tarefas32.png"))); // NOI18N
         btnEndTaks.setText("Finalizar Tarefa");
@@ -71,8 +115,8 @@ public class BuilddingToolBar extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
-        jLabel1.setText("Quinta do joaquim");
+        lnName.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
+        lnName.setText("Quinta do joaquim");
 
         jLabel4.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
         jLabel4.setText("Ações");
@@ -80,59 +124,75 @@ public class BuilddingToolBar extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
         jLabel2.setText("Vistas");
 
-        buttonGroup1.add(jToggleButton1);
-        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/tarefas32.png"))); // NOI18N
-        jToggleButton1.setSelected(true);
-        jToggleButton1.setText("Tarefas");
-        jToggleButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        buttonGroup1.add(btnTarefas);
+        btnTarefas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/tarefas32.png"))); // NOI18N
+        btnTarefas.setText("Tarefas");
+        btnTarefas.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnTarefas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTarefasActionPerformed(evt);
+            }
+        });
 
-        buttonGroup1.add(jToggleButton2);
-        jToggleButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/donativo32.png"))); // NOI18N
-        jToggleButton2.setText("Donativos Utilizados");
-        jToggleButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        buttonGroup1.add(btnDonations);
+        btnDonations.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/donativo32.png"))); // NOI18N
+        btnDonations.setText("Donativos Utilizados");
+        btnDonations.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnDonations.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDonationsActionPerformed(evt);
+            }
+        });
 
-        buttonGroup1.add(jToggleButton3);
-        jToggleButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/voluntario32.png"))); // NOI18N
-        jToggleButton3.setText("Voluntariado");
-        jToggleButton3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        buttonGroup1.add(btnVolunters);
+        btnVolunters.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/voluntario32.png"))); // NOI18N
+        btnVolunters.setText("Voluntariado");
+        btnVolunters.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnVolunters.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoluntersActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnEndTaks, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                    .addComponent(btnGeralVison, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(btnEndTaks, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                .addComponent(btnGeralVison, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(btnSelectProject, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jToggleButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                .addComponent(jToggleButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4))
+                .addContainerGap(130, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lnName)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnSelectProject, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnTarefas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDonations, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                        .addComponent(btnVolunters, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
+                .addComponent(lnName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSelectProject)
                 .addGap(14, 14, 14)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton1)
+                .addComponent(btnTarefas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton2)
+                .addComponent(btnDonations)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton3)
+                .addComponent(btnVolunters)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -144,24 +204,44 @@ public class BuilddingToolBar extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGeralVisonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeralVisonActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_btnGeralVisonActionPerformed
 
     private void btnSelectProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectProjectActionPerformed
-        // TODO add your handling code here:
+        try {
+            btnSelectProjectAction();
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro enquanto carregava Projetos", ex)).fire();
+        }
     }//GEN-LAST:event_btnSelectProjectActionPerformed
+
+    private void btnTarefasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarefasActionPerformed
+        try {
+            btnTarefasAction();
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro enquanto carregava Tarefas realizadas", ex)).fire();
+        }
+    }//GEN-LAST:event_btnTarefasActionPerformed
+
+    private void btnDonationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDonationsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDonationsActionPerformed
+
+    private void btnVoluntersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoluntersActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVoluntersActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnDonations;
     private javax.swing.JButton btnEndTaks;
     private javax.swing.JButton btnGeralVison;
     private javax.swing.JButton btnSelectProject;
+    private javax.swing.JToggleButton btnTarefas;
+    private javax.swing.JToggleButton btnVolunters;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JLabel lnName;
     // End of variables declaration//GEN-END:variables
 }

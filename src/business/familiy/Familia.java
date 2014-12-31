@@ -1,29 +1,31 @@
 package business.familiy;
 
-import business.familiy.Candidatura;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
-import business.Acompanhamento;
 
 public class Familia {
 	private String nomeRepresentante, contactoRepresentate, moradaRepresentante;
-	private int nif;
+	private int nif, idFunc, id;
 	private GregorianCalendar dataNascimento, dataCriaFam;
 	private String apelido;
 	private ArrayList<ElementoFamilia> elementosFamilia;
 	private Candidatura candidatura;
         private HashMap<GregorianCalendar, Acompanhamento> acomp;
+        private Prestacao prestacao;
 
     public Familia(String nomeRepresentante, String contactoRepresentate, 
-            String moradaRepresentante, int nif, GregorianCalendar dataNascimento, 
+            String moradaRepresentante, int nif, int idFunc, int id, GregorianCalendar dataNascimento, 
             GregorianCalendar dataCriaFam, String apelido, Candidatura candidatura, 
-            HashMap<GregorianCalendar, Acompanhamento> acomp, ArrayList<ElementoFamilia> elem) {
+            HashMap<GregorianCalendar, Acompanhamento> acomp, ArrayList<ElementoFamilia> elem,
+            Prestacao p) {
         this.nomeRepresentante = nomeRepresentante;
         this.contactoRepresentate = contactoRepresentate;
         this.moradaRepresentante = moradaRepresentante;
         this.nif = nif;
+        this.idFunc = idFunc;
+        this.id = id;
         this.dataNascimento = dataNascimento;
         this.dataCriaFam = dataCriaFam;
         this.apelido = apelido;
@@ -34,6 +36,22 @@ public class Familia {
         this.elementosFamilia = new ArrayList<ElementoFamilia>();
             for(ElementoFamilia e : elem)
                 this.elementosFamilia.add(e);
+        this.prestacao = p.clone();
+    }
+    
+    public Familia(String nomeRepresentante, String contactoRepresentate, 
+            String moradaRepresentante, int nif, int idFunc, int id, GregorianCalendar dataNascimento, 
+            GregorianCalendar dataCriaFam, String apelido)
+    {
+        this.nomeRepresentante = nomeRepresentante;
+        this.contactoRepresentate = contactoRepresentate;
+        this.moradaRepresentante = moradaRepresentante;
+        this.nif = nif;
+        this.idFunc = idFunc;
+        this.id = id;
+        this.dataNascimento = dataNascimento;
+        this.dataCriaFam = dataCriaFam;
+        this.apelido = apelido;
     }
     
     public Familia(Familia f) {
@@ -41,14 +59,40 @@ public class Familia {
         this.contactoRepresentate = f.getContactoRepresentate();
         this.moradaRepresentante = f.getMoradaRepresentante();
         this.nif = f.getNif();
+        this.idFunc = f.getIdFunc();
+        this.id = f.getId();
         this.dataNascimento = f.getDataNascimento();
         this.dataCriaFam = f.getDataCriaFam();
         this.apelido = f.getApelido();
         this.candidatura = f.getCandidatura();
         this.acomp = f.getAcomp();
         this.elementosFamilia = f.getElementosFamilia();
+        this.prestacao = f.getPrestacao();
     }
+
+    public Prestacao getPrestacao() {
+        return prestacao.clone();
+    }
+
+    public void setPrestacao(Prestacao prestacao) {
+        this.prestacao = prestacao.clone();
+    }    
     
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }   
+    
+    public int getIdFunc() {
+        return idFunc;
+    }
+
+    public void setIdFunc(int idFunc) {
+        this.idFunc = idFunc;
+    }    
 
     public String getNomeRepresentante() {
         return nomeRepresentante;

@@ -1,13 +1,19 @@
 package business.building;
 
+import business.funds.Donativo;
+import java.sql.SQLException;
 import java.util.GregorianCalendar;
+import java.util.List;
+import persistence.ProjetoDAO;
 
 public class Projeto {
-        private int id,idFunc,idCand;
-	private Double orcamento;
-	private Double prestacao;
-	private String designacao, descricao;
-	private GregorianCalendar dataInicio, dataFim, dataCriaProj, prazo;
+    private static ProjetoDAO projetoDAO = new ProjetoDAO();
+    
+    private int id,idFunc,idCand;
+    private Double orcamento;
+    private Double prestacao;
+    private String designacao, descricao;
+    private GregorianCalendar dataInicio, dataFim, dataCriaProj, prazo;
 	
         /*public Comissao_Obras supervisiona;
 	public Comissao_de_Familias aprova;
@@ -129,6 +135,14 @@ public class Projeto {
 
     public void setPrestacao(Double prestacao) {
         this.prestacao = prestacao;
+    }
+   
+    public List<Tarefa> getTarefas() throws SQLException{
+        return projetoDAO.getTarefasAllByIdProg(id);
+    }
+    
+    public List<Donativo> getDonativos(){
+        return null;
     }
     
     public Projeto clone()

@@ -5,11 +5,14 @@
  */
 package ui;
 
-import ui.util.AppState;
+import business.admin.Funcionario;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import persistence.util.DAO;
 
 /**
  *
@@ -28,9 +31,17 @@ public class Main {
             
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-        AppState app = new AppState();
+        try {
+            DAO.initConnection();
+            AppState app = new AppState();
         
-        app.start();
+            app.startMain(Funcionario.Tipo.ADMIN);
+        } catch (NamingException ex) {
+            (new ui.util.ExceptionHandler("Erro nao tem a biblioteca do mysql instalada, instale por favor", ex)).fire();
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro a inicializar a aplicação, verifique o estado do servidor", ex)).fire();
+        }
+    
     }
  
         /**

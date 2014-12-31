@@ -5,7 +5,7 @@
  */
 package ui.tabs;
 
-import ui.util.AppState;
+import ui.AppState;
 
 /**
  *

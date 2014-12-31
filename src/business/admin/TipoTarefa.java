@@ -5,6 +5,8 @@
  */
 package business.admin;
 
+import java.util.Objects;
+
 /**
  *
  * @author ruioliveiras
@@ -37,5 +39,25 @@ public class TipoTarefa {
         this.id = id;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof TipoTarefa)) return false;
+        TipoTarefa t = (TipoTarefa) obj;
+        if (t.getId() == this.getId()){
+            return true;
+        }else if (t.getDescricao().equals(this.getDescricao())){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + this.id;
+        hash = 89 * hash + Objects.hashCode(this.descricao);
+        return hash;
+    }
 
 }

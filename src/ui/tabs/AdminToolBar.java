@@ -5,28 +5,67 @@
  */
 package ui.tabs;
 
-import ui.util.AppState;
+import business.admin.TipoActividade;
+import business.admin.Funcionario;
+import business.admin.TipoQuestao;
+import business.admin.TipoDonativo;
+import business.admin.TipoTarefa;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import ui.AppState;
 
 /**
  *
  * @author ruioliveiras
  */
-public class AdminToolBar extends javax.swing.JPanel {
+public final class AdminToolBar extends javax.swing.JPanel {
 
     private AppState appState;
-    
+
     /**
      * Creates new form AdminToolBar
      */
     public AdminToolBar() {
         initComponents();
     }
-    
-    public AdminToolBar(AppState appState) {
+
+    public AdminToolBar(AppState appState) throws SQLException {
         initComponents();
         this.appState = appState;
     }
-    
+
+    public void btnQuestaoAction() throws SQLException {
+        btnQuestao.setSelected(true);
+        List<TipoQuestao> l = appState.habitat().questaoGetAll();
+        appState.adminSelect(TipoQuestao.class, l);
+    }
+
+    public void btnFuncionarioAction() throws SQLException {
+        btnFuncionario.setSelected(true);
+        List<Funcionario> l = appState.habitat().funcionarioGetAll();
+        appState.adminSelect(Funcionario.class, l);
+    }
+
+    public void btnTipoDonativoAction() throws SQLException {
+        btnTipoDonativo.setSelected(true);
+        List<TipoDonativo> l = appState.habitat().tipoDonativoGetAll();
+        appState.adminSelect(TipoDonativo.class, l);
+    }
+
+    public void btnActividadeAction() throws SQLException {
+        btnActividade.setSelected(true);
+        List<TipoActividade> l = appState.habitat().actividadeGetAll();
+        appState.adminSelect(TipoActividade.class, l);
+    }
+
+    public void btnTarefasAction() throws SQLException {
+        btnTarefas.setSelected(true);
+        List<TipoTarefa> l = appState.habitat().tipoTarefaGetAll();
+        appState.adminSelect(TipoTarefa.class, l);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -143,23 +182,40 @@ public class AdminToolBar extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnQuestaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuestaoActionPerformed
-        appState.adminSelect(AppState.SubDimension.ADMIN_QUESTAO);
+        try {
+            btnQuestaoAction();
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro enquanto carregava Questoes", ex)).fire();
+        }
     }//GEN-LAST:event_btnQuestaoActionPerformed
 
     private void btnFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuncionarioActionPerformed
-        appState.adminSelect(AppState.SubDimension.ADMIN_FUNCIO);
-    }//GEN-LAST:event_btnFuncionarioActionPerformed
+        try {
+            btnFuncionarioAction();
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro enquanto carregava Funcionarios", ex)).fire();
+        }    }//GEN-LAST:event_btnFuncionarioActionPerformed
 
     private void btnTipoDonativoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTipoDonativoActionPerformed
-        appState.adminSelect(AppState.SubDimension.ADMIN_TIPODON);
-    }//GEN-LAST:event_btnTipoDonativoActionPerformed
+        try {
+            btnTipoDonativoAction();
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro enquanto carregava Tipos de Donativos", ex)).fire();
+        }    }//GEN-LAST:event_btnTipoDonativoActionPerformed
 
     private void btnActividadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActividadeActionPerformed
-        appState.adminSelect(AppState.SubDimension.ADMIN_ACTIVIDADE);
-    }//GEN-LAST:event_btnActividadeActionPerformed
+        try {
+            btnActividadeAction();
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro enquanto carregava Actividades", ex)).fire();
+        }    }//GEN-LAST:event_btnActividadeActionPerformed
 
     private void btnTarefasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarefasActionPerformed
-        appState.adminSelect(AppState.SubDimension.ADMIN_TAREFA);
+        try {
+            btnTarefasAction();
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro enquanto carregava Tarefas", ex)).fire();
+        }
     }//GEN-LAST:event_btnTarefasActionPerformed
 
 
