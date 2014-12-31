@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.naming.NamingException;
 import persistence.util.GenericDAO;
-import business.admin.Questao;
+import business.admin.TipoQuestao;
 import business.admin.TipoDonativo;
 
 /**

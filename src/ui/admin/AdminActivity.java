@@ -7,14 +7,14 @@ package ui.admin;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import business.admin.Actividade;
+import business.admin.TipoActividade;
 import ui.util.UIDimension;
 
 /**
  *
  * @author ruioliveiras
  */
-public class AdminActivity extends javax.swing.JPanel implements UIDimension.JDetails<Actividade> {
+public class AdminActivity extends javax.swing.JPanel implements UIDimension.JDetails<TipoActividade> {
 
     private String title;
     
@@ -186,7 +186,7 @@ public class AdminActivity extends javax.swing.JPanel implements UIDimension.JDe
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void set(Actividade a) {
+    public void set(TipoActividade a) {
         txtName.setText(a.getDescricao());
     }
 

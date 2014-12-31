@@ -4,6 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/persistence/FamiliaDAO.java</file>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/ui/tabs/FamilyToolBar.java</file>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/ui/tabs/AdminToolBar.java</file>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/ui/util/SkelatonPanel.java</file>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/ui/AppState.java</file>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/ui/util/UIDimension.java</file>
+            <file>file:/home/ruioliveiras/Documents/dss/HabitatApplication/src/ui/tabs/FundsToolBar.java</file>
         </group>
     </open-files>
 </project-private>

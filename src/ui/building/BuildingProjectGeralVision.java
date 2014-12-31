@@ -5,7 +5,7 @@
  */
 package ui.building;
 
-import business.admin.Actividade;
+import business.admin.TipoActividade;
 import business.building.Projeto;
 import java.awt.Panel;
 import java.text.SimpleDateFormat;

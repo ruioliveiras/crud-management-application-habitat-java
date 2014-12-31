@@ -1,11 +1,5 @@
 package persistence;
 
-import business.funds.Doador;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import persistence.util.DAO;
-
 public class DoadorDAO {/* extends DAO<Doador> {
 
     @Override

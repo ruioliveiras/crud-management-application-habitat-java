@@ -5,9 +5,9 @@
  */
 package ui.tabs;
 
-import business.admin.Actividade;
+import business.admin.TipoActividade;
 import business.admin.Funcionario;
-import business.admin.Questao;
+import business.admin.TipoQuestao;
 import business.admin.TipoDonativo;
 import business.admin.TipoTarefa;
 import java.sql.SQLException;
@@ -38,8 +38,8 @@ public final class AdminToolBar extends javax.swing.JPanel {
 
     public void btnQuestaoAction() throws SQLException {
         btnQuestao.setSelected(true);
-        List<Questao> l = appState.habitat().questaoGetAll();
-        appState.adminSelect(Questao.class, l);
+        List<TipoQuestao> l = appState.habitat().questaoGetAll();
+        appState.adminSelect(TipoQuestao.class, l);
     }
 
     public void btnFuncionarioAction() throws SQLException {
@@ -56,8 +56,8 @@ public final class AdminToolBar extends javax.swing.JPanel {
 
     public void btnActividadeAction() throws SQLException {
         btnActividade.setSelected(true);
-        List<Actividade> l = appState.habitat().actividadeGetAll();
-        appState.adminSelect(Actividade.class, l);
+        List<TipoActividade> l = appState.habitat().actividadeGetAll();
+        appState.adminSelect(TipoActividade.class, l);
     }
 
     public void btnTarefasAction() throws SQLException {

@@ -12,7 +12,9 @@ import javax.swing.ComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-/**
+/** Class que serve para gerir um dados elemento de um modelo de dados.
+ * Ou seja o que é possivel fazer com esta class?
+ * Guardar os Jframes que vao ser executas quando 
  *
  * @author ruioliveiras
  */

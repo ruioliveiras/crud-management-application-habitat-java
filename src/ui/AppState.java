@@ -5,12 +5,12 @@
  */
 package ui;
 
-import business.HabitatFacade;
+import business.Habitat;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import business.admin.Actividade;
+import business.admin.TipoActividade;
 import business.admin.Funcionario;
-import business.admin.Questao;
+import business.admin.TipoQuestao;
 import business.admin.TipoDonativo;
 import business.admin.TipoTarefa;
 import business.building.Projeto;
@@ -35,7 +35,7 @@ import ui.admin.AdminEmployeeDetails;
 import ui.admin.AdminQuestion;
 import ui.admin.AdminTask;
 import ui.building.BuildingProjectCreateEdit;
-import ui.building.BuildingProjectDetails;
+import ui.building.BuildingProjectPanel;
 import ui.building.BuildingProjectGeralVision;
 import ui.building.BuildingTask;
 import ui.tabs.AdminToolBar;
@@ -65,7 +65,7 @@ public class AppState {
         }
     };
 
-    private HabitatFacade habitat = new HabitatFacade();
+    private Habitat habitat = new Habitat();
 
     private final SkelatonPanel admin;
     private final SkelatonPanel funds;
@@ -84,9 +84,9 @@ public class AppState {
     };
 
     private final UIDimension<TipoTarefa> adminTarefa;
-    private final UIDimension<Questao> adminQuestao;
+    private final UIDimension<TipoQuestao> adminQuestao;
     private final UIDimension<TipoDonativo> adminTipodon;
-    private final UIDimension<Actividade> adminActividade;
+    private final UIDimension<TipoActividade> adminActividade;
     private final UIDimension<Funcionario> adminFuncionario;
     private final UIDimension<Projeto> buildProject;
     private final UIDimension<Tarefa> buildTaks;
@@ -107,7 +107,33 @@ public class AppState {
     private JPanel adminDetails;
 
     public AppState() throws SQLException {
-
+        /** Bloco de codigo de contrução das dimenenções da aplicação, cada dimensao
+         * representa uma determinada "coisa" que é preciso gerir
+         * Como por exemplos no caso do adminstrador terá que inserir remover editar ver
+         * os dados do tipo de tarefa, Actividades, e Questoes
+         * 
+         * Assim sendo o contrutor da Dimension recebe os frames que que serão executados,
+         * Mostrados quando se carrega nos botoes "Editar" "Adicionar" "Remover" "Detalhes"
+         * UIDimension tambem recebe como paramentro o 
+         * 
+         * Para que se pode fazer com um Dimension?
+         * 1 - showEdit, showCreate, panelDetails -> isto serve para mostar os pop's quer servem para gerir
+         * 2 - listRefresh e listModel -> servem para preparar os dados para serem colucadaas nas lista
+         * 
+         * <As dimensões são identificadas por a Class<?> que ela gere>
+         * Ou seja pode-se consultar a dimensao apartir da class<?> como: "public <A> UIDimension<A> get(Class<A> cl)"
+         * 
+         * 
+         *  ## Como estas Dimesions podem ser usadas? ##
+         * Quando ser clica num botao "Tarefas" , fazemos appState.adminSelect(Tarefas.class)
+         *         1º vamos buscar a Diimension com o get(class),
+         *         2º guarda o selecionado com a variavel adminSelected.
+         * 
+         * Depois quando se clica num botao Editar por exemplo 
+         *      1º vamos buscar a actual dimensao selecionado, com o adminSelected-
+         *      2º e com essa dimesao fazemos showEdit
+         * 
+         */
         this.adminFuncionario = new UIDimension<>(
                 new AdminEmployeeDetails(),
                 new AdminEmployee(UIDimension.EditonType.EDIT),
@@ -152,7 +178,7 @@ public class AppState {
                 new BuildingTask(UIDimension.EditonType.DELETE, this)
         );
         this.buildProject = new UIDimension<>(
-                new BuildingProjectDetails(),
+                new BuildingProjectPanel(),
                 new BuildingProjectCreateEdit(UIDimension.EditonType.EDIT),
                 new BuildingProjectCreateEdit(UIDimension.EditonType.NEW),
                 new BuildingProjectGeralVision(), new BuildingProjectCreateEdit(UIDimension.EditonType.DELETE)
@@ -188,51 +214,35 @@ public class AppState {
         main.setVisible(true);
     }
 
-    public HabitatFacade habitat() {
+    public Habitat habitat() {
         return habitat;
     }
 
     public UIDimension<?> selected(ViewDimension ad) {
         switch (ad) {
             case ADMIN:
-                return adminSelected();
+                return adminSelected;
             case BUILDING:
-                return buildSelected();
+                return buildSelected;
             case FAMILY:
-                return familySelected();
+                return familySelected;
             case FUNDS:
-                return fundsSelected();
+                return fundsSelected;
         }
         return null;
     }
-
-    public UIDimension<?> adminSelected() {
-        return adminSelected;
-    }
-
-    public UIDimension<?> buildSelected() {
-        return buildSelected;
-    }
-
-    public UIDimension<?> familySelected() {
-        return familySelected;
-    }
-
-    public UIDimension<?> fundsSelected() {
-        return fundsSelected;
-    }
-
+    
     public <A> UIDimension<A> get(Class<A> cl) {
         // ADMIN 
         if (cl.equals(TipoDonativo.class)) {
             return (UIDimension<A>) adminTipodon;
         } else if (cl.equals(TipoTarefa.class)) {
             return (UIDimension<A>) adminTarefa;
-        } else if (cl.equals(Actividade.class)) {
+        } else if (cl.equals(TipoActividade.class)) {
             return (UIDimension<A>) adminActividade;
         } else if (cl.equals(Funcionario.class)) {
             return (UIDimension<A>) adminFuncionario;
-        } else if (cl.equals(Questao.class)) {
+        } else if (cl.equals(TipoQuestao.class)) {
             return (UIDimension<A>) adminQuestao;
             // COntrutção
         } else if (cl.equals(Projeto.class)) {
@@ -276,34 +286,17 @@ public class AppState {
         building.setDimension(buildSelected);
     }
 
-    public void familySelect(SubDimension ad) {
-        switch (ad) {
-            case FAMILY_FAMILY:
-                familySelected = familyFamily;
-                break;
-            case FAMILY_CAND:
-                familySelected = familyCand;
-                break;
-        }
+    public <A> void FamilySelect(Class<A> cl, List<A> lm) {
+        UIDimension<A> dim = get(cl);
+        dim.listRefresh(lm.size(), lm);
+        familySelected = dim;
         family.setDimension(familySelected);
     }
-
-    public void fundsSelect(SubDimension ad) {
-        switch (ad) {
-            case FUNDS_VOLUNTERS:
-                fundsSelected = fundsVolunters;
-                break;
-            case FUNDS_EVENTS:
-                fundsSelected = fundsEvents;
-                break;
-            case FUNDS_DONORS:
-                fundsSelected = fundsDonors;
-                break;
-            case FUNDS_DONATIONS:
-                fundsSelected = fundsDonations;
-                break;
-        }
+    
+    public <A> void FundsSelect(Class<A> cl, List<A> lm) {
+        UIDimension<A> dim = get(cl);
+        dim.listRefresh(lm.size(), lm);
+        fundsSelected = dim;
         funds.setDimension(fundsSelected);
     }
-
 }

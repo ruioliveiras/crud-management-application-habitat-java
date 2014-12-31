@@ -7,7 +7,7 @@ package ui.admin;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import business.admin.Questao;
+import business.admin.TipoQuestao;
 import java.awt.BorderLayout;
 import ui.util.UIDimension;
 
@@ -15,7 +15,7 @@ import ui.util.UIDimension;
  *
  * @author ruioliveiras
  */
-public class AdminQuestion extends javax.swing.JPanel  implements UIDimension.JDetails<Questao> {
+public class AdminQuestion extends javax.swing.JPanel  implements UIDimension.JDetails<TipoQuestao> {
 
     private String title;
     /**
@@ -227,7 +227,7 @@ public class AdminQuestion extends javax.swing.JPanel  implements UIDimension.JD
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void set(Questao a) {
+    public void set(TipoQuestao a) {
        txtAsk.setText(a.getDescricao());
        if(a.isAtiva()){
            rdNotUse.setSelected(true);
