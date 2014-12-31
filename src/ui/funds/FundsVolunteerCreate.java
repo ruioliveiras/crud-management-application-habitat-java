@@ -280,7 +280,7 @@ public class FundsVolunteerCreate extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextField17)
                                     .addComponent(jTextField16))))
-                        .addGap(37, 37, 37))))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
