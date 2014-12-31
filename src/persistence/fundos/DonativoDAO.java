@@ -37,13 +37,19 @@ public class DonativoDAO extends DAO<Donativo> {
     public int insert(Donativo d) throws SQLException {
         newStatement();
         
-        executeSQL("INSERT INTO FAMILIA(idDon, descricao, quantInicial, quantAtual, idTipoDon, dataDon, idFunc, idEv, idIndiv" +
-                        "VALUES (" + toSQL(d.getIdDon()) + "," + toSQL(d.getDescricao()) + "," + toSQL(d.getQuantInicial()) + "," + 
-                        toSQL(d.getQuantAtual()) + "," + toSQL(d.getIdTipoDon()) + "," + toSQL(d.getDataDon()) + "," + 
-                        toSQL(d.getIdFunc()) + "," + toSQL(d.getIdEv()) + "," + toSQL(d.getIdIndiv()) + ")");
+        int i = executeSQLWithId("INSERT INTO FAMILIA(idDon, descricao, quantInicial, quantAtual, idTipoDon, dataDon, idFunc, idEv, idIndiv) VALUES (" + 
+                                    toSQL(d.getIdDon()) + "," + 
+                                    toSQL(d.getDescricao()) + "," + 
+                                    toSQL(d.getQuantInicial()) + "," + 
+                                    toSQL(d.getQuantAtual()) + "," + 
+                                    toSQL(d.getIdTipoDon()) + "," + 
+                                    toSQL(d.getDataDon()) + "," + 
+                                    toSQL(d.getIdFunc()) + "," + 
+                                    toSQL(d.getIdEv()) + "," + 
+                                    toSQL(d.getIdIndiv()) + ")");
         closeStatemnet();
         
-        return 0;
+        return i;
     }
     
     

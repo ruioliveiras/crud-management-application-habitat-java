@@ -21,7 +21,7 @@ public class EquipaDAO extends DAO<Equipa>{
     public Equipa getById(int id) throws SQLException {
         newStatement();
         ResultSet rs = executeSelect("Select * from Equipa where idEq = "+ id);
-        Equipa r = newEq(rs);
+        Equipa r = newObj(rs);
        
         closeStatemnet();
         
@@ -34,7 +34,7 @@ public class EquipaDAO extends DAO<Equipa>{
        
         ResultSet rs = executeSelect("Select * from Equipa");
         while(rs.next()) {
-            Equipa e = newEq(rs);
+            Equipa e = newObj(rs);
             
             r.add(e);
         }
@@ -47,8 +47,11 @@ public class EquipaDAO extends DAO<Equipa>{
         newStatement();
         
         int i = executeSQLWithId("INSERT INTO Equipa(idEq, nacionalidadeEq, designacao, dataCriaEq, idfunc) VALUES (" +
-                                    toSQL(e.getIdEq()) + "," + toSQL(e.getNacionalidadeEq()) + "," + toSQL(e.getDesignacao()) + 
-                                    "," + toSQL(e.getDataCriaEq()) + "," + toSQL(e.getIdFunc()));
+                                    toSQL(e.getIdEq()) + "," + 
+                                    toSQL(e.getNacionalidadeEq()) + "," + 
+                                    toSQL(e.getDesignacao()) + "," + 
+                                    toSQL(e.getDataCriaEq()) + "," + 
+                                    toSQL(e.getIdFunc()));
         closeStatemnet();
         return i;
     }
@@ -73,7 +76,7 @@ public class EquipaDAO extends DAO<Equipa>{
         closeStatemnet();
     }
     
-    public Equipa newEq(ResultSet rs) throws SQLException{
+    public Equipa newObj(ResultSet rs) throws SQLException{
         return new Equipa(
             rs.getInt("idEq"),
             rs.getNString("nacionalidadeEq"),
