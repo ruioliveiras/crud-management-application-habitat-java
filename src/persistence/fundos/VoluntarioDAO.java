@@ -41,7 +41,8 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
         return r;
     }
 
-    //@Override
+
+    @Override
     public int insert(Voluntario d) throws SQLException {
         newStatement();
         
@@ -97,7 +98,7 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
         closeStatemnet();
     }
 
-    //@Override
+    @Override
     public void remove(Voluntario d) throws SQLException{
         newStatement();
         executeSQL("DELETE FROM INDIVIDUO WHERE idIndiv = " +  d.getIdIndiv());

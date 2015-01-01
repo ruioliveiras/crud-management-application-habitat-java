@@ -40,21 +40,40 @@ public class DoadorDAO  extends DAO<Doador> {
     public int insert(Doador d) throws SQLException {
         newStatement();
         
-        executeSQL("INSERT INTO Individuo(idIndiv, idFunc, nome, dataNascimento, profissao, morada, codigoPostal, localidade," +
-                    "email, telefone, telemovel, habilitacoes, conhecimentosLing, formacaoComp, experienciaVolunt, conhecimentoConstr," +
-                    "trabalharJuntoVolunt, disponibilidade, comoConheceu, receberInfo, isParceiro, nif, isColetivo, isDoador," +
-                    "isVoluntario, nacionalidadeIndiv, dataCriaIndiv)" + "VALUES (" + 
-                    toSQL(d.getIdIndiv()) + "," + toSQL(d.getIdFunc()) + "," + toSQL(d.getNome()) + "," + toSQL(d.getDataNascimento()) +
-                    "," + toSQL(d.getProfissao()) + "," + toSQL(d.getMorada()) + "," + toSQL(d.getCodigoPostal()) + "," + toSQL(d.getLocalidade()) + 
-                    "," + toSQL(d.getEmail()) + "," + toSQL(d.getTelefone()) + "," + toSQL(d.getTelemovel()) + 
-                    "," + toSQL(d.getHabilitacoes()) + "," + toSQL(d.getConhecimentosLing()) + "," + toSQL(d.getFormacaoComp()) + 
-                    "," + toSQL(d.getExperienciaVolunt()) + "," + toSQL(d.getConhecimentosConstr()) + "," + toSQL(d.getTrabalharJuntoVolunt()) + "," + 
-                    toSQL(d.getDisponibilidade()) + "," + toSQL(d.getComoConheceu()) + "," + toSQL(d.getReceberInfo()) + "," + toSQL(d.isParceiro()) + 
-                    "," + toSQL(d.getNif()) + "," + toSQL(d.isColetivo()) + "," + toSQL(d.isDoador()) + "," + toSQL(d.isVoluntario()) + "," + 
-                    toSQL(d.getNacionalidadeIndiv()) + "," + toSQL(d.getDataCriaIndiv()) +")");
+        int i = executeSQLWithId("INSERT INTO Individuo(idIndiv, idFunc, nome, dataNascimento, profissao, morada, codigoPostal, localidade," +
+                                    "email, telefone, telemovel, habilitacoes, conhecimentosLing, formacaoComp, experienciaVolunt, conhecimentoConstr," +
+                                    "trabalharJuntoVolunt, disponibilidade, comoConheceu, receberInfo, isParceiro, nif, isColetivo, isDoador," +
+                                    "isVoluntario, nacionalidadeIndiv, dataCriaIndiv) VALUES (" + 
+                                    toSQL(d.getIdIndiv()) + "," + 
+                                    toSQL(d.getIdFunc()) + "," + 
+                                    toSQL(d.getNome()) + "," + 
+                                    toSQL(d.getDataNascimento()) + "," + 
+                                    toSQL(d.getProfissao()) + "," + 
+                                    toSQL(d.getMorada()) + "," + 
+                                    toSQL(d.getCodigoPostal()) + "," + 
+                                    toSQL(d.getLocalidade()) + "," + 
+                                    toSQL(d.getEmail()) + "," + 
+                                    toSQL(d.getTelefone()) + "," + 
+                                    toSQL(d.getTelemovel()) + "," + 
+                                    toSQL(d.getHabilitacoes()) + "," + 
+                                    toSQL(d.getConhecimentosLing()) + "," + 
+                                    toSQL(d.getFormacaoComp()) + "," + 
+                                    toSQL(d.getExperienciaVolunt()) + "," + 
+                                    toSQL(d.getConhecimentosConstr()) + "," + 
+                                    toSQL(d.getTrabalharJuntoVolunt()) + "," + 
+                                    toSQL(d.getDisponibilidade()) + "," + 
+                                    toSQL(d.getComoConheceu()) + "," + 
+                                    toSQL(d.getReceberInfo()) + "," + 
+                                    toSQL(d.isParceiro()) + "," + 
+                                    toSQL(d.getNif()) + "," + 
+                                    toSQL(d.isColetivo()) + "," + 
+                                    toSQL(d.isDoador()) + "," + 
+                                    toSQL(d.isVoluntario()) + "," + 
+                                    toSQL(d.getNacionalidadeIndiv()) + "," + 
+                                    toSQL(d.getDataCriaIndiv()) +")");
         closeStatemnet();
         
-        return 1;
+        return i;
     }
     
  
