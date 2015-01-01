@@ -15,7 +15,6 @@ public abstract class Individuo {
     private String localidade;
     private GregorianCalendar dataNascimento;
 
-
     public Individuo() {
     }
 

@@ -1,6 +1,7 @@
 package business.building;
 
 import business.funds.Donativo;
+import business.funds.Voluntariado;
 import java.sql.SQLException;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -139,6 +140,11 @@ public class Projeto {
    
     public List<Tarefa> getTarefas() throws SQLException{
         return projetoDAO.getTarefasAllByIdProg(id);
+    }
+    
+    public List<Voluntariado> getVoluntariados() throws SQLException{
+        
+        return null;
     }
     
     public List<Donativo> getDonativos(){
