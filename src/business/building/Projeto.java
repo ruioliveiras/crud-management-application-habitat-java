@@ -157,4 +157,10 @@ public class Projeto {
     {
         return new Projeto(this);
     }
+    
+
+    @Override
+    public String toString(){
+        return new String(this.id+"."+this.orcamento+"."+this.descricao);
+    }
 }

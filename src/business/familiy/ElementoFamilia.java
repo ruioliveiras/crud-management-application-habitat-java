@@ -86,4 +86,8 @@ public class ElementoFamilia
         return new ElementoFamilia(this);
     }
         
+    @Override
+    public String toString(){
+        return this.nome+"."+this.ocupacao+"."+this.parentesco;
+    }
 }

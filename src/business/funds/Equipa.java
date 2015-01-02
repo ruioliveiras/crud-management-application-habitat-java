@@ -71,4 +71,8 @@ public class Equipa implements Voluntariado {
     public Equipa clone(){
         return new Equipa(this);
     }
+    
+    public String toString(){
+        return new String(this.idEq+"."+this.nacionalidadeEq+"."+this.designacao);
+    }
 }

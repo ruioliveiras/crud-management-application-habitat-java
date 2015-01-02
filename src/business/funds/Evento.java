@@ -68,4 +68,8 @@ public class Evento{
     public Evento clone() {
         return new Evento(this);
     }
+    
+    public String toString(){
+        return new String(this.idEv+"."+this.designacao+"."+this.descricao);
+    }
 }

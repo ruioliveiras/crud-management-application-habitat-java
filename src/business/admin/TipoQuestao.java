@@ -46,5 +46,9 @@ public class TipoQuestao {
     public void setAtiva(boolean uso) {
         this.uso = uso;
     }
-
+    
+    @Override
+    public String toString(){
+        return this.id+"."+this.descricao;
+    }
 }

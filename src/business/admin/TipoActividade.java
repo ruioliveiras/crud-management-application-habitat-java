@@ -38,4 +38,8 @@ public class TipoActividade {
     }
 
 
+    @Override
+    public String toString(){
+        return new String(this.id+"."+this.descricao);
+    }
 }

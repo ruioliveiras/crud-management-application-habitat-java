@@ -297,4 +297,8 @@ public class Voluntario implements Voluntariado {
     public void setTrabalharJuntoVolunt(boolean trabalharJuntoVolunt) {
         this.trabalharJuntoVolunt = trabalharJuntoVolunt;
     } 
+    
+    public String toString(){
+        return new String(this.idIndiv+"."+this.nome+"."+this.profissao);
+    }
 }

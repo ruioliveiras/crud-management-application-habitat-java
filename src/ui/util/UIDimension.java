@@ -5,6 +5,7 @@
  */
 package ui.util;
 
+import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractListModel;
@@ -23,6 +24,7 @@ public class UIDimension<A>{
 
     public enum EditonType{EDIT,NEW,DELETE,DETAILS};
     
+    private JSkelaton mySkelaton;
     private JDetails<A> panelDetails;
     private JDetails<A> frameEdit;
     private JDetails<A> frameCreate;
@@ -154,6 +156,12 @@ public class UIDimension<A>{
         public void set(A a);
         public JPanel getPanel();
         public JFrame getFrame();
+    }
+    
+    public interface JSkelaton{
+        public void load(UIDimension<?> a);
+        public void addMouseClickListener(MouseAdapter mouseAdapter);
+        public void removeMouseClickListener(MouseAdapter mouseAdapter);
     }
     
     public static class PrivateListModel<A> extends AbstractListModel<A> implements ComboBoxModel<A>{

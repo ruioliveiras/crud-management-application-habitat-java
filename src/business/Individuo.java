@@ -115,6 +115,11 @@ public abstract class Individuo {
     public void setDataNascimento(GregorianCalendar dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
+
+    @Override
+    public String toString() {
+       return new String(this.id+"."+this.nome+"."+this.morada);
+    }
     
     
 }
