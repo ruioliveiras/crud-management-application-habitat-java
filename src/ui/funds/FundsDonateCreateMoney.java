@@ -5,17 +5,59 @@
  */
 package ui.funds;
 
+import business.building.Projeto;
+import business.funds.Doador;
+import business.funds.Donativo;
+import java.awt.Panel;
+import java.text.SimpleDateFormat;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import ui.AppState;
+import ui.util.UIDimension;
+
 /**
  *
  * @author ruioliveiras
  */
-public class FundsDonateCreateMoney extends javax.swing.JFrame {
+public class FundsDonateCreateMoney extends javax.swing.JFrame implements UIDimension.JDetails<Donativo>{
 
+    private String title;
+    private AppState appState;
+    
     /**
      * Creates new form FundsDonateCreateMoney
      */
-    public FundsDonateCreateMoney() {
+    public FundsDonateCreateMoney(AppState appState) {
         initComponents();
+        btGuardar.setVisible(false);
+        enableFields(false);
+    }
+    
+    public FundsDonateCreateMoney(AppState appState, UIDimension.EditonType ty) {
+        initComponents();
+        switch (ty) {
+            case EDIT:
+                title = "Editar";
+                break;
+            case NEW:
+                title = "Adicionar";
+                break;
+            case DELETE:
+                title = "Apagar";
+                btGuardar.setVisible(false);
+                enableFields(false);
+                break;
+            case DETAILS:
+                title = "Detalhes";
+                btGuardar.setVisible(false);
+                break;
+            default:
+        }
+    }
+    
+    
+    public void enableFields(boolean b){
+        txtQuantia.setEditable(b);
     }
 
     /**
@@ -28,21 +70,20 @@ public class FundsDonateCreateMoney extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        txtQuantia = new javax.swing.JTextField();
+        btGuardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Donativo Monetário");
 
         jLabel1.setText("Quantia");
 
-        jTextField1.setText("jTextField1");
-        jTextField1.setToolTipText("€");
+        txtQuantia.setToolTipText("€");
 
-        jButton1.setText("Guardar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btGuardar.setText("Guardar");
+        btGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btGuardarActionPerformed(evt);
             }
         });
 
@@ -54,12 +95,12 @@ public class FundsDonateCreateMoney extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(87, 87, 87)
-                        .addComponent(jButton1))
+                        .addComponent(btGuardar))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)))
+                        .addComponent(txtQuantia, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)))
                 .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
@@ -68,57 +109,40 @@ public class FundsDonateCreateMoney extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtQuantia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btGuardar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGuardarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btGuardarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FundsDonateCreateMoney.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FundsDonateCreateMoney.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FundsDonateCreateMoney.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FundsDonateCreateMoney.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FundsDonateCreateMoney().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btGuardar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField txtQuantia;
     // End of variables declaration//GEN-END:variables
+
+
+    @Override
+    public void set(Donativo a) {
+        txtQuantia.setText(a.getQuantInicial()+"");
+    }
+
+    @Override
+    public JPanel getPanel() {
+        return new JPanel();
+    }
+
+    @Override
+    public JFrame getFrame() {
+        this.setTitle(title);
+        return this;
+    } 
 }
