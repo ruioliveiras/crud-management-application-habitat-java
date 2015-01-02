@@ -156,7 +156,6 @@ public class UIDimension<A>{
         public JFrame getFrame();
     }
     
-    
     public static class PrivateListModel<A> extends AbstractListModel<A> implements ComboBoxModel<A>{
         private Object selected;
         private List<A> originalList;

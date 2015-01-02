@@ -115,4 +115,6 @@ public abstract class Individuo {
     public void setDataNascimento(GregorianCalendar dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
+    
+    
 }

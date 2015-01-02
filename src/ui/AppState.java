@@ -13,8 +13,10 @@ import business.admin.Funcionario;
 import business.admin.TipoQuestao;
 import business.admin.TipoDonativo;
 import business.admin.TipoTarefa;
+import business.building.DonativoRealizado;
 import business.building.Projeto;
 import business.building.Tarefa;
+import business.building.VoluntariadoRealizado;
 import business.familiy.Candidatura;
 import business.familiy.Familia;
 import business.funds.Doador;
@@ -34,10 +36,12 @@ import ui.admin.AdminEmployee;
 import ui.admin.AdminEmployeeDetails;
 import ui.admin.AdminQuestion;
 import ui.admin.AdminTask;
+import ui.building.BuildingDonationReal;
 import ui.building.BuildingProjectCreateEdit;
 import ui.building.BuildingProjectPanel;
 import ui.building.BuildingProjectGeralVision;
 import ui.building.BuildingTask;
+import ui.building.BuildingVolunteerReal;
 import ui.tabs.AdminToolBar;
 import ui.tabs.BuilddingToolBar;
 import ui.tabs.FamilyToolBar;
@@ -90,6 +94,8 @@ public class AppState {
     private final UIDimension<Funcionario> adminFuncionario;
     private final UIDimension<Projeto> buildProject;
     private final UIDimension<Tarefa> buildTaks;
+    private final UIDimension<DonativoRealizado> buildDonationsReal;
+    private final UIDimension<VoluntariadoRealizado> buildVolunteersReal;
     private final UIDimension<Donativo> buildDonations = new UIDimension<>();
     private final UIDimension<Voluntariado> buildVolunteers = new UIDimension<>();
     private final UIDimension<Object> familyFamily = new UIDimension<>();
@@ -107,6 +113,17 @@ public class AppState {
     private JPanel adminDetails;
 
     public AppState() throws SQLException {
+        this.login = new LoginFrame(this);
+        
+        AdminToolBar adminToolBar = new AdminToolBar(this);
+        FundsToolBar fundsToolBar = new FundsToolBar(this);
+        FamilyToolBar familyToolBar = new FamilyToolBar(this);
+        BuilddingToolBar builddingToolBar = new BuilddingToolBar(this);
+        
+        this.admin = new SkelatonPanel(ViewDimension.ADMIN, adminToolBar, this);
+        this.funds = new SkelatonPanel(ViewDimension.FUNDS, fundsToolBar, this);
+        this.family = new SkelatonPanel(ViewDimension.FAMILY, familyToolBar, this);
+        this.building = new SkelatonPanel(ViewDimension.BUILDING, builddingToolBar, this);
         /** Bloco de codigo de contrução das dimenenções da aplicação, cada dimensao
          * representa uma determinada "coisa" que é preciso gerir
          * Como por exemplos no caso do adminstrador terá que inserir remover editar ver
@@ -181,20 +198,24 @@ public class AppState {
                 new BuildingProjectPanel(),
                 new BuildingProjectCreateEdit(UIDimension.EditonType.EDIT),
                 new BuildingProjectCreateEdit(UIDimension.EditonType.NEW),
-                new BuildingProjectGeralVision(), new BuildingProjectCreateEdit(UIDimension.EditonType.DELETE)
+                new BuildingProjectGeralVision(), 
+                new BuildingProjectCreateEdit(UIDimension.EditonType.DELETE)
         );
-        
-        login = new LoginFrame(this);
-        
-        AdminToolBar adminToolBar = new AdminToolBar(this);
-        FundsToolBar fundsToolBar = new FundsToolBar(this);
-        FamilyToolBar familyToolBar = new FamilyToolBar(this);
-        BuilddingToolBar builddingToolBar = new BuilddingToolBar(this);
-        
-        this.admin = new SkelatonPanel(ViewDimension.ADMIN, adminToolBar, this);
-        this.funds = new SkelatonPanel(ViewDimension.FUNDS, fundsToolBar, this);
-        this.family = new SkelatonPanel(ViewDimension.FAMILY, familyToolBar, this);
-        this.building = new SkelatonPanel(ViewDimension.BUILDING, builddingToolBar, this);
+        this.buildVolunteersReal = new UIDimension<>(
+                new BuildingVolunteerReal(this),
+                new BuildingVolunteerReal(this,UIDimension.EditonType.EDIT),
+                new BuildingVolunteerReal(this,UIDimension.EditonType.NEW),
+                new BuildingVolunteerReal(this,UIDimension.EditonType.DETAILS), 
+                new BuildingVolunteerReal(this,UIDimension.EditonType.DELETE)
+        );
+        this.buildDonationsReal = new UIDimension<>(
+                new BuildingDonationReal(this),
+                new BuildingDonationReal(this,UIDimension.EditonType.EDIT),
+                new BuildingDonationReal(this,UIDimension.EditonType.NEW),
+                new BuildingDonationReal(this,UIDimension.EditonType.DETAILS), 
+                new BuildingDonationReal(this,UIDimension.EditonType.DELETE)
+        );
+  
 
         adminToolBar.btnTarefasAction();
         builddingToolBar.btnSelectProjectAction();
@@ -249,10 +270,10 @@ public class AppState {
             return (UIDimension<A>) buildProject;
         } else if (cl.equals(Tarefa.class)) {
             return (UIDimension<A>) buildTaks;
-        } else if (cl.equals(Donativo.class)) {
-            return (UIDimension<A>) buildDonations;
-        } else if (cl.equals(Voluntariado.class)) {
-            return (UIDimension<A>) buildVolunteers;
+        } else if (cl.equals(DonativoRealizado.class)) {
+            return (UIDimension<A>) buildDonationsReal;
+        } else if (cl.equals(VoluntariadoRealizado.class)) {
+            return (UIDimension<A>) buildVolunteersReal;
             // Familia
         } else if (cl.equals(Familia.class)) {
             return (UIDimension<A>) familyFamily;
@@ -299,4 +320,16 @@ public class AppState {
         fundsSelected = dim;
         funds.setDimension(fundsSelected);
     }
+    
+    
+    public SkelatonPanel getSkelaton(ViewDimension viewDimension) {
+        switch (viewDimension){
+            case ADMIN: return admin;
+            case FUNDS: return funds;
+            case FAMILY: return family;
+            case BUILDING: return building;
+        }
+        return null;
+    }
+
 }

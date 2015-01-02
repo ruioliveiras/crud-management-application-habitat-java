@@ -6,9 +6,11 @@ import java.sql.SQLException;
 import java.util.GregorianCalendar;
 import java.util.List;
 import persistence.ProjetoDAO;
+import persistence.fundos.DonativoDAO;
 
 public class Projeto {
     private static ProjetoDAO projetoDAO = new ProjetoDAO();
+    private static DonativoDAO donativoDAO = new DonativoDAO();
     
     private int id,idFunc,idCand;
     private Double orcamento;
@@ -147,8 +149,8 @@ public class Projeto {
         return null;
     }
     
-    public List<Donativo> getDonativos(){
-        return null;
+    public List<DonativoRealizado> getDonativos() throws SQLException {
+        return donativoDAO.getByProjId(id);
     }
     
     public Projeto clone()

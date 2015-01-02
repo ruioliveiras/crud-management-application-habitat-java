@@ -5,6 +5,7 @@
  */
 package ui.util;
 
+import java.awt.event.MouseAdapter;
 import javax.swing.JPanel;
 import javax.swing.ListModel;
 import ui.AppState;
@@ -276,6 +277,14 @@ public class SkelatonPanel extends javax.swing.JPanel {
         btnEdit.setEnabled(b);
         btnAdd.setEnabled(b);
         btnDelete.setEnabled(b);
+    }
+
+    public void addMouseClickListener(MouseAdapter mouseAdapter) {
+        lData.addMouseListener(mouseAdapter);
+    }
+
+    public void removeMouseClickListener(MouseAdapter mouseAdapter) {
+        lData.removeMouseListener(mouseAdapter);
     }
 
 }

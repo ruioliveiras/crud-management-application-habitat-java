@@ -1,5 +1,6 @@
 package persistence.fundos;
 
+import business.building.DonativoRealizado;
 import business.funds.Donativo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +19,25 @@ public class DonativoDAO extends DAO<Donativo> {
         
         return newObject(rs);
     }
+
+    
+    public ArrayList<DonativoRealizado> getByProjId(int idProj) throws SQLException{
+         ArrayList<DonativoRealizado> r = new ArrayList<>();
+        newStatement();
+        ResultSet rs = executeSelect("Select d.*, dataDonProj, quantDonProj from Donativo d inner join DonativoProjeto dp on dp.idDon = d.idDon where idProj = "+ idProj);
+        while(rs.next()) {
+            DonativoRealizado d = new DonativoRealizado(
+                    newObject(rs),
+                    fromSQL(rs.getDate("dataDonProj")),
+                    rs.getInt("quantDonProj")
+            );
+            r.add(d);
+        }
+        closeStatemnet();
+        
+        return r;
+    }
+    
 
     @Override
     public ArrayList<Donativo> getAll()throws SQLException {

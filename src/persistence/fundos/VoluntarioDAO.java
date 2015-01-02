@@ -1,5 +1,6 @@
 package persistence.fundos;
 
+import business.building.VoluntariadoRealizado;
 import business.funds.Equipa;
 import business.funds.Voluntariado;
 import business.funds.Voluntario;
@@ -24,6 +25,26 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
         return r;
     }
 
+    public ArrayList<VoluntariadoRealizado> getByTarefa(int idProj, int idTar) throws SQLException {
+        newStatement();
+        ArrayList<VoluntariadoRealizado> r = new ArrayList<>();
+       
+        ResultSet rs = executeSelect("Select i.*,dataTrabalho, duracao from Individuo i inner join IndividuoTarefaProjeto itp on itp.idIndiv = i.idIndiv "
+                + " where itp.idProj = " + idProj + " and itp.idTar = "+ idTar);
+        while(rs.next()) {
+            VoluntariadoRealizado vr = new VoluntariadoRealizado(
+                    newObject(rs),
+                    fromSQL(rs.getDate("dataTrabalho")),
+                    rs.getInt("duracao")
+            );
+            r.add(vr);
+        }
+        
+        closeStatemnet();
+        
+        return r;   
+    }
+    
     @Override
     public ArrayList<Voluntario> getAll()throws SQLException {
         newStatement();
@@ -137,4 +158,6 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
             fromSQL(rs.getDate("dataCriaIndiv"))
         );
     }
+
+
 }
