@@ -59,6 +59,8 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
     public void enableFields(boolean b){
         txtMaterial.setEditable(b);
         txtQuant.setEditable(b);
+        checkProj.setEnabled(b);
+        comboProj.setEnabled(b);
     }
 
     /**
