@@ -100,7 +100,7 @@ public class FundsDonateCreateMoney extends javax.swing.JFrame implements UIDime
                         .addGap(19, 19, 19)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(txtQuantia, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)))
+                        .addComponent(txtQuantia, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)))
                 .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(

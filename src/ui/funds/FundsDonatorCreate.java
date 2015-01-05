@@ -174,9 +174,14 @@ public class FundsDonatorCreate extends javax.swing.JFrame implements UIDimensio
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
 
-
+    
     @Override
     public void set(Doador a) {
+        // Todos os dados do Doador tem que vir da interface.
+        // porntato esta interface tem que ter a capacidade de carregar todos os
+        // atributos de Doador
+        // o mesmo acontece nos outros Forms.
+        
         txtNome.setText(a.getNome());
         //txtApelido.setText(a.getNome());
         //comboEventos.getModel().setSelectedItem(a.get());

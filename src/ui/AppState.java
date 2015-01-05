@@ -152,6 +152,7 @@ public class AppState {
          * 
          */
         this.adminFuncionario = new UIDimension<>(
+                this.admin,
                 new AdminEmployeeDetails(),
                 new AdminEmployee(UIDimension.EditonType.EDIT),
                 new AdminEmployee(UIDimension.EditonType.NEW),
@@ -159,6 +160,7 @@ public class AppState {
                 new AdminEmployee(UIDimension.EditonType.DELETE)
         );
         this.adminActividade = new UIDimension<>(
+                this.admin,
                 new AdminActivity(),
                 new AdminActivity(UIDimension.EditonType.EDIT),
                 new AdminActivity(UIDimension.EditonType.NEW),
@@ -166,6 +168,7 @@ public class AppState {
                 new AdminActivity(UIDimension.EditonType.DELETE)
         );
         this.adminTipodon = new UIDimension<>(
+                this.admin,
                 new AdminDonationtype(),
                 new AdminDonationtype(UIDimension.EditonType.EDIT),
                 new AdminDonationtype(UIDimension.EditonType.NEW),
@@ -173,6 +176,7 @@ public class AppState {
                 new AdminDonationtype(UIDimension.EditonType.DELETE)
         );
         this.adminQuestao = new UIDimension<>(
+                this.admin,
                 new AdminQuestion(),
                 new AdminQuestion(UIDimension.EditonType.EDIT),
                 new AdminQuestion(UIDimension.EditonType.NEW),
@@ -180,6 +184,7 @@ public class AppState {
                 new AdminQuestion(UIDimension.EditonType.DELETE)
         );
         this.adminTarefa = new UIDimension<>(
+                this.admin,
                 new AdminTask(),
                 new AdminTask(UIDimension.EditonType.EDIT),
                 new AdminTask(UIDimension.EditonType.NEW),
@@ -188,6 +193,7 @@ public class AppState {
                 habitat.tipoTarefaGetAll()
         );
         this.buildTaks = new UIDimension<>(
+                this.building,
                 new BuildingTask(this),
                 new BuildingTask(UIDimension.EditonType.EDIT, this),
                 new BuildingTask(UIDimension.EditonType.NEW, this),
@@ -195,6 +201,7 @@ public class AppState {
                 new BuildingTask(UIDimension.EditonType.DELETE, this)
         );
         this.buildProject = new UIDimension<>(
+                this.building,
                 new BuildingProjectPanel(),
                 new BuildingProjectCreateEdit(UIDimension.EditonType.EDIT),
                 new BuildingProjectCreateEdit(UIDimension.EditonType.NEW),
@@ -202,20 +209,23 @@ public class AppState {
                 new BuildingProjectCreateEdit(UIDimension.EditonType.DELETE)
         );
         this.buildVolunteersReal = new UIDimension<>(
+                this.building,
                 new BuildingVolunteerReal(this),
                 new BuildingVolunteerReal(this,UIDimension.EditonType.EDIT),
                 new BuildingVolunteerReal(this,UIDimension.EditonType.NEW),
                 new BuildingVolunteerReal(this,UIDimension.EditonType.DETAILS), 
                 new BuildingVolunteerReal(this,UIDimension.EditonType.DELETE)
         );
+
+        
         this.buildDonationsReal = new UIDimension<>(
+                this.building,
                 new BuildingDonationReal(this),
                 new BuildingDonationReal(this,UIDimension.EditonType.EDIT),
                 new BuildingDonationReal(this,UIDimension.EditonType.NEW),
                 new BuildingDonationReal(this,UIDimension.EditonType.DETAILS), 
                 new BuildingDonationReal(this,UIDimension.EditonType.DELETE)
         );
-  
 
         adminToolBar.btnTarefasAction();
         builddingToolBar.btnSelectProjectAction();
@@ -295,30 +305,30 @@ public class AppState {
 
     public <A> void adminSelect(Class<A> cl, List<A> lm) {
         UIDimension<A> dim = get(cl);
-        dim.listRefresh(lm.size(), lm);
+        dim.listRefresh(lm);
         adminSelected = dim;
-        admin.setDimension(adminSelected);
+//        admin.setDimension(adminSelected);
     }
 
     public <A> void BuildingSelect(Class<A> cl, List<A> lm) {
         UIDimension<A> dim = get(cl);
-        dim.listRefresh(lm.size(), lm);
+        dim.listRefresh( lm);
         buildSelected = dim;
-        building.setDimension(buildSelected);
+//        building.setDimension(buildSelected);
     }
 
     public <A> void FamilySelect(Class<A> cl, List<A> lm) {
         UIDimension<A> dim = get(cl);
-        dim.listRefresh(lm.size(), lm);
+        dim.listRefresh(lm);
         familySelected = dim;
-        family.setDimension(familySelected);
+//        family.setDimension(familySelected);
     }
     
     public <A> void FundsSelect(Class<A> cl, List<A> lm) {
         UIDimension<A> dim = get(cl);
-        dim.listRefresh(lm.size(), lm);
+        dim.listRefresh(lm);
         fundsSelected = dim;
-        funds.setDimension(fundsSelected);
+//        funds.setDimension(fundsSelected);
     }
     
     
