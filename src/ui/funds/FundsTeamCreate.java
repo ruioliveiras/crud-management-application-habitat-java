@@ -8,7 +8,12 @@ package ui.funds;
 import business.building.Projeto;
 import business.funds.Equipa;
 import java.awt.Panel;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.AbstractListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import ui.AppState;
@@ -260,7 +265,27 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
     public void set(Equipa a) {
         txtName.setText(a.getDesignacao());
         txtNacionalidade.setText(a.getNacionalidadeEq());
-        //Colucar some how os voluntarios da equipa
+        
+        try {
+            final ArrayList<String> listaM;
+            listaM = a.getMembros();
+            lVoluntarios.setModel(new AbstractListModel() {
+
+                @Override
+                public int getSize() {
+                    return listaM.size();
+                }
+
+                @Override
+                public Object getElementAt(int index) {
+                    return listaM.get(index);
+                }
+            });
+        } catch (SQLException ex) {
+            Logger.getLogger(FundsTeamCreate.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }
 
     @Override

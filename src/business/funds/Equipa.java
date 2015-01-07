@@ -1,7 +1,9 @@
 package business.funds;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import persistence.fundos.EquipaDAO;
 
 public class Equipa implements Voluntariado {
     private int idEq;
@@ -27,6 +29,10 @@ public class Equipa implements Voluntariado {
         this.idFunc = e.getIdFunc();
     }
     
+    public ArrayList<String> getMembros() throws SQLException {
+        EquipaDAO ed = new EquipaDAO();
+        return ed.getMembros(this.idEq);
+    }
 
     public GregorianCalendar getDataCriaEq() {
         return dataCriaEq;

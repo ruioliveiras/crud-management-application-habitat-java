@@ -19,6 +19,16 @@ import persistence.util.DAO;
  * @author ruioliveiras
  */
 public class EquipaDAO extends DAO<Equipa>{
+    
+    public ArrayList<String> getMembros(int id) throws SQLException{
+        ArrayList<String> r = new ArrayList<>();
+        
+        ResultSet rs = executeSelect("SELECT ID.nome FROM IndividuoEquipa AS IE INNER JOIN Individuo AS ID ON IE.idIndiv=ID.idIndiv WHERE idEq = "+id);
+        while(rs.next()){
+            r.add(rs.getNString("nome"));
+        }
+        return r;
+    }
 
     @Override
     public Equipa getById(int id) throws SQLException {
