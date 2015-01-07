@@ -120,5 +120,7 @@ public class Candidatura
     {
         return new Candidatura(this);
     }
-    
+    public String toString(){
+        return new String(this.id+"."+this.estado+"."+this.rendimento);
+    }
 }

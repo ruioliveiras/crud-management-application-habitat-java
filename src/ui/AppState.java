@@ -5,14 +5,18 @@
  */
 package ui;
 
-import business.HabitatFacade;
-import business.admin.Actividade;
+import business.Habitat;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import business.admin.TipoActividade;
 import business.admin.Funcionario;
-import business.admin.Questao;
+import business.admin.TipoQuestao;
 import business.admin.TipoDonativo;
 import business.admin.TipoTarefa;
+import business.building.DonativoRealizado;
 import business.building.Projeto;
 import business.building.Tarefa;
+import business.building.VoluntariadoRealizado;
 import business.familiy.Candidatura;
 import business.familiy.Familia;
 import business.funds.Doador;
@@ -20,27 +24,29 @@ import business.funds.Donativo;
 import business.funds.Equipa;
 import business.funds.Evento;
 import business.funds.Voluntariado;
-import java.awt.Dimension;
+import business.funds.Voluntario;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.ListModel;
-import ui.MainFrame;
 import ui.admin.AdminActivity;
 import ui.admin.AdminDonationtype;
 import ui.admin.AdminEmployee;
 import ui.admin.AdminEmployeeDetails;
 import ui.admin.AdminQuestion;
 import ui.admin.AdminTask;
+import ui.building.BuildingDonationReal;
 import ui.building.BuildingProjectCreateEdit;
-import ui.building.BuildingProjectDetails;
+import ui.building.BuildingProjectPanel;
 import ui.building.BuildingProjectGeralVision;
 import ui.building.BuildingTask;
 import ui.familiy.FamilyCreate;
 import ui.familiy.FamilyDetails;
 import ui.familiy.FamilyDetalhes;
+import ui.building.BuildingVolunteerReal;
+import ui.funds.FundsDonateCreateMaterial;
+import ui.funds.FundsDonatorCreate;
+import ui.funds.FundsEventCreate;
+import ui.funds.FundsTeamCreate;
+import ui.funds.FundsVolunteerCreate;
 import ui.tabs.AdminToolBar;
 import ui.tabs.BuilddingToolBar;
 import ui.tabs.FamilyToolBar;
@@ -68,7 +74,7 @@ public class AppState {
         }
     };
 
-    private HabitatFacade habitat = new HabitatFacade();
+    private Habitat habitat = new Habitat();
 
     private final SkelatonPanel admin;
     private final SkelatonPanel funds;
@@ -87,21 +93,22 @@ public class AppState {
     };
 
     private final UIDimension<TipoTarefa> adminTarefa;
-    private final UIDimension<Questao> adminQuestao;
+    private final UIDimension<TipoQuestao> adminQuestao;
     private final UIDimension<TipoDonativo> adminTipodon;
-    private final UIDimension<Actividade> adminActividade;
+    private final UIDimension<TipoActividade> adminActividade;
     private final UIDimension<Funcionario> adminFuncionario;
     private final UIDimension<Projeto> buildProject;
     private final UIDimension<Tarefa> buildTaks;
-    private final UIDimension<Donativo> buildDonations = new UIDimension<>();
-    private final UIDimension<Voluntariado> buildVolunteers = new UIDimension<>();
+    private final UIDimension<DonativoRealizado> buildDonationsReal;
+    private final UIDimension<VoluntariadoRealizado> buildVolunteersReal;
     private final UIDimension<Familia> familyFamily;
-    private final UIDimension<Candidatura> familyCand = new UIDimension<>();
-    private final UIDimension<Object> fundsVolunters = new UIDimension<>();
-    private final UIDimension<Object> fundsEvents = new UIDimension<>();
-    private final UIDimension<Object> fundsDonors = new UIDimension<>();
-    private final UIDimension<Object> fundsDonations = new UIDimension<>();
-
+    private final UIDimension<Object> familyCand = new UIDimension<>();
+    private final UIDimension<Voluntario> fundsVolunters;
+    private final UIDimension<Equipa> fundsEquipa; 
+    private final UIDimension<Evento> fundsEvents;
+    private final UIDimension<Doador> fundsDonors;
+    private final UIDimension<Donativo> fundsDonations;
+    
     private UIDimension<?> adminSelected;
     private UIDimension<?> buildSelected;
     private UIDimension<?> familySelected;
@@ -110,65 +117,7 @@ public class AppState {
     private JPanel adminDetails;
 
     public AppState() throws SQLException {
-
-        this.adminFuncionario = new UIDimension<>(
-                new AdminEmployeeDetails(),
-                new AdminEmployee(UIDimension.EditonType.EDIT),
-                new AdminEmployee(UIDimension.EditonType.NEW),
-                new AdminEmployee(UIDimension.EditonType.DETAILS),
-                new AdminEmployee(UIDimension.EditonType.DELETE)
-        );
-        this.adminActividade = new UIDimension<>(
-                new AdminActivity(),
-                new AdminActivity(UIDimension.EditonType.EDIT),
-                new AdminActivity(UIDimension.EditonType.NEW),
-                new AdminActivity(UIDimension.EditonType.DETAILS),
-                new AdminActivity(UIDimension.EditonType.DELETE)
-        );
-        this.adminTipodon = new UIDimension<>(
-                new AdminDonationtype(),
-                new AdminDonationtype(UIDimension.EditonType.EDIT),
-                new AdminDonationtype(UIDimension.EditonType.NEW),
-                new AdminDonationtype(UIDimension.EditonType.DETAILS),
-                new AdminDonationtype(UIDimension.EditonType.DELETE)
-        );
-        this.adminQuestao = new UIDimension<>(
-                new AdminQuestion(),
-                new AdminQuestion(UIDimension.EditonType.EDIT),
-                new AdminQuestion(UIDimension.EditonType.NEW),
-                new AdminQuestion(UIDimension.EditonType.DETAILS),
-                new AdminQuestion(UIDimension.EditonType.DELETE)
-        );
-        this.adminTarefa = new UIDimension<>(
-                new AdminTask(),
-                new AdminTask(UIDimension.EditonType.EDIT),
-                new AdminTask(UIDimension.EditonType.NEW),
-                new AdminTask(UIDimension.EditonType.DETAILS),
-                new AdminTask(UIDimension.EditonType.DELETE),
-                habitat.tipoTarefaGetAll()
-        );
-        this.buildTaks = new UIDimension<>(
-                new BuildingTask(this),
-                new BuildingTask(UIDimension.EditonType.EDIT, this),
-                new BuildingTask(UIDimension.EditonType.NEW, this),
-                new BuildingTask(UIDimension.EditonType.DETAILS, this),
-                new BuildingTask(UIDimension.EditonType.DELETE, this)
-        );
-        this.buildProject = new UIDimension<>(
-                new BuildingProjectDetails(),
-                new BuildingProjectCreateEdit(UIDimension.EditonType.EDIT),
-                new BuildingProjectCreateEdit(UIDimension.EditonType.NEW),
-                new BuildingProjectGeralVision(), new BuildingProjectCreateEdit(UIDimension.EditonType.DELETE)
-        );
-        this.familyFamily = new UIDimension<>(
-                new FamilyDetails(),
-                new FamilyCreate(UIDimension.EditonType.EDIT, this),
-                new FamilyCreate(UIDimension.EditonType.NEW, this),
-                new FamilyDetalhes(),
-                new FamilyCreate(this)
-        );
-        
-        login = new LoginFrame(this);
+        this.login = new LoginFrame(this);
         
         AdminToolBar adminToolBar = new AdminToolBar(this);
         FundsToolBar fundsToolBar = new FundsToolBar(this);
@@ -179,6 +128,157 @@ public class AppState {
         this.funds = new SkelatonPanel(ViewDimension.FUNDS, fundsToolBar, this);
         this.family = new SkelatonPanel(ViewDimension.FAMILY, familyToolBar, this);
         this.building = new SkelatonPanel(ViewDimension.BUILDING, builddingToolBar, this);
+        /** Bloco de codigo de contrução das dimenenções da aplicação, cada dimensao
+         * representa uma determinada "coisa" que é preciso gerir
+         * Como por exemplos no caso do adminstrador terá que inserir remover editar ver
+         * os dados do tipo de tarefa, Actividades, e Questoes
+         * 
+         * Assim sendo o contrutor da Dimension recebe os frames que que serão executados,
+         * Mostrados quando se carrega nos botoes "Editar" "Adicionar" "Remover" "Detalhes"
+         * UIDimension tambem recebe como paramentro o 
+         * 
+         * Para que se pode fazer com um Dimension?
+         * 1 - showEdit, showCreate, panelDetails -> isto serve para mostar os pop's quer servem para gerir
+         * 2 - listRefresh e listModel -> servem para preparar os dados para serem colucadaas nas lista
+         * 
+         * <As dimensões são identificadas por a Class<?> que ela gere>
+         * Ou seja pode-se consultar a dimensao apartir da class<?> como: "public <A> UIDimension<A> get(Class<A> cl)"
+         * 
+         * 
+         *  ## Como estas Dimesions podem ser usadas? ##
+         * Quando ser clica num botao "Tarefas" , fazemos appState.adminSelect(Tarefas.class)
+         *         1º vamos buscar a Diimension com o get(class),
+         *         2º guarda o selecionado com a variavel adminSelected.
+         * 
+         * Depois quando se clica num botao Editar por exemplo 
+         *      1º vamos buscar a actual dimensao selecionado, com o adminSelected-
+         *      2º e com essa dimesao fazemos showEdit
+         * 
+         */
+        this.adminFuncionario = new UIDimension<>(
+                this.admin,
+                new AdminEmployeeDetails(),
+                new AdminEmployee(this,UIDimension.EditonType.EDIT),
+                new AdminEmployee(this,UIDimension.EditonType.NEW),
+                new AdminEmployee(this,UIDimension.EditonType.DETAILS),
+                new AdminEmployee(this,UIDimension.EditonType.DELETE)
+        );
+        this.adminActividade = new UIDimension<>(
+                this.admin,
+                new AdminActivity(this),
+                new AdminActivity(this,UIDimension.EditonType.EDIT),
+                new AdminActivity(this,UIDimension.EditonType.NEW),
+                new AdminActivity(this,UIDimension.EditonType.DETAILS),
+                new AdminActivity(this,UIDimension.EditonType.DELETE)
+        );
+        this.adminTipodon = new UIDimension<>(
+                this.admin,
+                new AdminDonationtype(this),
+                new AdminDonationtype(this,UIDimension.EditonType.EDIT),
+                new AdminDonationtype(this,UIDimension.EditonType.NEW),
+                new AdminDonationtype(this,UIDimension.EditonType.DETAILS),
+                new AdminDonationtype(this,UIDimension.EditonType.DELETE)
+        );
+        this.adminQuestao = new UIDimension<>(
+                this.admin,
+                new AdminQuestion(this),
+                new AdminQuestion(this,UIDimension.EditonType.EDIT),
+                new AdminQuestion(this,UIDimension.EditonType.NEW),
+                new AdminQuestion(this,UIDimension.EditonType.DETAILS),
+                new AdminQuestion(this,UIDimension.EditonType.DELETE)
+        );
+        this.adminTarefa = new UIDimension<>(
+                this.admin,
+                new AdminTask(this),
+                new AdminTask(this,UIDimension.EditonType.EDIT),
+                new AdminTask(this,UIDimension.EditonType.NEW),
+                new AdminTask(this,UIDimension.EditonType.DETAILS),
+                new AdminTask(this,UIDimension.EditonType.DELETE),
+                habitat.tipoTarefaGetAll()
+        );
+        this.buildTaks = new UIDimension<>(
+                this.building,
+                new BuildingTask(this),
+                new BuildingTask(UIDimension.EditonType.EDIT, this),
+                new BuildingTask(UIDimension.EditonType.NEW, this),
+                new BuildingTask(UIDimension.EditonType.DETAILS, this),
+                new BuildingTask(UIDimension.EditonType.DELETE, this)
+        );
+        this.buildProject = new UIDimension<>(
+                this.building,
+                new BuildingProjectPanel(),
+                new BuildingProjectCreateEdit(UIDimension.EditonType.EDIT),
+                new BuildingProjectCreateEdit(UIDimension.EditonType.NEW),
+                new BuildingProjectGeralVision(), 
+                new BuildingProjectCreateEdit(UIDimension.EditonType.DELETE)
+        );
+        this.familyFamily = new UIDimension<>(
+                this.family,
+                new FamilyDetails(),
+                new FamilyCreate(UIDimension.EditonType.EDIT, this),
+                new FamilyCreate(UIDimension.EditonType.NEW, this),
+                new FamilyDetalhes(),
+                new FamilyCreate(this)
+        );
+        this.buildVolunteersReal = new UIDimension<>(
+                this.building,
+                new BuildingVolunteerReal(this),
+                new BuildingVolunteerReal(this,UIDimension.EditonType.EDIT),
+                new BuildingVolunteerReal(this,UIDimension.EditonType.NEW),
+                new BuildingVolunteerReal(this,UIDimension.EditonType.DETAILS), 
+                new BuildingVolunteerReal(this,UIDimension.EditonType.DELETE)
+        );
+        this.buildDonationsReal = new UIDimension<>(
+                this.building,
+                new BuildingDonationReal(this),
+                new BuildingDonationReal(this,UIDimension.EditonType.EDIT),
+                new BuildingDonationReal(this,UIDimension.EditonType.NEW),
+                new BuildingDonationReal(this,UIDimension.EditonType.DETAILS), 
+                new BuildingDonationReal(this,UIDimension.EditonType.DELETE)
+        );
+
+        this.fundsDonations = new UIDimension<>(
+            this.funds,
+            new FundsDonateCreateMaterial(this),
+            new FundsDonateCreateMaterial(this,UIDimension.EditonType.EDIT),
+            new FundsDonateCreateMaterial(this,UIDimension.EditonType.NEW),
+            new FundsDonateCreateMaterial(this,UIDimension.EditonType.DETAILS), 
+            new FundsDonateCreateMaterial(this,UIDimension.EditonType.DELETE)
+        );
+        this.fundsDonors = new UIDimension<>(
+            this.funds,
+            new FundsDonatorCreate(this),
+            new FundsDonatorCreate(this,UIDimension.EditonType.EDIT),
+            new FundsDonatorCreate(this,UIDimension.EditonType.NEW),
+            new FundsDonatorCreate(this,UIDimension.EditonType.DETAILS), 
+            new FundsDonatorCreate(this,UIDimension.EditonType.DELETE)
+        );
+        this.fundsEvents = new UIDimension<>(
+            this.funds,
+            new FundsEventCreate(this),
+            new FundsEventCreate(this,UIDimension.EditonType.EDIT),
+            new FundsEventCreate(this,UIDimension.EditonType.NEW),
+            new FundsEventCreate(this,UIDimension.EditonType.DETAILS), 
+            new FundsEventCreate(this,UIDimension.EditonType.DELETE)
+        );
+        
+        this.fundsVolunters = new UIDimension<>(
+            this.funds,
+            new FundsVolunteerCreate(this),
+            new FundsVolunteerCreate(this,UIDimension.EditonType.EDIT),
+            new FundsVolunteerCreate(this,UIDimension.EditonType.NEW),
+            new FundsVolunteerCreate(this,UIDimension.EditonType.DETAILS), 
+            new FundsVolunteerCreate(this,UIDimension.EditonType.DELETE)
+        );
+
+        this.fundsEquipa = new UIDimension<>(
+            this.funds,
+            new FundsTeamCreate(this),
+            new FundsTeamCreate(this,UIDimension.EditonType.EDIT),
+            new FundsTeamCreate(this,UIDimension.EditonType.NEW),
+            new FundsTeamCreate(this,UIDimension.EditonType.DETAILS), 
+            new FundsTeamCreate(this,UIDimension.EditonType.DELETE)
+        );
 
         adminToolBar.btnTarefasAction();
         builddingToolBar.btnSelectProjectAction();
@@ -199,61 +299,45 @@ public class AppState {
         main.setVisible(true);
     }
 
-    public HabitatFacade habitat() {
+    public Habitat habitat() {
         return habitat;
     }
 
     public UIDimension<?> selected(ViewDimension ad) {
         switch (ad) {
             case ADMIN:
-                return adminSelected();
+                return adminSelected;
             case BUILDING:
-                return buildSelected();
+                return buildSelected;
             case FAMILY:
-                return familySelected();
+                return familySelected;
             case FUNDS:
-                return fundsSelected();
+                return fundsSelected;
         }
         return null;
     }
-
-    public UIDimension<?> adminSelected() {
-        return adminSelected;
-    }
-
-    public UIDimension<?> buildSelected() {
-        return buildSelected;
-    }
-
-    public UIDimension<?> familySelected() {
-        return familySelected;
-    }
-
-    public UIDimension<?> fundsSelected() {
-        return fundsSelected;
-    }
-
+    
     public <A> UIDimension<A> get(Class<A> cl) {
         // ADMIN 
         if (cl.equals(TipoDonativo.class)) {
             return (UIDimension<A>) adminTipodon;
         } else if (cl.equals(TipoTarefa.class)) {
             return (UIDimension<A>) adminTarefa;
-        } else if (cl.equals(Actividade.class)) {
+        } else if (cl.equals(TipoActividade.class)) {
             return (UIDimension<A>) adminActividade;
         } else if (cl.equals(Funcionario.class)) {
             return (UIDimension<A>) adminFuncionario;
-        } else if (cl.equals(Questao.class)) {
+        } else if (cl.equals(TipoQuestao.class)) {
             return (UIDimension<A>) adminQuestao;
             // COntrutção
         } else if (cl.equals(Projeto.class)) {
             return (UIDimension<A>) buildProject;
         } else if (cl.equals(Tarefa.class)) {
             return (UIDimension<A>) buildTaks;
-        } else if (cl.equals(Donativo.class)) {
-            return (UIDimension<A>) buildDonations;
-        } else if (cl.equals(Voluntariado.class)) {
-            return (UIDimension<A>) buildVolunteers;
+        } else if (cl.equals(DonativoRealizado.class)) {
+            return (UIDimension<A>) buildDonationsReal;
+        } else if (cl.equals(VoluntariadoRealizado.class)) {
+            return (UIDimension<A>) buildVolunteersReal;
             // Familia
         } else if (cl.equals(Familia.class)) {
             return (UIDimension<A>) familyFamily;
@@ -261,67 +345,56 @@ public class AppState {
             return (UIDimension<A>) familyCand;
             // fundos
         } else if (cl.equals(Evento.class)) {
-            return (UIDimension<A>) adminFuncionario;
+            return (UIDimension<A>) fundsEvents;
         } else if (cl.equals(Donativo.class)) {
-            return (UIDimension<A>) adminFuncionario;
-        } else if (cl.equals(Voluntariado.class)) {
-            return (UIDimension<A>) adminFuncionario;
+            return (UIDimension<A>) fundsDonations;
+        } else if (cl.equals(Voluntario.class)) {
+            return (UIDimension<A>) fundsVolunters;
         } else if (cl.equals(Doador.class)) {
-            return (UIDimension<A>) adminFuncionario;
+            return (UIDimension<A>) fundsDonors;
+        } else if (cl.equals(Equipa.class)) {
+            return (UIDimension<A>) fundsEquipa;
         } else {
             return null;
         }
     }
-
      public <A> void FamilySelect(Class<A> cl, List<A> lm) {
         UIDimension<A> dim = get(cl);
-        dim.listRefresh(lm.size(), lm);
+        dim.listRefresh(lm);
         familySelected = dim;
         family.setDimension(familySelected);
     }
     
     public <A> void adminSelect(Class<A> cl, List<A> lm) {
         UIDimension<A> dim = get(cl);
-        dim.listRefresh(lm.size(), lm);
+        dim.listRefresh(lm);
         adminSelected = dim;
-        admin.setDimension(adminSelected);
+//        admin.setDimension(adminSelected);
     }
 
     public <A> void BuildingSelect(Class<A> cl, List<A> lm) {
         UIDimension<A> dim = get(cl);
-        dim.listRefresh(lm.size(), lm);
+        dim.listRefresh( lm);
         buildSelected = dim;
         building.setDimension(buildSelected);
     }
-
-    public void familySelect(SubDimension ad) {
-        switch (ad) {
-            case FAMILY_FAMILY:
-                familySelected = familyFamily;
-                break;
-            case FAMILY_CAND:
-                familySelected = familyCand;
-                break;
-        }
-        family.setDimension(familySelected);
+    
+    public <A> void FundsSelect(Class<A> cl, List<A> lm) {
+        UIDimension<A> dim = get(cl);
+        dim.listRefresh(lm);
+        fundsSelected = dim;
+       funds.setDimension(fundsSelected);
     }
-
-    public void fundsSelect(SubDimension ad) {
-        switch (ad) {
-            case FUNDS_VOLUNTERS:
-                fundsSelected = fundsVolunters;
-                break;
-            case FUNDS_EVENTS:
-                fundsSelected = fundsEvents;
-                break;
-            case FUNDS_DONORS:
-                fundsSelected = fundsDonors;
-                break;
-            case FUNDS_DONATIONS:
-                fundsSelected = fundsDonations;
-                break;
+    
+    
+    public SkelatonPanel getSkelaton(ViewDimension viewDimension) {
+        switch (viewDimension){
+            case ADMIN: return admin;
+            case FUNDS: return funds;
+            case FAMILY: return family;
+            case BUILDING: return building;
         }
-        funds.setDimension(fundsSelected);
+        return null;
     }
 
 }

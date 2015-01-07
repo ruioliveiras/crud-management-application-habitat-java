@@ -7,21 +7,30 @@ package ui.admin;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import business.admin.Actividade;
+import business.admin.TipoActividade;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
+import ui.AppState;
 import ui.util.UIDimension;
 
 /**
  *
  * @author ruioliveiras
  */
-public class AdminActivity extends javax.swing.JPanel implements UIDimension.JDetails<Actividade> {
+public class AdminActivity extends javax.swing.JPanel implements UIDimension.JDetails<TipoActividade> {
 
+    private AppState appState;
     private String title;
-    
+    private TipoActividade obj;
+
     /**
      * Creates new form AdminDetailsActivity
      */
-    public AdminActivity() {
+    public AdminActivity(AppState appState) {
+
+        this.appState = appState;
         initComponents();
         btCancelar.setVisible(false);
         btSave.setVisible(false);
@@ -30,8 +39,10 @@ public class AdminActivity extends javax.swing.JPanel implements UIDimension.JDe
         enableFields(false);
     }
 
-    public AdminActivity(UIDimension.EditonType ty) {
+    public AdminActivity(AppState appState, UIDimension.EditonType ty) {
         initComponents();
+
+        this.appState = appState;
         switch (ty) {
             case EDIT:
                 title = "Editar";
@@ -60,10 +71,10 @@ public class AdminActivity extends javax.swing.JPanel implements UIDimension.JDe
         }
     }
 
-    public void enableFields(boolean b){
+    public void enableFields(boolean b) {
         txtName.setEditable(b);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -160,21 +171,38 @@ public class AdminActivity extends javax.swing.JPanel implements UIDimension.JDe
     }//GEN-LAST:event_txtNameActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
+        try {
+            appState.habitat().actividadeRemove(obj);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnSaveEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEditActionPerformed
-        // TODO add your handling code here:
+        try {
+            get();
+            appState.habitat().actividadeUpdate(obj);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
+         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
     }//GEN-LAST:event_btnSaveEditActionPerformed
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btSaveActionPerformed
+        try {
+            get();
+            appState.habitat().actividadeInsert(obj);
+             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }    }//GEN-LAST:event_btSaveActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        // TODO add your handling code here:
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
     }//GEN-LAST:event_btCancelarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
@@ -186,8 +214,14 @@ public class AdminActivity extends javax.swing.JPanel implements UIDimension.JDe
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void set(Actividade a) {
+    public void set(TipoActividade a) {
+        obj = a = (a == null) ? new TipoActividade() : a;
         txtName.setText(a.getDescricao());
+    }
+
+    public void get() {
+        int id = (obj != null) ? obj.getId() : -1;
+        obj = new TipoActividade(-1, txtName.getText());
     }
 
     @Override

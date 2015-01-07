@@ -8,21 +8,37 @@ package ui.admin;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import business.admin.Funcionario;
+import business.admin.TipoActividade;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.input.DataFormat;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingUtilities;
+import ui.AppState;
 import ui.util.UIDimension;
 
 /**
  *
  * @author ruioliveiras
  */
-public class AdminEmployee extends javax.swing.JPanel  implements UIDimension.JDetails<Funcionario> {
+public class AdminEmployee extends javax.swing.JPanel implements UIDimension.JDetails<Funcionario> {
+
+    private AppState appState;
     private String title;
+    private Funcionario obj;
+
     /**
      * Creates new form AdminDetailsEmployee
      */
-    public AdminEmployee() {
+    public AdminEmployee(AppState appState) {
         initComponents();
         btCancelar.setVisible(false);
+
+        this.appState = appState;
         btSave.setVisible(false);
         btnRemove.setVisible(false);
         btnSaveEdit.setVisible(false);
@@ -30,8 +46,10 @@ public class AdminEmployee extends javax.swing.JPanel  implements UIDimension.JD
         enableFields(false);
     }
 
-    public AdminEmployee(UIDimension.EditonType ty) {
+    public AdminEmployee(AppState appState, UIDimension.EditonType ty) {
         initComponents();
+
+        this.appState = appState;
         switch (ty) {
             case EDIT:
                 title = "Editar";
@@ -60,7 +78,8 @@ public class AdminEmployee extends javax.swing.JPanel  implements UIDimension.JD
         }
         txtTipo.setModel(new DefaultComboBoxModel(Funcionario.Tipo.values()));
     }
-    public void enableFields(boolean b){
+
+    public void enableFields(boolean b) {
         txtNome.setEditable(b);
         txtCodPostal.setEditable(b);
         txtLocalidade.setEditable(b);
@@ -73,6 +92,7 @@ public class AdminEmployee extends javax.swing.JPanel  implements UIDimension.JD
         txtTelemovel.setEditable(b);
         txtTipo.setEnabled(b);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -285,21 +305,46 @@ public class AdminEmployee extends javax.swing.JPanel  implements UIDimension.JD
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
+        try {
+
+            appState.habitat().funcionarioRemove(obj);
+             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+             topFrame.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnSaveEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEditActionPerformed
-        // TODO add your handling code here:
+        try {
+            get();
+            appState.habitat().funcionarioUpdate(obj);
+             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        } catch (ParseException ex) {
+            (new ui.util.ExceptionHandler("Parse Error ", ex)).fire();
+        }
     }//GEN-LAST:event_btnSaveEditActionPerformed
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        // TODO add your handling code here:
+        try {
+            get();
+            appState.habitat().funcionarioInsert(obj);
+             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);            
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        } catch (ParseException ex) {
+            (new ui.util.ExceptionHandler("Parse Error ", ex)).fire();
+        }
     }//GEN-LAST:event_btSaveActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        // TODO add your handling code here:
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
     }//GEN-LAST:event_btCancelarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
@@ -333,6 +378,8 @@ public class AdminEmployee extends javax.swing.JPanel  implements UIDimension.JD
 
     @Override
     public void set(Funcionario a) {
+        obj = a = (a == null) ? new Funcionario() : a;
+
         txtNome.setText(a.getNome());
         txtPassword.setText(a.getPassword());
         txtCodPostal.setText(a.getCodigoPostal());
@@ -343,7 +390,34 @@ public class AdminEmployee extends javax.swing.JPanel  implements UIDimension.JD
         txtUsername.setText(a.getUsername());
         txtTelefone.setText(a.getTelefone());
         txtTelemovel.setText(a.getTelemovel());
-        txtTipo.getModel().setSelectedItem(a.getTipoFunc());    
+        txtTipo.getModel().setSelectedItem(a.getTipoFunc());
+    }
+
+    public void get() throws ParseException {
+        int id = (obj != null) ? obj.getId() : -1;
+        int nif = 0;
+        try {
+            nif = Integer.parseInt(txtNif.getText());
+        } catch (NumberFormatException ex) {
+            throw new ParseException("numer incurrect", 0);
+        }
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        GregorianCalendar nas = new GregorianCalendar();
+        nas.setTime(df.parse(txtdatanascimento.getText()));
+        obj = new Funcionario(
+                id,
+                (Funcionario.Tipo) txtTipo.getSelectedItem(),
+                txtNome.getText(),
+                nif,
+                txtMorada.getText(),
+                txtTelefone.getText(),
+                txtTelemovel.getText(),
+                txtCodPostal.getText(),
+                txtLocalidade.getText(),
+                nas,
+                txtUsername.getText(),
+                txtPassword.getText()
+        );
     }
 
     @Override

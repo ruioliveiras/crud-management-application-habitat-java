@@ -6,12 +6,16 @@
 package ui.familiy;
 
 import business.admin.Funcionario;
+import business.familiy.Questao;
 import business.familiy.Candidatura;
+import business.familiy.ElementoFamilia;
 import business.familiy.Familia;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.text.MaskFormatter;
@@ -24,14 +28,17 @@ import ui.util.UIDimension;
  */
 public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDetails<Familia>{
 
-    Funcionario funcionario = new Funcionario();
+    private AppState appState;
+    private HashMap<Integer, Questao> questoes = new HashMap<Integer, Questao>();
+    private ArrayList<ElementoFamilia> elems = new ArrayList<ElementoFamilia>();
+    
     /**
      * Creates new form CreateFamily
      */
     public FamilyCreate(AppState ap) {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        funcionario = ap.habitat().getFuncionario();
+        appState = ap;
     }
     
     public FamilyCreate(UIDimension.EditonType ty, AppState ap) {
@@ -45,7 +52,7 @@ public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDet
                 break;
             default:
         }
-        funcionario = ap.habitat().getFuncionario();
+        appState = ap;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
@@ -305,53 +312,16 @@ public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDet
         GregorianCalendar c = new GregorianCalendar();
         try{
             c.setTime(s.parse(dataNascTextFIeld.getText()));
-        }catch(ParseException e){ (new ui.util.ExceptionHandler("Erro enquanto carregava quantidade doada", e)).fire(); }
+        }catch(ParseException e){ (new ui.util.ExceptionHandler("Erro ao converter a data", e)).fire(); }
         try{
             Familia fam = new Familia(NomeTextField.getText(), TelefoneTextField.getText(),
-                        MoradaTextField.getText(), Integer.parseInt(NifTextField.getText()), funcionario.getId(),
-                        0, c, new GregorianCalendar(), "");
+                        MoradaTextField.getText(), Integer.parseInt(NifTextField.getText()), 
+                    appState.habitat().getFuncionario().getId(),0, c, new GregorianCalendar(), "");
             Candidatura cand = new Candidatura(new GregorianCalendar(), 
                     Double.parseDouble(rendimentoTextField.getText()), 0, "");
-        }catch(NumberFormatException  e) { (new ui.util.ExceptionHandler("Erro enquanto carregava quantidade doada", e)).fire(); } 
+        }catch(NumberFormatException  e) { (new ui.util.ExceptionHandler("Erro na inserção da data", e)).fire(); } 
     }//GEN-LAST:event_InserirButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FamilyCreate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FamilyCreate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FamilyCreate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FamilyCreate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FamilyCreate().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ApelidoTextField;

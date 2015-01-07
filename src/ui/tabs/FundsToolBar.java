@@ -5,6 +5,13 @@
  */
 package ui.tabs;
 
+import business.funds.Doador;
+import business.funds.Donativo;
+import business.funds.Evento;
+import business.funds.Voluntario;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import ui.AppState;
 
 /**
@@ -27,6 +34,30 @@ public class FundsToolBar extends javax.swing.JPanel {
         this.appState = appState;
     }
     
+    public void btnVoluntariosAction()throws SQLException {
+        List<Voluntario> l = new ArrayList<>();
+        appState.FundsSelect(Voluntario.class, l);
+    }
+    
+    public void btnEquipaAction()throws SQLException {
+        List<Voluntario> l = new ArrayList<>();
+        appState.FundsSelect(Voluntario.class, l);
+    }
+    
+    public void btnEventosAction()throws SQLException {
+        List<Evento> l = new ArrayList<>();
+        appState.FundsSelect(Evento.class, l);
+    }
+       
+    public void btnDonativosAction()throws SQLException {
+        List<Donativo> l = new ArrayList<>();
+        appState.FundsSelect(Donativo.class, l);
+    }
+    
+    public void btnDoadoresAction()throws SQLException {
+        List<Doador> l = new ArrayList<>();
+        appState.FundsSelect(Doador.class, l);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,6 +75,7 @@ public class FundsToolBar extends javax.swing.JPanel {
         jToggleButton2 = new javax.swing.JToggleButton();
         jToggleButton3 = new javax.swing.JToggleButton();
         jToggleButton4 = new javax.swing.JToggleButton();
+        jToggleButton5 = new javax.swing.JToggleButton();
 
         jLabel2.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
         jLabel2.setText("Vistas");
@@ -63,55 +95,81 @@ public class FundsToolBar extends javax.swing.JPanel {
 
         buttonGroup1.add(jToggleButton1);
         jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/voluntario32.png"))); // NOI18N
-        jToggleButton1.setSelected(true);
         jToggleButton1.setText("Voluntarios");
         jToggleButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jToggleButton2);
         jToggleButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/event32.png"))); // NOI18N
         jToggleButton2.setText("Eventos");
         jToggleButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton2ActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jToggleButton3);
         jToggleButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/Doador32.png"))); // NOI18N
         jToggleButton3.setText("Doadores");
         jToggleButton3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton3ActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jToggleButton4);
         jToggleButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/donativo32.png"))); // NOI18N
         jToggleButton4.setText("Donativos");
         jToggleButton4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jToggleButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton4ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jToggleButton5);
+        jToggleButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/voluntario32.png"))); // NOI18N
+        jToggleButton5.setSelected(true);
+        jToggleButton5.setText("Equipas");
+        jToggleButton5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jToggleButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(69, 69, 69)
-                                .addComponent(jLabel2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(65, 65, 65)
-                                .addComponent(jLabel1)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(69, 69, 69)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAddDonatesMateriaa3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap())
+                                .addGap(53, 53, 53)
+                                .addComponent(jLabel1))
+                            .addComponent(btnAddDonatesMateriaa3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jToggleButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,6 +177,8 @@ public class FundsToolBar extends javax.swing.JPanel {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jToggleButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -129,13 +189,52 @@ public class FundsToolBar extends javax.swing.JPanel {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAddDonatesMateriaa3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddDonatesMateriaa3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDonatesMateriaa3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAddDonatesMateriaa3ActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        try {
+            btnVoluntariosAction();
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro enquanto carregava Tarefas realizadas", ex)).fire();
+        }       
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+          try {
+              btnEventosAction();
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro enquanto carregava Tarefas realizadas", ex)).fire();
+        }  
+    }//GEN-LAST:event_jToggleButton2ActionPerformed
+
+    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
+               try {
+                   btnDoadoresAction();
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro enquanto carregava Tarefas realizadas", ex)).fire();
+        }  
+    }//GEN-LAST:event_jToggleButton3ActionPerformed
+
+    private void jToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton4ActionPerformed
+              try {
+                  btnDonativosAction();
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro enquanto carregava Tarefas realizadas", ex)).fire();
+        }  
+    }//GEN-LAST:event_jToggleButton4ActionPerformed
+
+    private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton5ActionPerformed
+          try {
+              btnEquipaAction();
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro enquanto carregava Tarefas realizadas", ex)).fire();
+        }      }//GEN-LAST:event_jToggleButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -147,5 +246,6 @@ public class FundsToolBar extends javax.swing.JPanel {
     private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;
     private javax.swing.JToggleButton jToggleButton4;
+    private javax.swing.JToggleButton jToggleButton5;
     // End of variables declaration//GEN-END:variables
 }

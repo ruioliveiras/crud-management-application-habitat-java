@@ -15,8 +15,8 @@ public abstract class Individuo {
     private String localidade;
     private GregorianCalendar dataNascimento;
 
-
     public Individuo() {
+        dataNascimento = new GregorianCalendar();
     }
 
     public Individuo(int id,String nome, int nif, String morada, String telefone, String telemovel, 
@@ -116,4 +116,11 @@ public abstract class Individuo {
     public void setDataNascimento(GregorianCalendar dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
+
+    @Override
+    public String toString() {
+       return new String(this.id+"."+this.nome+"."+this.morada);
+    }
+    
+    
 }

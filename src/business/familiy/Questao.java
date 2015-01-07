@@ -56,4 +56,8 @@ public class Questao {
     {
         return new Questao(this);
     }
+    
+    public String toString(){
+        return new String(this.pergunta+"."+this.resposta);
+    }
 }

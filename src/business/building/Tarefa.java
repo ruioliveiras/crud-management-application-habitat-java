@@ -1,10 +1,21 @@
 package business.building;
 
 
+import business.funds.Voluntariado;
+import business.funds.Voluntario;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Objects;
+import persistence.ProjetoDAO;
+import persistence.fundos.EquipaDAO;
+import persistence.fundos.VoluntarioDAO;
 
 public class Tarefa {
+    private static EquipaDAO equipaDAO = new EquipaDAO();
+    private static VoluntarioDAO  voluntarioDAO= new VoluntarioDAO();
+
     private int idProj;
     private int idTar;
     private GregorianCalendar dataInicio;
@@ -88,6 +99,13 @@ public class Tarefa {
     public void setTipoTarefa(String tipoTarefa) {
         this.tipoTarefa = tipoTarefa;
     }
+    
+    public List<VoluntariadoRealizado> getVoluntariado() throws SQLException{
+        List<VoluntariadoRealizado> vo = new ArrayList<>();
+        vo.addAll(voluntarioDAO.getByTarefa(idProj,idTar));
+        vo.addAll(equipaDAO.getByTarefa(idProj,idTar));
+        return vo;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -121,5 +139,10 @@ public class Tarefa {
     public Tarefa clone()
     {
         return new Tarefa(this);
+    }
+
+    @Override
+    public String toString(){
+        return new String(this.idTar+"."+this.tipoTarefa+"."+this.idProj);
     }
 }

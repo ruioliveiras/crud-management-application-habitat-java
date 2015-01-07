@@ -1,84 +1,84 @@
 package business.funds;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import persistence.fundos.EquipaDAO;
 
 public class Equipa implements Voluntariado {
-    private String designacao;
-    private String nacionalidade;
+    private int idEq;
+    private String nacionalidadeEq, designacao;
     private GregorianCalendar dataCriaEq;
-    private ArrayList<Voluntario> voluntarios;
+    private int idFunc;
 
-    public Equipa(String designacao, String nacionalidade, GregorianCalendar dataCriaEq, 
-            ArrayList<Voluntario> voluntarios) {
+    
+    public Equipa(int idEq, String nacionalidadeEq, String designacao, GregorianCalendar dataCriaEq, int idFunc) {
+        this.idEq = idEq;
+        this.nacionalidadeEq = nacionalidadeEq;
         this.designacao = designacao;
-        this.nacionalidade = nacionalidade;
         this.dataCriaEq = dataCriaEq;
-        this.voluntarios = new ArrayList<Voluntario>();
-        for(Voluntario d : voluntarios)
-            this.voluntarios.add(d);
+        this.idFunc = idFunc;
     }
-
+    
+    
     public Equipa(Equipa e) {
+        this.idEq = e.getIdEq();
+        this.nacionalidadeEq = e.getNacionalidadeEq();
         this.designacao = e.getDesignacao();
-        this.nacionalidade = e.getNacionalidade();
         this.dataCriaEq = e.getDataCriaEq();
-        this.voluntarios = e.getVoluntarios();
+        this.idFunc = e.getIdFunc();
+    }
+    
+    public ArrayList<String> getMembros() throws SQLException {
+        EquipaDAO ed = new EquipaDAO();
+        return ed.getMembros(this.idEq);
     }
 
-    public ArrayList<Voluntario> getVoluntarios() 
-    {
-        ArrayList<Voluntario> ret = new ArrayList<Voluntario>();
-        
-        for(Voluntario v : this.voluntarios)
-            ret.add(v);
-        
-        return ret;
+    public GregorianCalendar getDataCriaEq() {
+        return dataCriaEq;
     }
-
-    public void setVoluntarios(ArrayList<Voluntario> voluntarios) 
-    {
-        this.voluntarios.clear();
-        
-        for(Voluntario v : voluntarios)
-            this.voluntarios.add(v);
-    }
-    
-    
-    public void addVoluntario(Voluntario v) {
-        voluntarios.add(v.clone());
-    }
-    
 
     public String getDesignacao() {
         return designacao;
     }
 
-    public void setDesignacao(String designacao) {
-        this.designacao = designacao;
-    }
-    
-    
-    public String getNacionalidade() {
-        return nacionalidade;
+    public int getIdEq() {
+        return idEq;
     }
 
-    public void setNacionalidade(String nacionalidade) {
-        this.nacionalidade = nacionalidade;
+    public int getIdFunc() {
+        return idFunc;
     }
 
-    
-    public GregorianCalendar getDataCriaEq() {
-        return dataCriaEq;
+    public String getNacionalidadeEq() {
+        return nacionalidadeEq;
     }
 
     public void setDataCriaEq(GregorianCalendar dataCriaEq) {
         this.dataCriaEq = dataCriaEq;
     }
-    
-    public Equipa clone()
-    {
-        return new Equipa(this);
+
+    public void setDesignacao(String designacao) {
+        this.designacao = designacao;
     }
 
+    public void setIdEq(int idEq) {
+        this.idEq = idEq;
+    }
+
+    public void setIdFunc(int idFunc) {
+        this.idFunc = idFunc;
+    }
+
+    public void setNacionalidadeEq(String nacionalidadeEq) {
+        this.nacionalidadeEq = nacionalidadeEq;
+    }
+    
+    public Equipa clone(){
+        return new Equipa(this);
+    }
+    
+    public String toString(){
+        return new String(this.idEq+"."+this.nacionalidadeEq+"."+this.designacao);
+    }
 }

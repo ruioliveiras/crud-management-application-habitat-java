@@ -74,4 +74,9 @@ public class Funcionario extends Individuo {
     {
         return new Funcionario(this);
     }
+
+    @Override
+    public String toString(){
+        return new String(this.getId()+"."+this.getNome()+"."+this.getTipoFuncStr());
+    }
 }

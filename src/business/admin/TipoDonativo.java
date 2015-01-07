@@ -49,5 +49,9 @@ public class TipoDonativo {
         this.unidade = unidade;
     }
 
+    @Override
+    public String toString(){
+        return new String(this.id+"."+this.descricao+"."+this.unidade);
+    }
 
 }

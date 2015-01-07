@@ -60,4 +60,8 @@ public class TipoTarefa {
         return hash;
     }
 
+    @Override
+    public String toString(){
+        return new String(this.id+"."+this.descricao);
+    }
 }

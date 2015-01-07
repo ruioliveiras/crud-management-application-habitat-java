@@ -96,9 +96,8 @@ public class ElementoFamilia
         return new ElementoFamilia(this);
     }
     
-    public String toString()
-    {
-        return id + " - " + nome;
+    @Override
+    public String toString(){
+        return this.nome+"."+this.ocupacao+"."+this.parentesco;
     }
-        
 }

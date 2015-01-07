@@ -67,4 +67,8 @@ public class Prestacao
     {
         return new Prestacao(this);
     }
+    
+    public String toString(){
+        return new String(this.idFam+"."+this.valor+"."+this.idFunc);
+    }
 }

@@ -5,9 +5,14 @@
  */
 package ui.tabs;
 
+import business.building.DonativoRealizado;
 import business.building.Projeto;
 import business.building.Tarefa;
+import business.building.VoluntariadoRealizado;
+import business.funds.Donativo;
+import business.funds.Voluntariado;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,6 +61,10 @@ public class BuilddingToolBar extends javax.swing.JPanel {
             btnTarefasAction();
             btnSelectProject.setText("Voltar a selecionar");
         }
+        btnDonations.setEnabled(!isSelecting);
+        btnTarefas.setEnabled(!isSelecting);
+        btnVolunters.setEnabled(!isSelecting);
+
         isSelecting = !isSelecting;
     }
 
@@ -66,11 +75,19 @@ public class BuilddingToolBar extends javax.swing.JPanel {
     }
 
     public void btnDonationsAction() throws SQLException {
-        // TODO add your handling code here:
+        btnDonations.setSelected(true);
+        List<DonativoRealizado> l = selectedProject.getDonativos();
+        appState.BuildingSelect(DonativoRealizado.class, l);
     }
 
     public void btnVoluntersAction() throws SQLException {
-        // TODO add your handling code here:
+        btnVolunters.setSelected(true);
+        List<VoluntariadoRealizado> l = new ArrayList<>();
+        List<Tarefa> ts = selectedProject.getTarefas();
+        for (Tarefa t : ts) {
+            l.addAll(t.getVoluntariado());
+        }
+        appState.BuildingSelect(VoluntariadoRealizado.class, l);
     }
 
     /**
@@ -224,11 +241,20 @@ public class BuilddingToolBar extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTarefasActionPerformed
 
     private void btnDonationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDonationsActionPerformed
-        // TODO add your handling code here:
+        try {
+            btnDonationsAction();
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro enquanto carregava Donativos realizadas", ex)).fire();
+        } 
+
     }//GEN-LAST:event_btnDonationsActionPerformed
 
     private void btnVoluntersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoluntersActionPerformed
-        // TODO add your handling code here:
+        try {
+            btnVoluntersAction();
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro enquanto carregava Voluntarios realizadas", ex)).fire();
+        }
     }//GEN-LAST:event_btnVoluntersActionPerformed
 
 
