@@ -261,7 +261,7 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 
-        @Override
+    @Override
     public void set(Equipa a) {
         txtName.setText(a.getDesignacao());
         txtNacionalidade.setText(a.getNacionalidadeEq());

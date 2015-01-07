@@ -5,6 +5,7 @@
  */
 package ui.tabs;
 
+import business.funds.Voluntario;
 import java.sql.SQLException;
 import ui.AppState;
 
@@ -29,7 +30,8 @@ public class FundsToolBar extends javax.swing.JPanel {
     }
     
     public void btnVoluntariosAction()throws SQLException {
-        
+        //appState.habitat().volun
+        appState.FundsSelect(Voluntario.class, null);
     }
     
     public void btnEventosAction()throws SQLException {

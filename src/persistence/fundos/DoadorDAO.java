@@ -8,6 +8,12 @@ import persistence.util.DAO;
 
 public class DoadorDAO  extends DAO<Doador> {    
     
+    public int getQuantDoada(int id) throws SQLException{
+        ResultSet rs = executeSelect("SELECT SUM (quantInicial) as quantTotal FROM Donativo WHERE idIndiv = "+id+" AND idTipoDon="+1);
+        if(rs.next()) return rs.getInt("quantTotal");
+        else return 0;
+    }
+    
     @Override
     public Doador getById(int id) throws SQLException{
         newStatement();
