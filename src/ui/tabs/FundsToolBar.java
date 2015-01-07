@@ -5,8 +5,13 @@
  */
 package ui.tabs;
 
+import business.funds.Doador;
+import business.funds.Donativo;
+import business.funds.Evento;
 import business.funds.Voluntario;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import ui.AppState;
 
 /**
@@ -30,20 +35,28 @@ public class FundsToolBar extends javax.swing.JPanel {
     }
     
     public void btnVoluntariosAction()throws SQLException {
-        //appState.habitat().volun
-        appState.FundsSelect(Voluntario.class, null);
+        List<Voluntario> l = new ArrayList<>();
+        appState.FundsSelect(Voluntario.class, l);
+    }
+    
+    public void btnEquipaAction()throws SQLException {
+        List<Voluntario> l = new ArrayList<>();
+        appState.FundsSelect(Voluntario.class, l);
     }
     
     public void btnEventosAction()throws SQLException {
-        
+        List<Evento> l = new ArrayList<>();
+        appState.FundsSelect(Evento.class, l);
     }
        
     public void btnDonativosAction()throws SQLException {
-        
+        List<Donativo> l = new ArrayList<>();
+        appState.FundsSelect(Donativo.class, l);
     }
     
     public void btnDoadoresAction()throws SQLException {
-        
+        List<Doador> l = new ArrayList<>();
+        appState.FundsSelect(Doador.class, l);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -217,8 +230,11 @@ public class FundsToolBar extends javax.swing.JPanel {
     }//GEN-LAST:event_jToggleButton4ActionPerformed
 
     private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton5ActionPerformed
+          try {
+              btnEquipaAction();
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro enquanto carregava Tarefas realizadas", ex)).fire();
+        }      }//GEN-LAST:event_jToggleButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

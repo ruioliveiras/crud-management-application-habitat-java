@@ -203,6 +203,8 @@ public class Familia {
         return new Familia(this);
     }
     
-    
+    public String toString(){
+        return new String(this.id+"."+this.nomeRepresentante+"."+this.nif);
+    }
         
 }

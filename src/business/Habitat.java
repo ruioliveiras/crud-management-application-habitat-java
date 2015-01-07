@@ -11,6 +11,11 @@ import business.admin.TipoQuestao;
 import business.admin.TipoDonativo;
 import business.admin.TipoTarefa;
 import business.building.Projeto;
+import business.funds.Doador;
+import business.funds.Donativo;
+import business.funds.Equipa;
+import business.funds.Evento;
+import business.funds.Voluntario;
 import java.sql.SQLException;
 import java.util.List;
 import persistence.ProjetoDAO;
@@ -19,6 +24,11 @@ import persistence.admin.FuncionarioDAO;
 import persistence.admin.QuestaoDAO;
 import persistence.admin.TipoDonativoDAO;
 import persistence.admin.TipoTarefaDAO;
+import persistence.fundos.DoadorDAO;
+import persistence.fundos.DonativoDAO;
+import persistence.fundos.EquipaDAO;
+import persistence.fundos.EventoDAO;
+import persistence.fundos.VoluntarioDAO;
 
 /**
  *
@@ -33,6 +43,11 @@ public class Habitat {
     private final FuncionarioDAO funcionarioDAO = new FuncionarioDAO(); 
     private final QuestaoDAO questaoDAO = new QuestaoDAO(); 
     private final ProjetoDAO projetoDAO = new ProjetoDAO();
+    private final VoluntarioDAO voluntarioDAO = new VoluntarioDAO();
+    private final EquipaDAO equipaDAO = new EquipaDAO();
+    private final EventoDAO eventoDAO = new EventoDAO();
+    private final DoadorDAO doadoresDAO = new DoadorDAO();
+    private final DonativoDAO donativoDAO = new DonativoDAO();
 
     public List<TipoTarefa> tipoTarefaGetAll() throws SQLException {return tipoTarefaDAO.getAll();}
     public TipoTarefa tipoTarefaGetById(int id) throws SQLException {return tipoTarefaDAO.getById(id);}
@@ -64,6 +79,32 @@ public class Habitat {
     public void projetoInsert(Projeto obj) throws SQLException {projetoDAO.insert(obj);}
     public void projetoRemove(Projeto obj) throws SQLException {projetoDAO.remove(obj);}
     public void projetoUpdate(Projeto obj) throws SQLException {projetoDAO.update(obj);}
+    public List<Voluntario> voluntarioGetAll() throws SQLException {return voluntarioDAO.getAll();}
+    public Voluntario voluntarioGetById(int id) throws SQLException {return voluntarioDAO.getById(id);}
+    public void voluntarioInsert(Voluntario obj) throws SQLException {voluntarioDAO.insert(obj);}
+    public void voluntarioRemove(Voluntario obj) throws SQLException {voluntarioDAO.remove(obj);}
+    public void voluntarioUpdate(Voluntario obj) throws SQLException {voluntarioDAO.update(obj);}
+    public List<Equipa> equipaGetAll() throws SQLException {return equipaDAO.getAll();}
+    public Equipa equipaGetById(int id) throws SQLException {return equipaDAO.getById(id);}
+    public void equipaInsert(Equipa obj) throws SQLException {equipaDAO.insert(obj);}
+    public void equipaRemove(Equipa obj) throws SQLException {equipaDAO.remove(obj);}
+    public void equipaUpdate(Equipa obj) throws SQLException {equipaDAO.update(obj);}
+    public List<Evento> eventoGetAll() throws SQLException {return eventoDAO.getAll();}
+    public Evento eventoGetById(int id) throws SQLException {return eventoDAO.getById(id);}
+    public void eventoInsert(Evento obj) throws SQLException {eventoDAO.insert(obj);}
+    public void eventoRemove(Evento obj) throws SQLException {eventoDAO.remove(obj);}
+    public void eventoUpdate(Evento obj) throws SQLException {eventoDAO.update(obj);}
+    public List<Doador> doadoresGetAll() throws SQLException {return doadoresDAO.getAll();}
+    public Doador doadoresGetById(int id) throws SQLException {return doadoresDAO.getById(id);}
+    public void doadoresInsert(Doador obj) throws SQLException {doadoresDAO.insert(obj);}
+    public void doadoresRemove(Doador obj) throws SQLException {doadoresDAO.remove(obj);}
+    public void doadoresUpdate(Doador obj) throws SQLException {doadoresDAO.update(obj);}
+    public List<Donativo> donativoGetAll() throws SQLException {return donativoDAO.getAll();}
+    public Donativo donativoGetById(int id) throws SQLException {return donativoDAO.getById(id);}
+    public void donativoInsert(Donativo obj) throws SQLException {donativoDAO.insert(obj);}
+    public void donativoRemove(Donativo obj) throws SQLException {donativoDAO.remove(obj);}
+    public void donativoUpdate(Donativo obj) throws SQLException {donativoDAO.update(obj);}
+    
 
     public boolean login(String username, String password) throws SQLException {
         this.funcionario = funcionarioDAO.getByUsername(username);

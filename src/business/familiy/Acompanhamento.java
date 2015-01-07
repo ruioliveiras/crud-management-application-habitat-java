@@ -6,7 +6,9 @@
 
 package business.familiy;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class Acompanhamento 
 {
@@ -45,5 +47,10 @@ public class Acompanhamento
     public Acompanhamento clone()
     {
         return new Acompanhamento(this);
+    }
+        
+    public String toString(){
+        // nao testado
+        return new String(this.descricao+"."+this.data.getDisplayName(Calendar.DATE, Calendar.LONG, Locale.ENGLISH));
     }
 }

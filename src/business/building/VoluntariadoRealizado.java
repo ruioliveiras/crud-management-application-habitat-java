@@ -67,6 +67,9 @@ public class VoluntariadoRealizado{
     public void setDurationMinutos(int durationMinutos) {
         this.durationMinutos = durationMinutos;
     }
-    
-    
+
+    @Override
+    public String toString(){
+        return new String(this.voluntariado.toString()+"."+this.durationMinutos);
+    }
 }

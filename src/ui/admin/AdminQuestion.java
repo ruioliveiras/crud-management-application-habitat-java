@@ -5,33 +5,44 @@
  */
 package ui.admin;
 
+import business.admin.TipoDonativo;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import business.admin.TipoQuestao;
 import java.awt.BorderLayout;
+import java.sql.SQLException;
+import javax.swing.SwingUtilities;
+import ui.AppState;
 import ui.util.UIDimension;
 
 /**
  *
  * @author ruioliveiras
  */
-public class AdminQuestion extends javax.swing.JPanel  implements UIDimension.JDetails<TipoQuestao> {
+public class AdminQuestion extends javax.swing.JPanel implements UIDimension.JDetails<TipoQuestao> {
 
+    private AppState appState;
     private String title;
+    private TipoQuestao obj;
+
     /**
      * Creates new form AdminDetailsDonationtype
      */
-    public AdminQuestion() {
+    public AdminQuestion(AppState appState) {
         initComponents();
-            btCancelar.setVisible(false);
+
+        this.appState = appState;
+        btCancelar.setVisible(false);
         btSave.setVisible(false);
         btnRemove.setVisible(false);
         btnSaveEdit.setVisible(false);
-         enableFields(false);
+        enableFields(false);
     }
 
-    public AdminQuestion(UIDimension.EditonType ty) {
+    public AdminQuestion(AppState appState, UIDimension.EditonType ty) {
         initComponents();
+
+        this.appState = appState;
         switch (ty) {
             case EDIT:
                 title = "Editar";
@@ -59,8 +70,8 @@ public class AdminQuestion extends javax.swing.JPanel  implements UIDimension.JD
             default:
         }
     }
-    
-    public void enableFields(boolean b){
+
+    public void enableFields(boolean b) {
         txtAsk.setEditable(b);
         rdInUse.setEnabled(b);
         rdNotUse.setEnabled(b);
@@ -198,21 +209,40 @@ public class AdminQuestion extends javax.swing.JPanel  implements UIDimension.JD
     }//GEN-LAST:event_txtAskActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnRemoveActionPerformed
+        try {
+            appState.habitat().questaoRemove(obj);
+             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }    }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnSaveEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEditActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSaveEditActionPerformed
+        try {
+            get();
+
+            appState.habitat().questaoUpdate(obj);
+             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }    }//GEN-LAST:event_btnSaveEditActionPerformed
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btSaveActionPerformed
+        try {
+            get();
+
+            appState.habitat().questaoInsert(obj);
+             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }    }//GEN-LAST:event_btSaveActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        // TODO add your handling code here:
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
     }//GEN-LAST:event_btCancelarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
@@ -228,12 +258,19 @@ public class AdminQuestion extends javax.swing.JPanel  implements UIDimension.JD
 
     @Override
     public void set(TipoQuestao a) {
-       txtAsk.setText(a.getDescricao());
-       if(a.isAtiva()){
-           rdNotUse.setSelected(true);
-       }else{
-           rdNotUse.setSelected(false);
-       }
+        obj = a = (a == null) ? new TipoQuestao() : a;
+
+        txtAsk.setText(a.getDescricao());
+        if (a.isAtiva()) {
+            rdNotUse.setSelected(true);
+        } else {
+            rdNotUse.setSelected(false);
+        }
+    }
+
+    public void get() {
+        int id = (obj != null) ? obj.getId() : -1;
+        obj = new TipoQuestao(id, txtAsk.getText(), rdInUse.isSelected());
     }
 
     @Override

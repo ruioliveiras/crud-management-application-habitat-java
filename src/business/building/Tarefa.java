@@ -140,4 +140,9 @@ public class Tarefa {
     {
         return new Tarefa(this);
     }
+
+    @Override
+    public String toString(){
+        return new String(this.idTar+"."+this.tipoTarefa+"."+this.idProj);
+    }
 }

@@ -105,7 +105,13 @@ public class Donativo {
         this.quantInicial = quantInicial;
     }
     
+    @Override
     public Donativo clone() {
         return new Donativo(this);
+    }
+    
+    @Override
+    public String toString(){
+        return this.idDon+"."+this.descricao+"."+this.quantInicial;
     }
 }

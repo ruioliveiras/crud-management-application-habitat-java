@@ -307,4 +307,8 @@ public class Doador {
     public Doador clone(){
         return new Doador(this);
     }
+    
+    public String toString(){
+        return new String(this.idIndiv+"."+this.nome+"."+this.profissao);
+    }
 }

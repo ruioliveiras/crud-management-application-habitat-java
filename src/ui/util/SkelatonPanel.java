@@ -9,15 +9,18 @@ import java.awt.event.MouseAdapter;
 import javax.swing.JPanel;
 import javax.swing.ListModel;
 import ui.AppState;
+import ui.util.UIDimension.JSkelaton;
 
 /**
  *
  * @author ruioliveiras
  */
-public class SkelatonPanel extends javax.swing.JPanel {
-
+public class SkelatonPanel extends javax.swing.JPanel implements JSkelaton{
+    
+    private UIDimension<?> dimension;
     private AppState appState;
     private AppState.ViewDimension view;
+    
     /**
      * Creates new form BuildingPanel
      */
@@ -38,15 +41,6 @@ public class SkelatonPanel extends javax.swing.JPanel {
     
     public void setDimension(UIDimension<?> a) {
         lData.setModel(a.listModel());        
-        //details
-        pDetails.removeAll();
-        pDetails.add(appState.selected(view).panelDetails());
-        pDetails.revalidate();
-    }
-
-    
-    public void setDimension(UIDimension<?> a, ListModel<?> lm) {
-        lData.setModel(lm);
         //details
         pDetails.removeAll();
         pDetails.add(appState.selected(view).panelDetails());
@@ -222,29 +216,29 @@ public class SkelatonPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailsActionPerformed
-        appState.selected(view).showDetails();
+        dimension.showDetails();
     }//GEN-LAST:event_btnDetailsActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        appState.selected(view).showEdit();
+       dimension.showEdit();
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        appState.selected(view).showDelete();     
+       dimension.showDelete();     
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        appState.selected(view).showCreate();
+        dimension.showCreate();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        appState.selected(view).listSearch(txtSearch.getText());      
+        dimension.listSearch(txtSearch.getText());      
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void lDataValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lDataValueChanged
         int value = lData.getSelectedIndex();
         if (value >= 0){
-            appState.selected(view).listSelect(value);
+            dimension.listSelect(value);
         }
     }//GEN-LAST:event_lDataValueChanged
 
@@ -279,12 +273,24 @@ public class SkelatonPanel extends javax.swing.JPanel {
         btnDelete.setEnabled(b);
     }
 
+    @Override
     public void addMouseClickListener(MouseAdapter mouseAdapter) {
         lData.addMouseListener(mouseAdapter);
     }
 
+    @Override
     public void removeMouseClickListener(MouseAdapter mouseAdapter) {
         lData.removeMouseListener(mouseAdapter);
+    }
+
+    @Override
+    public void load(UIDimension<?> a) {
+        dimension = a;
+        lData.setModel(a.listModel());        
+        //details
+        pDetails.removeAll();
+        pDetails.add(dimension.panelDetails());
+        pDetails.revalidate();
     }
 
 }

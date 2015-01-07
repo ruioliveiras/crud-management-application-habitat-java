@@ -5,9 +5,13 @@
  */
 package ui.admin;
 
+import business.admin.TipoActividade;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import business.admin.TipoTarefa;
+import java.sql.SQLException;
+import javax.swing.SwingUtilities;
+import ui.AppState;
 import ui.util.UIDimension;
 
 /**
@@ -15,21 +19,27 @@ import ui.util.UIDimension;
  * @author ruioliveiras
  */
 public class AdminTask extends javax.swing.JPanel implements UIDimension.JDetails<TipoTarefa> {
+
+    private AppState appState;
     private String title;
+    private TipoTarefa obj;
+
     /**
      * Creates new form AdminDetailsTask
      */
-    public AdminTask() {
+    public AdminTask(AppState appState) {
         initComponents();
         btCancelar.setVisible(false);
         btSave.setVisible(false);
         btnRemove.setVisible(false);
         btnSaveEdit.setVisible(false);
-         enableFields(false);
+        enableFields(false);
+        this.appState = appState;
     }
 
-    public AdminTask(UIDimension.EditonType ty) {
+    public AdminTask(AppState appState, UIDimension.EditonType ty) {
         initComponents();
+        this.appState = appState;
         switch (ty) {
             case EDIT:
                 title = "Editar";
@@ -57,11 +67,10 @@ public class AdminTask extends javax.swing.JPanel implements UIDimension.JDetail
             default:
         }
     }
-    
-    public void enableFields(boolean b){
+
+    public void enableFields(boolean b) {
         txtDescription.setEditable(b);
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -159,21 +168,43 @@ public class AdminTask extends javax.swing.JPanel implements UIDimension.JDetail
     }//GEN-LAST:event_txtDescriptionActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        // TODO add your handling code here:
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        // TODO add your handling code here:
+        try {
+            get();
+
+            appState.habitat().tipoTarefaInsert(obj);
+             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
     }//GEN-LAST:event_btSaveActionPerformed
 
     private void btnSaveEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEditActionPerformed
-        // TODO add your handling code here:
+        try {
+            get();
+
+            appState.habitat().tipoTarefaUpdate(obj);
+             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
     }//GEN-LAST:event_btnSaveEditActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
+        try {
+            appState.habitat().tipoTarefaRemove(obj);
+             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
     }//GEN-LAST:event_btnRemoveActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
@@ -186,7 +217,14 @@ public class AdminTask extends javax.swing.JPanel implements UIDimension.JDetail
 
     @Override
     public void set(TipoTarefa a) {
+        obj = a = (a == null) ? new TipoTarefa() : a;
+
         txtDescription.setText(a.getDescricao());
+    }
+
+    public void get() {
+        int id = (obj != null) ? obj.getId() : -1;
+        obj = new TipoTarefa(id, txtDescription.getText());
     }
 
     @Override

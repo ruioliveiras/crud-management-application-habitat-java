@@ -140,6 +140,14 @@ public class Projeto {
         this.prestacao = prestacao;
     }
    
+    public void addTarefa(Tarefa t) {
+        
+    }
+    
+    public void editTarefa(Tarefa t) {
+        
+    }
+    
     public List<Tarefa> getTarefas() throws SQLException{
         return projetoDAO.getTarefasAllByIdProg(id);
     }
@@ -156,5 +164,11 @@ public class Projeto {
     public Projeto clone()
     {
         return new Projeto(this);
+    }
+    
+
+    @Override
+    public String toString(){
+        return new String(this.id+"."+this.orcamento+"."+this.descricao);
     }
 }

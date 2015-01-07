@@ -5,34 +5,45 @@
  */
 package ui.admin;
 
+import business.admin.TipoActividade;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import business.admin.TipoDonativo;
+import java.sql.SQLException;
+import javax.swing.SwingUtilities;
+import ui.AppState;
 import ui.util.UIDimension;
 
 /**
  *
  * @author ruioliveiras
  */
-public class AdminDonationtype extends javax.swing.JPanel  implements UIDimension.JDetails<TipoDonativo>{
-    
+public class AdminDonationtype extends javax.swing.JPanel implements UIDimension.JDetails<TipoDonativo> {
+
+    private AppState appState;
     private String title;
-    
+    private TipoDonativo obj;
+
     /**
      * Creates new form AdminDetailsQuestion
      */
-    public AdminDonationtype() {
+    public AdminDonationtype(AppState appState) {
         initComponents();
+
+        this.appState = appState;
         btCancelar.setVisible(false);
         btSave.setVisible(false);
         btnRemove.setVisible(false);
         btnSaveEdit.setVisible(false);
-         enableFields(false);
+        enableFields(false);
     }
 
-    public AdminDonationtype(UIDimension.EditonType ty) {
+    public AdminDonationtype(AppState appState, UIDimension.EditonType ty) {
         initComponents();
+
+        this.appState = appState;
         switch (ty) {
+
             case EDIT:
                 title = "Editar";
                 btnRemove.setVisible(false);
@@ -60,11 +71,11 @@ public class AdminDonationtype extends javax.swing.JPanel  implements UIDimensio
         }
     }
 
-    public void enableFields(boolean b){
+    public void enableFields(boolean b) {
         txtName.setEditable(b);
-        txtUnit.setEditable(b); 
+        txtUnit.setEditable(b);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -173,21 +184,41 @@ public class AdminDonationtype extends javax.swing.JPanel  implements UIDimensio
     }//GEN-LAST:event_txtNameActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
+        try {
+            appState.habitat().tipoDonativoRemove(obj);
+             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnSaveEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEditActionPerformed
-        // TODO add your handling code here:
+        try {
+            get();
+            appState.habitat().tipoDonativoUpdate(obj);
+             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
     }//GEN-LAST:event_btnSaveEditActionPerformed
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btSaveActionPerformed
+        try {
+            get();
+
+            appState.habitat().tipoDonativoInsert(obj);
+             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }    }//GEN-LAST:event_btSaveActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        // TODO add your handling code here:
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
     }//GEN-LAST:event_btCancelarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
@@ -202,8 +233,15 @@ public class AdminDonationtype extends javax.swing.JPanel  implements UIDimensio
 
     @Override
     public void set(TipoDonativo a) {
+        obj = a = (a == null) ? new TipoDonativo() : a;
+
         txtName.setText(a.getDescricao());
         txtUnit.setText(a.getUnidade());
+    }
+
+    public void get() {
+        int id = (obj != null) ? obj.getId() : -1;
+        obj = new TipoDonativo(id, txtName.getText(), txtUnit.getText());
     }
 
     @Override

@@ -5,6 +5,7 @@
  */
 package ui.util;
 
+import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractListModel;
@@ -23,6 +24,7 @@ public class UIDimension<A>{
 
     public enum EditonType{EDIT,NEW,DELETE,DETAILS};
     
+    private JSkelaton mySkelaton;
     private JDetails<A> panelDetails;
     private JDetails<A> frameEdit;
     private JDetails<A> frameCreate;
@@ -41,7 +43,8 @@ public class UIDimension<A>{
      * @param frameDetails
      * @param frameDelete 
      */
-    public UIDimension(JDetails<A> panelDetails, JDetails<A> frameEdit, JDetails<A> frameCreate, JDetails<A> frameDetails, JDetails<A> frameDelete) {
+    public UIDimension(JSkelaton mySkelaton,JDetails<A> panelDetails, JDetails<A> frameEdit, JDetails<A> frameCreate, JDetails<A> frameDetails, JDetails<A> frameDelete) {
+        this.mySkelaton = mySkelaton;
         this.panelDetails = panelDetails;
         this.frameCreate = frameCreate;
         this.frameEdit = frameEdit;
@@ -58,10 +61,10 @@ public class UIDimension<A>{
      * @param frameDelete
      * @param init
      */
-    public UIDimension(JDetails<A> panelDetails, JDetails<A> frameEdit, JDetails<A> frameCreate,
+    public UIDimension(JSkelaton mySkelaton,JDetails<A> panelDetails, JDetails<A> frameEdit, JDetails<A> frameCreate,
                 JDetails<A> frameDetails, JDetails<A> frameDelete, List<A> init) {
-        this(panelDetails, frameEdit, frameCreate, frameDetails, frameDelete);
-        listRefresh(init.size(), init);
+        this(mySkelaton,panelDetails, frameEdit, frameCreate, frameDetails, frameDelete);
+        listRefresh(init);
     }
 
     public UIDimension() {
@@ -82,6 +85,7 @@ public class UIDimension<A>{
 
     
     public JFrame showCreate() {
+        frameCreate.set(null);
         JFrame jf =frameCreate.getFrame();
         jf.setVisible(true);
         return jf;
@@ -136,8 +140,9 @@ public class UIDimension<A>{
         list.search(s);
     }
 
-    public final void listRefresh(int size, List<A> values){
+    public final void listRefresh(List<A> values){
         this.list = new PrivateListModel(values);
+        this.mySkelaton.load(this);
     }
     
     public void listSelect(int index){
@@ -149,11 +154,24 @@ public class UIDimension<A>{
         return selected;
     }
 
+    public void listAddMouseClickListener(MouseAdapter mouseAdapter){
+        mySkelaton.addMouseClickListener(mouseAdapter);
+    }
     
+    public void listRmMouseClickListener(MouseAdapter mouseAdapter){
+        mySkelaton.removeMouseClickListener(mouseAdapter);
+    }
+
     public interface JDetails<A>{
         public void set(A a);
         public JPanel getPanel();
         public JFrame getFrame();
+    }
+    
+    public interface JSkelaton{
+        public void load(UIDimension<?> a);
+        public void addMouseClickListener(MouseAdapter mouseAdapter);
+        public void removeMouseClickListener(MouseAdapter mouseAdapter);
     }
     
     public static class PrivateListModel<A> extends AbstractListModel<A> implements ComboBoxModel<A>{
