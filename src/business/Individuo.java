@@ -16,6 +16,7 @@ public abstract class Individuo {
     private GregorianCalendar dataNascimento;
 
     public Individuo() {
+        dataNascimento = new GregorianCalendar();
     }
 
     public Individuo(int id,String nome, int nif, String morada, String telefone, String telemovel, 

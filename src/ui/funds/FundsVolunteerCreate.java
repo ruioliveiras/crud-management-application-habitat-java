@@ -19,21 +19,22 @@ import ui.util.UIDimension;
  * @author ruioliveiras
  */
 public class FundsVolunteerCreate extends javax.swing.JFrame implements UIDimension.JDetails<Voluntario> {
-    
+    private AppState appState;
     private String title;
     /**
      * Creates new form AdminDetailsEmployee
      */
-    public FundsVolunteerCreate() {
+    public FundsVolunteerCreate(AppState appState) {
         initComponents();
         btCancelar.setVisible(false);
         btSave.setVisible(false);
         btnRemove.setVisible(false);
         btnSaveEdit.setVisible(false);
         enableFields(false);
+        this.appState = appState;
     }
 
-    public FundsVolunteerCreate(UIDimension.EditonType ty) {
+    public FundsVolunteerCreate(AppState appState, UIDimension.EditonType ty) {
         initComponents();
         switch (ty) {
             case EDIT:
@@ -61,6 +62,7 @@ public class FundsVolunteerCreate extends javax.swing.JFrame implements UIDimens
                 break;
             default:
         }
+        this.appState = appState;
     }
     public void enableFields(boolean b){
         txtNomeParceiro.setEditable(b);
@@ -386,7 +388,7 @@ public class FundsVolunteerCreate extends javax.swing.JFrame implements UIDimens
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtCodPostal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtLocalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -443,13 +445,13 @@ public class FundsVolunteerCreate extends javax.swing.JFrame implements UIDimens
                     .addComponent(jLabel19)
                     .addComponent(txtComoConheceu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel20)
-                    .addComponent(checkReceberInfo))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(checkReceberInfo)
+                    .addComponent(jLabel20))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel21)
-                    .addComponent(checkIsParceiro))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(checkIsParceiro)
+                    .addComponent(jLabel21))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCancelar)

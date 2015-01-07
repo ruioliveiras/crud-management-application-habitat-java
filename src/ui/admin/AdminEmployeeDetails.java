@@ -17,6 +17,7 @@ import ui.util.UIDimension;
  * @author ruioliveiras
  */
 public class AdminEmployeeDetails extends javax.swing.JPanel implements UIDimension.JDetails<Funcionario> {
+
     /**
      * Creates new form AdminEmployeeDetails
      */
@@ -26,14 +27,14 @@ public class AdminEmployeeDetails extends javax.swing.JPanel implements UIDimens
         enableFields(false);
     }
 
-    public void enableFields(boolean b){
+    public void enableFields(boolean b) {
         txtNome.setEditable(b);
         txtUsername.setEditable(b);
         txtTelefone.setEditable(b);
         txtTelemovel.setEditable(b);
         txtTipo.setEnabled(b);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -124,7 +125,6 @@ public class AdminEmployeeDetails extends javax.swing.JPanel implements UIDimens
     private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsernameActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel11;

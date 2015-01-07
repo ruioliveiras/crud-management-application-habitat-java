@@ -85,6 +85,7 @@ public class UIDimension<A>{
 
     
     public JFrame showCreate() {
+        frameCreate.set(null);
         JFrame jf =frameCreate.getFrame();
         jf.setVisible(true);
         return jf;

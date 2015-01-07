@@ -26,9 +26,9 @@ public class ExceptionHandler extends javax.swing.JFrame {
      * @param ex
      */
     public ExceptionHandler(String frindly, SQLException ex) {
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         initComponents();
-        StringBuilder sb = new StringBuilder();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+StringBuilder sb = new StringBuilder();
         ex.printStackTrace(System.err);
         do{
             sb.append("Message: \n");

@@ -140,6 +140,14 @@ public class Projeto {
         this.prestacao = prestacao;
     }
    
+    public void addTarefa(Tarefa t) {
+        
+    }
+    
+    public void editTarefa(Tarefa t) {
+        
+    }
+    
     public List<Tarefa> getTarefas() throws SQLException{
         return projetoDAO.getTarefasAllByIdProg(id);
     }
