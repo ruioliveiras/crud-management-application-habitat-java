@@ -11,8 +11,11 @@ import business.admin.Questao;
 import business.admin.TipoDonativo;
 import business.admin.TipoTarefa;
 import business.building.Projeto;
+import business.familiy.Candidatura;
+import business.familiy.Familia;
 import java.sql.SQLException;
 import java.util.List;
+import persistence.FamiliaDAO;
 import persistence.ProjetoDAO;
 import persistence.admin.ActividadeDAO;
 import persistence.admin.FuncionarioDAO;
@@ -33,6 +36,7 @@ public class HabitatFacade {
     private final FuncionarioDAO funcionarioDAO = new FuncionarioDAO(); 
     private final QuestaoDAO questaoDAO = new QuestaoDAO(); 
     private final ProjetoDAO projetoDAO = new ProjetoDAO();
+    private final FamiliaDAO familiaDao = new FamiliaDAO();
 
     public List<TipoTarefa> tipoTarefaGetAll() throws SQLException {return tipoTarefaDAO.getAll();}
     public TipoTarefa tipoTarefaGetById(int id) throws SQLException {return tipoTarefaDAO.getById(id);}
@@ -64,6 +68,8 @@ public class HabitatFacade {
     public void projetoInsert(Projeto obj) throws SQLException {projetoDAO.insert(obj);}
     public void projetoRemove(Projeto obj) throws SQLException {projetoDAO.remove(obj);}
     public void projetoUpdate(Projeto obj) throws SQLException {projetoDAO.update(obj);}
+    public List<Familia> familiaGetAll() throws SQLException { return familiaDao.getFamilias(); }
+    public List<Candidatura> candidaturaGetAll() throws SQLException { return familiaDao.getCandidaturas(); }
 
     public boolean login(String username, String password) throws SQLException {
         this.funcionario = funcionarioDAO.getByUsername(username);
@@ -75,5 +81,12 @@ public class HabitatFacade {
         }
     }
 
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
+    }    
 
 }

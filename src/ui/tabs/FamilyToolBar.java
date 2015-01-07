@@ -5,6 +5,9 @@
  */
 package ui.tabs;
 
+import business.familiy.Familia;
+import java.sql.SQLException;
+import java.util.List;
 import ui.AppState;
 
 /**
@@ -26,7 +29,13 @@ public class FamilyToolBar extends javax.swing.JPanel {
         initComponents();
         this.appState = appState;
     }
-
+    
+    public void btnCandidaturasAction() throws SQLException {
+        this.btnShowFamilys.setSelected(true);
+        List<Familia> l = appState.habitat().familiaGetAll();
+        appState.FamilySelect(Familia.class, l);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,32 +45,43 @@ public class FamilyToolBar extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnPaymentPlan1 = new javax.swing.JButton();
+        btnAcompanhamento = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         btnShowFamilys1 = new javax.swing.JButton();
         btnPaymentPlan = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnShowFamilys = new javax.swing.JButton();
+        btnAprovarCand = new javax.swing.JButton();
 
-        btnPaymentPlan1.setText("Acompanhamento");
+        btnAcompanhamento.setText("Acompanhamento Familiar");
 
         jLabel2.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
         jLabel2.setText("Ações");
 
-        btnShowFamilys1.setIcon(new javax.swing.ImageIcon("/home/ruioliveiras/Documents/dss/HabitatApplication/assets/final/familia32.png")); // NOI18N
         btnShowFamilys1.setText("Candidaturas");
         btnShowFamilys1.setHideActionText(true);
         btnShowFamilys1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnShowFamilys1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowFamilys1ActionPerformed(evt);
+            }
+        });
 
-        btnPaymentPlan.setText("Alterar Plano-Pagamento");
+        btnPaymentPlan.setText("Alterar Prestação");
 
         jLabel1.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
         jLabel1.setText("Vistas");
 
-        btnShowFamilys.setIcon(new javax.swing.ImageIcon("/home/ruioliveiras/Documents/dss/HabitatApplication/assets/final/familia32.png")); // NOI18N
         btnShowFamilys.setText("Familias");
         btnShowFamilys.setHideActionText(true);
         btnShowFamilys.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnShowFamilys.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowFamilysActionPerformed(evt);
+            }
+        });
+
+        btnAprovarCand.setText("Aprovar Candidatura");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -69,13 +89,14 @@ public class FamilyToolBar extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(btnShowFamilys, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(btnShowFamilys1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPaymentPlan)
-                    .addComponent(btnPaymentPlan1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnAprovarCand, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnShowFamilys, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnShowFamilys1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                    .addComponent(btnPaymentPlan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAcompanhamento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -90,17 +111,33 @@ public class FamilyToolBar extends javax.swing.JPanel {
                 .addGap(43, 43, 43)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnPaymentPlan, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                .addComponent(btnPaymentPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnPaymentPlan1, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                .addGap(33, 33, 33))
+                .addComponent(btnAcompanhamento, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnAprovarCand, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnShowFamilysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowFamilysActionPerformed
+        btnAprovarCand.setVisible(false);
+        this.btnShowFamilys.setSelected(true);
+        try{
+            List<Familia> l = appState.habitat().familiaGetAll();        
+            appState.FamilySelect(Familia.class, l);
+        }catch(SQLException e){ (new ui.util.ExceptionHandler("Erro enquanto carregava Questoes", e)).fire(); }
+    }//GEN-LAST:event_btnShowFamilysActionPerformed
+
+    private void btnShowFamilys1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowFamilys1ActionPerformed
+        btnAprovarCand.setVisible(true);
+    }//GEN-LAST:event_btnShowFamilys1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAcompanhamento;
+    private javax.swing.JButton btnAprovarCand;
     private javax.swing.JButton btnPaymentPlan;
-    private javax.swing.JButton btnPaymentPlan1;
     private javax.swing.JButton btnShowFamilys;
     private javax.swing.JButton btnShowFamilys1;
     private javax.swing.JLabel jLabel1;

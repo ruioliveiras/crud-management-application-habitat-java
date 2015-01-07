@@ -9,10 +9,12 @@ public class ElementoFamilia
     private String parentesco;
     private String escolaridade;
     private String estadoCivil;
+    private int id;
     private GregorianCalendar dataNascimento;
 
-    public ElementoFamilia(String nome, String ocupacao, String parentesco, 
+    public ElementoFamilia(int id, String nome, String ocupacao, String parentesco, 
             String escolaridade, String estadoCivil, GregorianCalendar dataNascimento) {
+        this.id = id;
         this.nome = nome;
         this.ocupacao = ocupacao;
         this.parentesco = parentesco;
@@ -23,6 +25,7 @@ public class ElementoFamilia
     
     public ElementoFamilia(ElementoFamilia e) 
     {
+        this.id = e.getId();
         this.nome = e.getNome();
         this.ocupacao = e.getOcupacao();
         this.parentesco = e.getParentesco();
@@ -31,7 +34,14 @@ public class ElementoFamilia
         this.dataNascimento = e.getDataNascimento();
     }
     
-    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }   
 
     public String getNome() {
         return nome;
@@ -84,6 +94,11 @@ public class ElementoFamilia
     public ElementoFamilia clone()
     {
         return new ElementoFamilia(this);
+    }
+    
+    public String toString()
+    {
+        return id + " - " + nome;
     }
         
 }

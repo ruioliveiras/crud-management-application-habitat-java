@@ -1,5 +1,6 @@
 package business.familiy;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -65,8 +66,8 @@ public class Familia {
         this.dataCriaFam = f.getDataCriaFam();
         this.apelido = f.getApelido();
         this.candidatura = f.getCandidatura();
-        this.acomp = f.getAcomp();
         this.elementosFamilia = f.getElementosFamilia();
+        this.acomp = f.getAcomp();
         this.prestacao = f.getPrestacao();
     }
 
@@ -154,7 +155,7 @@ public class Familia {
     { this.elementosFamilia.add(e.clone()); }
     
     public ArrayList<ElementoFamilia> getElementosFamilia() 
-    {
+    {        
         ArrayList<ElementoFamilia> ret = new ArrayList<ElementoFamilia>();
         
         for(ElementoFamilia e : this.elementosFamilia)
@@ -165,7 +166,7 @@ public class Familia {
 
     public void setElementosFamilia(ArrayList<ElementoFamilia> elem) 
     {
-        this.elementosFamilia.clear();
+        this.elementosFamilia = new ArrayList<ElementoFamilia>();
         for(ElementoFamilia e : elem)
             this.elementosFamilia.add(e);
     }
@@ -193,7 +194,7 @@ public class Familia {
 
     public void setAcomp(HashMap<GregorianCalendar, Acompanhamento> comp) 
     {
-        this.acomp.clear();
+        this.acomp = new HashMap<GregorianCalendar, Acompanhamento>();
         for(Map.Entry<GregorianCalendar, Acompanhamento> e : comp.entrySet())
             this.acomp.put(e.getKey(), e.getValue()); 
     }

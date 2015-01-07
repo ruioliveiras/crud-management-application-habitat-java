@@ -6,8 +6,6 @@
 package ui;
 
 import business.HabitatFacade;
-import javax.swing.JList;
-import javax.swing.JPanel;
 import business.admin.Actividade;
 import business.admin.Funcionario;
 import business.admin.Questao;
@@ -26,6 +24,8 @@ import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.ListModel;
 import ui.MainFrame;
 import ui.admin.AdminActivity;
@@ -38,6 +38,9 @@ import ui.building.BuildingProjectCreateEdit;
 import ui.building.BuildingProjectDetails;
 import ui.building.BuildingProjectGeralVision;
 import ui.building.BuildingTask;
+import ui.familiy.FamilyCreate;
+import ui.familiy.FamilyDetails;
+import ui.familiy.FamilyDetalhes;
 import ui.tabs.AdminToolBar;
 import ui.tabs.BuilddingToolBar;
 import ui.tabs.FamilyToolBar;
@@ -92,8 +95,8 @@ public class AppState {
     private final UIDimension<Tarefa> buildTaks;
     private final UIDimension<Donativo> buildDonations = new UIDimension<>();
     private final UIDimension<Voluntariado> buildVolunteers = new UIDimension<>();
-    private final UIDimension<Object> familyFamily = new UIDimension<>();
-    private final UIDimension<Object> familyCand = new UIDimension<>();
+    private final UIDimension<Familia> familyFamily;
+    private final UIDimension<Candidatura> familyCand = new UIDimension<>();
     private final UIDimension<Object> fundsVolunters = new UIDimension<>();
     private final UIDimension<Object> fundsEvents = new UIDimension<>();
     private final UIDimension<Object> fundsDonors = new UIDimension<>();
@@ -157,6 +160,13 @@ public class AppState {
                 new BuildingProjectCreateEdit(UIDimension.EditonType.NEW),
                 new BuildingProjectGeralVision(), new BuildingProjectCreateEdit(UIDimension.EditonType.DELETE)
         );
+        this.familyFamily = new UIDimension<>(
+                new FamilyDetails(),
+                new FamilyCreate(UIDimension.EditonType.EDIT, this),
+                new FamilyCreate(UIDimension.EditonType.NEW, this),
+                new FamilyDetalhes(),
+                new FamilyCreate(this)
+        );
         
         login = new LoginFrame(this);
         
@@ -172,6 +182,7 @@ public class AppState {
 
         adminToolBar.btnTarefasAction();
         builddingToolBar.btnSelectProjectAction();
+        familyToolBar.btnCandidaturasAction();
         
         this.main = new MainFrame(admin, funds, family, building);
     }
@@ -262,6 +273,13 @@ public class AppState {
         }
     }
 
+     public <A> void FamilySelect(Class<A> cl, List<A> lm) {
+        UIDimension<A> dim = get(cl);
+        dim.listRefresh(lm.size(), lm);
+        familySelected = dim;
+        family.setDimension(familySelected);
+    }
+    
     public <A> void adminSelect(Class<A> cl, List<A> lm) {
         UIDimension<A> dim = get(cl);
         dim.listRefresh(lm.size(), lm);

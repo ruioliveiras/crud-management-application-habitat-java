@@ -39,7 +39,8 @@ public class UIDimension<A>{
      * @param frameDetails
      * @param frameDelete 
      */
-    public UIDimension(JDetails<A> panelDetails, JDetails<A> frameEdit, JDetails<A> frameCreate, JDetails<A> frameDetails, JDetails<A> frameDelete) {
+    public UIDimension(JDetails<A> panelDetails, JDetails<A> frameEdit, 
+            JDetails<A> frameCreate, JDetails<A> frameDetails, JDetails<A> frameDelete) {
         this.panelDetails = panelDetails;
         this.frameCreate = frameCreate;
         this.frameEdit = frameEdit;
