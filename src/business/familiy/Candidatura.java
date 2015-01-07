@@ -9,13 +9,14 @@ import java.util.Map;
 public class Candidatura 
 {
     private GregorianCalendar dataCand;
-    private int rendimento, id;
+    private double rendimento;
+    private int id;
     private String estado;
     private Familia familia;
     private Projeto projeto;
     private HashMap<Integer, Questao> questoes;
 
-    public Candidatura(GregorianCalendar dataCand, int rendimento, int id, 
+    public Candidatura(GregorianCalendar dataCand, double rendimento, int id, 
             String estado, Familia familia, Projeto projeto, HashMap<Integer, Questao> questoes) {
         this.dataCand = dataCand;
         this.rendimento = rendimento;
@@ -28,15 +29,13 @@ public class Candidatura
             this.questoes.put(e.getKey(), e.getValue());
     }
     
-    public Candidatura(GregorianCalendar dataCand, int rendimento, int id, 
-            String estado, HashMap<Integer, Questao> questoes) {
+    public Candidatura(GregorianCalendar dataCand, double rendimento, int id, 
+            String estado) {
         this.dataCand = dataCand;
         this.rendimento = rendimento;
         this.id = id;
         this.estado = estado;
         this.questoes = new HashMap<Integer, Questao>();
-        for(Map.Entry<Integer, Questao> e : questoes.entrySet())
-            this.questoes.put(e.getKey(), e.getValue());
     }
     
     public Candidatura(Candidatura c) 
@@ -45,8 +44,6 @@ public class Candidatura
         this.rendimento = c.getRendimento();
         this.id = c.getId();
         this.estado = c.getEstado();
-        this.familia = c.getFamilia();
-        this.projeto = c.getProjeto();
         this.questoes = c.getQuestoes();
     }
     
@@ -59,11 +56,11 @@ public class Candidatura
         this.dataCand = dataCand;
     }
 
-    public int getRendimento() {
-        return rendimento;
+    public double getRendimento() {
+        return this.rendimento;
     }
 
-    public void setRendimento(int rendimento) {
+    public void setRendimento(double rendimento) {
         this.rendimento = rendimento;
     }
 
@@ -113,7 +110,7 @@ public class Candidatura
 
     public void setQuestoes(HashMap<Integer, Questao> questoes) 
     {   
-        this.questoes.clear();
+        this.questoes = new HashMap<Integer, Questao>();
         for(Map.Entry<Integer, Questao> e : this.questoes.entrySet())
             this.questoes.put(e.getKey(), e.getValue());
     }

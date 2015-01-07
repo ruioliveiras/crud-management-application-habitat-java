@@ -11,6 +11,8 @@ import business.admin.TipoQuestao;
 import business.admin.TipoDonativo;
 import business.admin.TipoTarefa;
 import business.building.Projeto;
+import business.familiy.Candidatura;
+import business.familiy.Familia;
 import business.funds.Doador;
 import business.funds.Donativo;
 import business.funds.Equipa;
@@ -18,6 +20,7 @@ import business.funds.Evento;
 import business.funds.Voluntario;
 import java.sql.SQLException;
 import java.util.List;
+import persistence.FamiliaDAO;
 import persistence.ProjetoDAO;
 import persistence.admin.ActividadeDAO;
 import persistence.admin.FuncionarioDAO;
@@ -43,6 +46,7 @@ public class Habitat {
     private final FuncionarioDAO funcionarioDAO = new FuncionarioDAO(); 
     private final QuestaoDAO questaoDAO = new QuestaoDAO(); 
     private final ProjetoDAO projetoDAO = new ProjetoDAO();
+      private final FamiliaDAO familiaDao = new FamiliaDAO();
     private final VoluntarioDAO voluntarioDAO = new VoluntarioDAO();
     private final EquipaDAO equipaDAO = new EquipaDAO();
     private final EventoDAO eventoDAO = new EventoDAO();
@@ -79,6 +83,8 @@ public class Habitat {
     public void projetoInsert(Projeto obj) throws SQLException {projetoDAO.insert(obj);}
     public void projetoRemove(Projeto obj) throws SQLException {projetoDAO.remove(obj);}
     public void projetoUpdate(Projeto obj) throws SQLException {projetoDAO.update(obj);}
+     public List<Familia> familiaGetAll() throws SQLException { return familiaDao.getFamilias(); }
+    public List<Candidatura> candidaturaGetAll() throws SQLException { return familiaDao.getCandidaturas(); }
     public List<Voluntario> voluntarioGetAll() throws SQLException {return voluntarioDAO.getAll();}
     public Voluntario voluntarioGetById(int id) throws SQLException {return voluntarioDAO.getById(id);}
     public void voluntarioInsert(Voluntario obj) throws SQLException {voluntarioDAO.insert(obj);}
@@ -115,6 +121,14 @@ public class Habitat {
             return false;
         }
     }
+    
+        public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
+    }   
 
 
 }

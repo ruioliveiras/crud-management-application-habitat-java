@@ -38,6 +38,9 @@ import ui.building.BuildingProjectCreateEdit;
 import ui.building.BuildingProjectPanel;
 import ui.building.BuildingProjectGeralVision;
 import ui.building.BuildingTask;
+import ui.familiy.FamilyCreate;
+import ui.familiy.FamilyDetails;
+import ui.familiy.FamilyDetalhes;
 import ui.building.BuildingVolunteerReal;
 import ui.funds.FundsDonateCreateMaterial;
 import ui.funds.FundsDonatorCreate;
@@ -98,14 +101,14 @@ public class AppState {
     private final UIDimension<Tarefa> buildTaks;
     private final UIDimension<DonativoRealizado> buildDonationsReal;
     private final UIDimension<VoluntariadoRealizado> buildVolunteersReal;
-    private final UIDimension<Object> familyFamily = new UIDimension<>();
+    private final UIDimension<Familia> familyFamily;
     private final UIDimension<Object> familyCand = new UIDimension<>();
     private final UIDimension<Voluntario> fundsVolunters;
     private final UIDimension<Equipa> fundsEquipa; 
     private final UIDimension<Evento> fundsEvents;
     private final UIDimension<Doador> fundsDonors;
     private final UIDimension<Donativo> fundsDonations;
-
+    
     private UIDimension<?> adminSelected;
     private UIDimension<?> buildSelected;
     private UIDimension<?> familySelected;
@@ -209,6 +212,14 @@ public class AppState {
                 new BuildingProjectGeralVision(), 
                 new BuildingProjectCreateEdit(UIDimension.EditonType.DELETE)
         );
+        this.familyFamily = new UIDimension<>(
+                this.family,
+                new FamilyDetails(),
+                new FamilyCreate(UIDimension.EditonType.EDIT, this),
+                new FamilyCreate(UIDimension.EditonType.NEW, this),
+                new FamilyDetalhes(),
+                new FamilyCreate(this)
+        );
         this.buildVolunteersReal = new UIDimension<>(
                 this.building,
                 new BuildingVolunteerReal(this),
@@ -217,8 +228,6 @@ public class AppState {
                 new BuildingVolunteerReal(this,UIDimension.EditonType.DETAILS), 
                 new BuildingVolunteerReal(this,UIDimension.EditonType.DELETE)
         );
-
-        
         this.buildDonationsReal = new UIDimension<>(
                 this.building,
                 new BuildingDonationReal(this),
@@ -273,6 +282,7 @@ public class AppState {
 
         adminToolBar.btnTarefasAction();
         builddingToolBar.btnSelectProjectAction();
+        familyToolBar.btnCandidaturasAction();
         
         this.main = new MainFrame(admin, funds, family, building);
     }
@@ -348,7 +358,13 @@ public class AppState {
             return null;
         }
     }
-
+     public <A> void FamilySelect(Class<A> cl, List<A> lm) {
+        UIDimension<A> dim = get(cl);
+        dim.listRefresh(lm);
+        familySelected = dim;
+        family.setDimension(familySelected);
+    }
+    
     public <A> void adminSelect(Class<A> cl, List<A> lm) {
         UIDimension<A> dim = get(cl);
         dim.listRefresh(lm);
@@ -360,14 +376,7 @@ public class AppState {
         UIDimension<A> dim = get(cl);
         dim.listRefresh( lm);
         buildSelected = dim;
-//        building.setDimension(buildSelected);
-    }
-
-    public <A> void FamilySelect(Class<A> cl, List<A> lm) {
-        UIDimension<A> dim = get(cl);
-        dim.listRefresh(lm);
-        familySelected = dim;
-//        family.setDimension(familySelected);
+        building.setDimension(buildSelected);
     }
     
     public <A> void FundsSelect(Class<A> cl, List<A> lm) {
