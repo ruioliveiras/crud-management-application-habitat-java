@@ -118,13 +118,13 @@ public class Candidatura
     {
         if (this.questoes == null){ return null;}
         
-        HashMap<Integer, Questao> q = new HashMap<Integer, Questao>();
+        HashMap<Integer, Questao> ret = new HashMap<Integer, Questao>();
         for(Map.Entry<Integer, Questao> entry : this.questoes.entrySet()) 
         {
-            q.put(entry.getKey(), entry.getValue());
+            ret.put(entry.getKey(), entry.getValue());
         }
         
-        return q;
+        return ret;
     }
     public ArrayList<Questao> getQuestoesList() 
     {

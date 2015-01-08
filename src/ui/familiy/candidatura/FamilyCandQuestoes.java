@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ui.familiy.candidatura;
 
 import business.familiy.Candidatura;
@@ -27,16 +26,20 @@ import javax.swing.border.EmptyBorder;
  * @author Jose
  */
 public class FamilyCandQuestoes extends javax.swing.JFrame {
+
+    private boolean editMode;
     private Candidatura candidatura;
     private HashMap<Integer, JTextField> respostas;
+
     /**
      * Creates new form FamilyResponderQuestoes
      */
-    public FamilyCandQuestoes() {
+    public FamilyCandQuestoes(boolean isEditable) {
         initComponents();
-                setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        editMode = isEditable;
+        jButton1.setVisible(isEditable);
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -120,17 +123,17 @@ public class FamilyCandQuestoes extends javax.swing.JFrame {
         for (Map.Entry<Integer, JTextField> entrySet : respostas.entrySet()) {
             Integer key = entrySet.getKey();
             JTextField textField = entrySet.getValue();
-            
+
             candidatura.putResposta(key, textField.getText());
         }
+        this.setVisible(false);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
-    public void setCandidatura(Candidatura f){
-        jButton1.setVisible(false);
+    public void setCandidatura(Candidatura f) {
         this.candidatura = f;
         Map<Integer, Questao> questoes = candidatura.getQuestoes();
-        if (questoes == null){
+        if (questoes == null) {
             try {
                 candidatura.setQuestoesDefault();
             } catch (SQLException ex) {
@@ -139,31 +142,33 @@ public class FamilyCandQuestoes extends javax.swing.JFrame {
             questoes = candidatura.getQuestoes();
         }
         respostas = new HashMap<>(questoes.size());
+        jPanel1.removeAll();
         for (Map.Entry<Integer, Questao> entrySet : questoes.entrySet()) {
             Integer id = entrySet.getKey();
             Questao q = entrySet.getValue();
-                           
-            JPanel panelLabel = new JPanel();  
+
+            JPanel panelLabel = new JPanel();
             JPanel panelTextBox = new JPanel();
             JLabel pergunta = new JLabel();
             JTextField resposta = new JTextField();
             respostas.put(id, resposta);
-            
-            panelLabel.setMaximumSize(new Dimension(2000,14));
+
+            panelLabel.setMaximumSize(new Dimension(2000, 14));
             panelLabel.setLayout(new BorderLayout());
-            panelTextBox.setMaximumSize(new Dimension(2000,29));
+            panelTextBox.setMaximumSize(new Dimension(2000, 40));
             panelTextBox.setLayout(new BorderLayout());
-            panelTextBox.setBorder(new EmptyBorder(3, 0, 12, 0)); 
-            
+            panelTextBox.setBorder(new EmptyBorder(3, 0, 12, 0));
+
             pergunta.setText(q.getPergunta());
             panelLabel.add(pergunta);
-            resposta.setMaximumSize(new Dimension(2000,14));
+            resposta.setMaximumSize(new Dimension(2000, 14));
             resposta.setText(q.getResposta());
-            resposta.setEditable(false);
+            resposta.setEditable(editMode);
             panelTextBox.add(resposta);
             jPanel1.add(panelLabel);
             jPanel1.add(panelTextBox);
         }
+        jPanel1.repaint();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

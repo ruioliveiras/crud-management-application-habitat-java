@@ -66,21 +66,42 @@ public class FamiliaDAO extends GenericDAO<Familia> {
 
     @Override
     public int insert(Familia obj) throws SQLException {
-        int ret = super.insert(obj); 
+        int ret = super.insert(obj);
+        for (ElementoFamilia e : obj.getElementosFamilia()) {
+            elementosFamiliaDAO.insert(e);
+        }
         candidaturaDAO.insert(obj.getCandidaturaLast());
         return ret;
     }
 
     @Override
     public void update(Familia obj) throws SQLException {
-        super.update(obj); //To change body of generated methods, choose Tools | Templates.
-        candidaturaDAO.update(obj.getCandidaturaLast());
+        update(obj,obj.getCandidaturaLast());
     }
     public void update(Familia obj, Candidatura c) throws SQLException {
         super.update(obj); //To change body of generated methods, choose Tools | Templates.
+        for (ElementoFamilia e : obj.getElementosFamilia()) {
+            elementosFamiliaDAO.update(e);
+        }
+        for (ElementoFamilia e : obj.getElementosFamiliaRemovedReset()) {
+            elementosFamiliaDAO.remove(e);
+        }
         candidaturaDAO.update(c);
     }
-    
+
+    @Override
+    public void remove(Familia obj) throws SQLException {
+        remove(obj,obj.getCandidaturaLast());
+    }
+ 
+    public void remove(Familia obj, Candidatura c) throws SQLException {
+        for (ElementoFamilia e : obj.getElementosFamilia()) {
+            elementosFamiliaDAO.remove(e);
+        }
+        candidaturaDAO.remove(c);
+        super.remove(obj);
+    }
+
     @Override
     public Familia newObject(ResultSet rs) throws SQLException {
         return new Familia(
