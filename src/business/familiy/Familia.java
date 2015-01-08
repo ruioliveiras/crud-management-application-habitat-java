@@ -18,12 +18,8 @@ public class Familia {
     private String apelido;
     private ArrayList<ElementoFamilia> elementosFamilia;
     private Candidatura candidatura;
-    private HashMap<GregorianCalendar, Acompanhamento> acomp;
-    private Prestacao prestacao;
 
     public Familia() {
-       acomp = new HashMap<>();
-        prestacao = new Prestacao();
         elementosFamilia = new ArrayList<>();
         dataNascimento = new GregorianCalendar();
         dataCriaFam = new GregorianCalendar();
@@ -45,15 +41,10 @@ public class Familia {
         this.dataCriaFam = dataCriaFam;
         this.apelido = apelido;
         this.candidatura = candidatura;
-        this.acomp = new HashMap<GregorianCalendar, Acompanhamento>();
-        for (Map.Entry<GregorianCalendar, Acompanhamento> e : acomp.entrySet()) {
-            this.acomp.put(e.getKey(), e.getValue());
-        }
         this.elementosFamilia = new ArrayList<ElementoFamilia>();
         for (ElementoFamilia e : elem) {
             this.elementosFamilia.add(e);
         }
-        this.prestacao = p.clone();
     }
 
     public Familia(String nomeRepresentante, String contactoRepresentate,
@@ -82,17 +73,8 @@ public class Familia {
         this.apelido = f.getApelido();
         this.candidatura = f.getCandidaturaLast();
         this.elementosFamilia = f.getElementosFamilia();
-        this.acomp = f.getAcomp();
-        this.prestacao = f.getPrestacao();
     }
 
-    public Prestacao getPrestacao() {
-        return prestacao.clone();
-    }
-
-    public void setPrestacao(Prestacao prestacao) {
-        this.prestacao = prestacao.clone();
-    }
 
     public int getId() {
         return id;
@@ -202,27 +184,6 @@ public class Familia {
 
     public void setCandidatura(Candidatura candidatura) {
         this.candidatura = candidatura;
-    }
-
-    public void addAcomp(Acompanhamento a) {
-        this.acomp.put(a.getData(), a.clone());
-    }
-
-    public HashMap<GregorianCalendar, Acompanhamento> getAcomp() {
-        HashMap<GregorianCalendar, Acompanhamento> ret = new HashMap<GregorianCalendar, Acompanhamento>();
-
-        for (Map.Entry<GregorianCalendar, Acompanhamento> e : this.acomp.entrySet()) {
-            ret.put(e.getKey(), e.getValue());
-        }
-
-        return ret;
-    }
-
-    public void setAcomp(HashMap<GregorianCalendar, Acompanhamento> comp) {
-        this.acomp = new HashMap<GregorianCalendar, Acompanhamento>();
-        for (Map.Entry<GregorianCalendar, Acompanhamento> e : comp.entrySet()) {
-            this.acomp.put(e.getKey(), e.getValue());
-        }
     }
 
     public Familia clone() {

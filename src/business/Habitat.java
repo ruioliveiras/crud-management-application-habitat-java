@@ -13,6 +13,7 @@ import business.admin.TipoTarefa;
 import business.building.Projeto;
 import business.familiy.Candidatura;
 import business.familiy.Familia;
+import business.familiy.Prestacao;
 import business.funds.Doador;
 import business.funds.Donativo;
 import business.funds.Equipa;
@@ -38,7 +39,7 @@ import persistence.fundos.VoluntarioDAO;
  * @author ruioliveiras
  */
 public class Habitat {
-    private Funcionario funcionario;
+    private Funcionario funcionario = null;
     
     private final TipoTarefaDAO tipoTarefaDAO = new TipoTarefaDAO(); 
     private final ActividadeDAO actividadeDAO = new ActividadeDAO(); 
@@ -94,6 +95,10 @@ public class Habitat {
 //    public void candidaturaInsert(Candidatura obj) throws SQLException {familiaDAO.insertCand(obj);}
 //    public void candidaturaRemove(Candidatura obj) throws SQLException {familiaDAO. obj);}
 //    public void candidaturaUpdate(Candidatura obj) throws SQLException {familiaDAO.up;}
+    public List<Prestacao> PrestacaoGet(int idFam)throws SQLException { return familiaDAO.getPrestacoes(idFam); }
+    public void PrestacaoInsert(Prestacao p)throws SQLException { familiaDAO.insertPrestacao(p);}
+    public void PrestacaoUpdate(Prestacao p)throws SQLException { familiaDAO.updatePrestacao(p);}
+    public void PrestacaoRemove(Prestacao p)throws SQLException { familiaDAO.removePrestacao(p); }
     
     
     public List<Voluntario> voluntarioGetAll() throws SQLException {return voluntarioDAO.getAll();}
@@ -126,6 +131,7 @@ public class Habitat {
     
     public boolean login(String username, String password) throws SQLException {
         this.funcionario = funcionarioDAO.getByUsername(username);
+        if(funcionario == null) return false;
         if (funcionario.getPassword().equals(password)){
             return true;
         } else {

@@ -310,6 +310,10 @@ public class AppState {
         this.main = new MainFrame(admin, funds, family, building);
     }
     
+    public void startLogin()
+    {
+        this.login.setVisible(true);
+    }
     
     public void startMain(Funcionario.Tipo who) {
         if (who != Funcionario.Tipo.ADMIN) {

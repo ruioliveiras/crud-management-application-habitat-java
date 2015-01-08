@@ -116,6 +116,18 @@ public class FamiliaDAO extends GenericDAO<Familia> {
         return prestacaoDAO.getAllBy(p, PrestacaoDAO.Attr.idFam);
     }
     
+    public void insertPrestacao(Prestacao p) throws SQLException{
+        prestacaoDAO.insert(p);
+    }
+    
+    public void updatePrestacao(Prestacao p) throws SQLException{
+        prestacaoDAO.update(p);
+    }
+    
+    public void removePrestacao(Prestacao p) throws SQLException{
+        prestacaoDAO.remove(p);
+    }
+    
     public List<Acompanhamento> getAcompanhamento(int idFam) throws SQLException{
         Acompanhamento p = new Acompanhamento();
         p.setIdFam(idFam);

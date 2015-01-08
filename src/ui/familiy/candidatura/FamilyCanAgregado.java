@@ -28,7 +28,7 @@ public class FamilyCanAgregado extends javax.swing.JFrame {
      */
     public FamilyCanAgregado() {
         initComponents();
-                setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
