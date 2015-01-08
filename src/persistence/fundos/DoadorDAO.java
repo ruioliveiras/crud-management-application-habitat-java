@@ -9,9 +9,17 @@ import persistence.util.DAO;
 public class DoadorDAO  extends DAO<Doador> {    
     
     public int getQuantDoada(int id) throws SQLException{
-        ResultSet rs = executeSelect("SELECT SUM (quantInicial) as quantTotal FROM Donativo WHERE idIndiv = "+id+" AND idTipoDon="+1);
-        if(rs.next()) return rs.getInt("quantTotal");
-        else return 0;
+        newStatement();
+        ResultSet rs = executeSelect("SELECT SUM(quantInicial) as quantTotal FROM Donativo WHERE idIndiv = "+id+" AND idTipoDon="+1);
+        if(rs.next()) {
+            int r=rs.getInt("quantTotal");
+            closeStatemnet();
+            return r;
+        }
+        else {
+            closeStatemnet();
+            return 0;
+        }
     }
     
     @Override
@@ -31,7 +39,7 @@ public class DoadorDAO  extends DAO<Doador> {
         newStatement();
         ArrayList<Doador> r = new ArrayList<>();
        
-        ResultSet rs = executeSelect("Select * from Individuo where idDoador=true");
+        ResultSet rs = executeSelect("Select * from Individuo where isDoador=true");
         while(rs.next()) {
             Doador d = newObject(rs);
             
@@ -47,9 +55,9 @@ public class DoadorDAO  extends DAO<Doador> {
         newStatement();
         
         int i = executeSQLWithId("INSERT INTO Individuo(idIndiv, idFunc, nome, dataNascimento, profissao, morada, codigoPostal, localidade," +
-                                    "email, telefone, telemovel, habilitacoes, conhecimentosLing, formacaoComp, experienciaVolunt, conhecimentoConstr," +
-                                    "trabalharJuntoVolunt, disponibilidade, comoConheceu, receberInfo, isParceiro, nif, isColetivo, isDoador," +
-                                    "isVoluntario, nacionalidadeIndiv, dataCriaIndiv) VALUES (" + 
+                                    "email, telefone, telemovel, habilitacoes, conhecimentosLing, formacaoComp, experienciaVolunt, conhecimentosConstr," +
+                                    "trabalharJuntoVolunt, disponibilidade, comoConheceu, receberInfo, isParceiro, nif, isColectivo, isDoador," +
+                                    "isVoluntario, nacionalidadeIndev, dataCriaIndiv) VALUES (" + 
                                     toSQL(d.getIdIndiv()) + "," + 
                                     toSQL(d.getIdFunc()) + "," + 
                                     toSQL(d.getNome()) + "," + 
@@ -92,7 +100,7 @@ public class DoadorDAO  extends DAO<Doador> {
                 ", dataNascimento=" + toSQL(d.getDataNascimento()) + 
                 ", profissao=" + toSQL(d.getProfissao()) + 
                 ", morada=" + toSQL(d.getMorada()) + 
-                ", codPostal=" + toSQL(d.getCodigoPostal()) + 
+                ", codigoPostal=" + toSQL(d.getCodigoPostal()) + 
                 ", localidade=" + toSQL(d.getLocalidade()) + 
                 ", email=" + toSQL(d.getEmail()) + 
                 ", telefone=" + toSQL(d.getTelefone()) +  
@@ -101,17 +109,17 @@ public class DoadorDAO  extends DAO<Doador> {
                 ", conhecimentosLing=" + toSQL(d.getConhecimentosLing()) + 
                 ", formacaoComp=" + toSQL(d.getFormacaoComp()) + 
                 ", experienciaVolunt=" + toSQL(d.getExperienciaVolunt()) + 
-                ", conhecimentoConstr=" + toSQL(d.getConhecimentosConstr()) + 
+                ", conhecmentosConstr=" + toSQL(d.getConhecimentosConstr()) + 
                 ", trabalharJuntoVolunt=" + toSQL(d.getTrabalharJuntoVolunt()) + 
                 ", disponibilidade=" + toSQL(d.getDisponibilidade()) + 
                 ", comoConheceu=" + toSQL(d.getComoConheceu()) + 
                 ", receberInfo=" + toSQL(d.getReceberInfo()) + 
                 ", isParceiro=" + toSQL(d.isParceiro()) + 
                 ", nif=" + toSQL(d.getNif()) + 
-                ", isColetivo=" + toSQL(d.isColetivo()) + 
+                ", isColectivo=" + toSQL(d.isColetivo()) + 
                 ", isDoador," + toSQL(d.isDoador()) + 
                 ", isVoluntario=" + toSQL(d.isVoluntario()) + 
-                ", nacionalidadeIndiv=" + toSQL(d.getNacionalidadeIndiv()) + 
+                ", nacionalidadeIndev=" + toSQL(d.getNacionalidadeIndiv()) + 
                 ", dataCriaIndiv=" + toSQL(d.getDataCriaIndiv()) + 
                 " Where idIndiv=" + toSQL(d.getIdIndiv())
         );
@@ -136,7 +144,7 @@ public class DoadorDAO  extends DAO<Doador> {
             fromSQL(rs.getDate("dataNascimento")),
             rs.getNString("profissao"),
             rs.getNString("morada"),
-            rs.getNString("codPostal"),
+            rs.getNString("codigoPostal"),
             rs.getNString("localidade"),
             rs.getNString("email"),
             rs.getNString("telefone"),
@@ -145,17 +153,17 @@ public class DoadorDAO  extends DAO<Doador> {
             rs.getNString("conhecimentosLing"),
             rs.getNString("formacaoComp"),
             rs.getNString("experienciaVolunt"),
-            rs.getNString("conhecimentoConstr"),
+            rs.getNString("conhecmentosConstr"),
             rs.getBoolean("trabalharJuntoVolunt"),
             rs.getNString("disponibilidade"),
             rs.getNString("comoConheceu"),
             rs.getBoolean("receberInfo"),
             rs.getBoolean("isParceiro"),
             rs.getInt("nif"),
-            rs.getBoolean("isColetivo"),
+            rs.getBoolean("isColectivo"),
             rs.getBoolean("isDoador"),
             rs.getBoolean("isVoluntario"),
-            rs.getNString("nacionalidadeIndiv"),
+            rs.getNString("nacionalidadeIndev"),
             fromSQL(rs.getDate("dataCriaIndiv"))
         );
     }

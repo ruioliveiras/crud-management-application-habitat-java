@@ -8,6 +8,7 @@ package ui.funds;
 import business.building.Projeto;
 import business.funds.Voluntario;
 import java.awt.Panel;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -26,6 +27,7 @@ public class FundsVolunteerCreate extends javax.swing.JFrame implements UIDimens
      */
     public FundsVolunteerCreate(AppState appState) {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         btCancelar.setVisible(false);
         btSave.setVisible(false);
         btnRemove.setVisible(false);
@@ -36,6 +38,7 @@ public class FundsVolunteerCreate extends javax.swing.JFrame implements UIDimens
 
     public FundsVolunteerCreate(AppState appState, UIDimension.EditonType ty) {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         switch (ty) {
             case EDIT:
                 title = "Editar";
@@ -493,8 +496,11 @@ public class FundsVolunteerCreate extends javax.swing.JFrame implements UIDimens
 
     @Override
     public void set(Voluntario a) {
+        if (a==null) a=new Voluntario();
+        
         txtNome.setText(a.getNome());
-        txtDataN.setText(a.getDataNascimento().toString());
+        DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+        txtDataN.setText(df.format(a.getDataNascimento().getTime()));
         txtNacionalidade.setText(a.getNacionalidadeIndiv());
         txtProfissao.setText(a.getProfissao());
         txtMorada.setText(a.getMorada());
@@ -522,10 +528,7 @@ public class FundsVolunteerCreate extends javax.swing.JFrame implements UIDimens
 
     @Override
     public JFrame getFrame() {
-        JFrame frame = new JFrame();
-        frame.setTitle(title);
-        frame.setContentPane(this);
-        frame.pack();
-        return frame;
+        this.setTitle(title);
+        return this;
     }
 }

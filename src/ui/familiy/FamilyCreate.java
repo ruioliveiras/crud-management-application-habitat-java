@@ -37,7 +37,7 @@ public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDet
      */
     public FamilyCreate(AppState ap) {
         initComponents();
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
         appState = ap;
     }
     

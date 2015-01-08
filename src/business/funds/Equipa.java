@@ -12,6 +12,8 @@ public class Equipa implements Voluntariado {
     private int idFunc;
 
     
+    public Equipa(){}
+    
     public Equipa(int idEq, String nacionalidadeEq, String designacao, GregorianCalendar dataCriaEq, int idFunc) {
         this.idEq = idEq;
         this.nacionalidadeEq = nacionalidadeEq;

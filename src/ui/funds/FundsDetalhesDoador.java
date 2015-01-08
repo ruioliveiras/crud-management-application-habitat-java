@@ -130,7 +130,7 @@ public class FundsDetalhesDoador extends javax.swing.JPanel implements UIDimensi
         textTelm.setText(a.getTelemovel());
         textEmail.setText(a.getEmail());
         try {
-            textQuantDoada.setText(a.getQuantDoada()+"");
+            textQuantDoada.setText(a.getQuantDoada()+"€");
         } catch (SQLException ex) {
             (new ui.util.ExceptionHandler("Erro enquanto carregava quantidade doada", ex)).fire();
         }

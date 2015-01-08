@@ -19,7 +19,8 @@ public class Doador {
     private String nacionalidadeIndiv;
     private GregorianCalendar dataCriaIndiv;
 
-
+    public Doador(){}
+    
     public Doador(int idIndiv, int idFunc, String nome, GregorianCalendar dataNascimento, String profissao, String morada, String codigoPostal, String localidade, String telefone, String telemovel, String email, String habilitacoes, String conhecimentosLing, String formacaoComp, String experienciaVolunt, String conhecimentosConstr, boolean trabalharJuntoVolunt, String disponibilidade, String comoConheceu, boolean receberInfo, boolean isParceiro, int nif, boolean isColetivo, boolean isDoador, boolean isVoluntario, String nacionalidadeIndiv, GregorianCalendar dataCriaIndiv) {
         this.idIndiv = idIndiv;
         this.idFunc = idFunc;
