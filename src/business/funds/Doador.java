@@ -1,6 +1,8 @@
 package business.funds;
 
+import java.sql.SQLException;
 import java.util.GregorianCalendar;
+import persistence.fundos.DoadorDAO;
 
 public class Doador {
     private int idIndiv, idFunc;
@@ -17,7 +19,8 @@ public class Doador {
     private String nacionalidadeIndiv;
     private GregorianCalendar dataCriaIndiv;
 
-
+    public Doador(){}
+    
     public Doador(int idIndiv, int idFunc, String nome, GregorianCalendar dataNascimento, String profissao, String morada, String codigoPostal, String localidade, String telefone, String telemovel, String email, String habilitacoes, String conhecimentosLing, String formacaoComp, String experienciaVolunt, String conhecimentosConstr, boolean trabalharJuntoVolunt, String disponibilidade, String comoConheceu, boolean receberInfo, boolean isParceiro, int nif, boolean isColetivo, boolean isDoador, boolean isVoluntario, String nacionalidadeIndiv, GregorianCalendar dataCriaIndiv) {
         this.idIndiv = idIndiv;
         this.idFunc = idFunc;
@@ -79,6 +82,10 @@ public class Doador {
         this.dataCriaIndiv = d.getDataCriaIndiv();
     }
     
+    public int getQuantDoada() throws SQLException {
+        DoadorDAO d = new DoadorDAO();
+        return d.getQuantDoada(this.idIndiv);
+    }
     
     public boolean isParceiro() {
         return isParceiro;

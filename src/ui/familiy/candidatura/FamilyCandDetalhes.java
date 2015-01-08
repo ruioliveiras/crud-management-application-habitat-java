@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ui.familiy;
+package ui.familiy.candidatura;
 
 import business.familiy.Candidatura;
 import business.familiy.ElementoFamilia;
@@ -14,20 +14,24 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.AbstractListModel;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import ui.util.UIDimension;
 
 /**
  *
  * @author Jose
  */
-public class FamilyCandDetalhes extends javax.swing.JPanel {
-
-    private Familia f;
+public class FamilyCandDetalhes extends javax.swing.JPanel implements UIDimension.JDetails<Candidatura>{
+    private final FamilyCandQuestoes familyQuestoes;
+    private Familia familia;
+    
     /**
      * Creates new form FamilyCandDetalhes
      */
     public FamilyCandDetalhes() {
         initComponents();
+        familyQuestoes = new FamilyCandQuestoes();
     }
 
     /**
@@ -163,7 +167,7 @@ public class FamilyCandDetalhes extends javax.swing.JPanel {
                     .addComponent(ElemEstadoLabel)
                     .addComponent(ElemOcupaLabel)
                     .addComponent(ElemEscolLabel))
-                .addContainerGap(362, Short.MAX_VALUE))
+                .addContainerGap(537, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,7 +196,7 @@ public class FamilyCandDetalhes extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
                     .addComponent(ElemEscolLabel))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jSplitPane1.setRightComponent(jPanel1);
@@ -284,7 +288,7 @@ public class FamilyCandDetalhes extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
+                            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 898, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -345,8 +349,8 @@ public class FamilyCandDetalhes extends javax.swing.JPanel {
                             .addComponent(jLabel6)
                             .addComponent(RendimentoLabel))))
                 .addGap(18, 18, 18)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -369,45 +373,10 @@ public class FamilyCandDetalhes extends javax.swing.JPanel {
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        FamilyResponderQuestoes frq = new FamilyResponderQuestoes();
-        frq.setDetalhes(f.getCandidatura().getQuestoes());
-        frq.setVisible(true);
+
+        familyQuestoes.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-
-    public void setFamilia(Familia a) {
-        f = a;
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        NomeLabel.setText(a.getNomeRepresentante());
-        DataNascLabel.setText(df.format(a.getDataNascimento().getTime()) + "");
-        dataCriaLabel.setText(df.format(a.getDataCriaFam().getTime()) + "");
-        MoradaLabel.setText(a.getMoradaRepresentante());
-        NIFLabel.setText(a.getNif() + "");
-        TelefoneLabel.setText(a.getContactoRepresentate()); 
-        ElemNomeLabel.setText("");
-        ElemDataNascLabel.setText("");
-        ElemEscolLabel.setText("");
-        ElemEstadoLabel.setText("");
-        ElemParenLabel.setText("");
-        ElemOcupaLabel.setText("");
-        EstadoLabel.setText(a.getCandidatura().getEstado());
-        RendimentoLabel.setText(a.getCandidatura().getRendimento() + "");
-        DataCandLabel.setText(df.format(a.getCandidatura().getDataCand().getTime()) + "");
-       
-            final List<ElementoFamilia> listaElems = a.getElementosFamilia();
-            jList1.setModel(new AbstractListModel() {
-
-                @Override
-                public int getSize() {
-                    return listaElems.size();
-                }
-
-                @Override
-                public Object getElementAt(int index) {
-                   return listaElems.get(index);
-                }
-            });
-    }
 
     @Override
     public void setVisible(boolean aFlag) {
@@ -458,4 +427,52 @@ public class FamilyCandDetalhes extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void set(Candidatura c) {
+        familia = c.getFamilia();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        NomeLabel.setText(familia.getNomeRepresentante());
+        DataNascLabel.setText(df.format(familia.getDataNascimento().getTime()) + "");
+        dataCriaLabel.setText(df.format(familia.getDataCriaFam().getTime()) + "");
+        MoradaLabel.setText(familia.getMoradaRepresentante());
+        NIFLabel.setText(familia.getNif() + "");
+        TelefoneLabel.setText(familia.getContactoRepresentate()); 
+        ElemNomeLabel.setText("");
+        ElemDataNascLabel.setText("");
+        ElemEscolLabel.setText("");
+        ElemEstadoLabel.setText("");
+        ElemParenLabel.setText("");
+        ElemOcupaLabel.setText("");
+        EstadoLabel.setText(c.getEstado().name());
+        RendimentoLabel.setText(c.getRendimento() + "");
+        DataCandLabel.setText(df.format(c.getDataCand().getTime()) + "");
+       
+            final List<ElementoFamilia> listaElems = familia.getElementosFamilia();
+            jList1.setModel(new AbstractListModel() {
+
+                @Override
+                public int getSize() {
+                    return listaElems.size();
+                }
+
+                @Override
+                public Object getElementAt(int index) {
+                   return listaElems.get(index);
+                }
+            });
+        
+    }
+
+    @Override
+    public JPanel getPanel() {
+        return this;
+    }
+
+    @Override
+    public JFrame getFrame() {
+        JFrame f = new JFrame();
+        f.setContentPane(this);
+        return f;
+    }
 }

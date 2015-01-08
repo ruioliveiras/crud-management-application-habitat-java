@@ -50,6 +50,7 @@ public class FundsDonateCreateMoney extends javax.swing.JFrame implements UIDime
             case DETAILS:
                 title = "Detalhes";
                 btGuardar.setVisible(false);
+                enableFields(false);
                 break;
             default:
         }
@@ -132,6 +133,8 @@ public class FundsDonateCreateMoney extends javax.swing.JFrame implements UIDime
 
     @Override
     public void set(Donativo a) {
+        if (a==null) a=new Donativo();
+        
         txtQuantia.setText(a.getQuantInicial()+"");
     }
 

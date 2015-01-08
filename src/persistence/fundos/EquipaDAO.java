@@ -22,11 +22,12 @@ public class EquipaDAO extends DAO<Equipa>{
     
     public ArrayList<String> getMembros(int id) throws SQLException{
         ArrayList<String> r = new ArrayList<>();
-        
-        ResultSet rs = executeSelect("SELECT ID.nome FROM IndividuoEquipa AS IE INNER JOIN Individuo AS ID ON IE.idIndiv=ID.idIndiv WHERE idEq = "+id);
+        newStatement();
+        ResultSet rs = executeSelect("SELECT ID.nome FROM EquipaIndividuo AS IE INNER JOIN Individuo AS ID ON IE.idIndiv=ID.idIndiv WHERE idEq = "+id);
         while(rs.next()){
             r.add(rs.getNString("nome"));
         }
+        closeStatemnet();
         return r;
     }
 

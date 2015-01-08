@@ -7,6 +7,7 @@ package ui.tabs;
 
 import business.funds.Doador;
 import business.funds.Donativo;
+import business.funds.Equipa;
 import business.funds.Evento;
 import business.funds.Voluntario;
 import java.sql.SQLException;
@@ -35,27 +36,28 @@ public class FundsToolBar extends javax.swing.JPanel {
     }
     
     public void btnVoluntariosAction()throws SQLException {
-        List<Voluntario> l = new ArrayList<>();
+        jToggleButton1.setSelected(true);
+        List<Voluntario> l = appState.habitat().voluntarioGetAll();
         appState.FundsSelect(Voluntario.class, l);
     }
     
     public void btnEquipaAction()throws SQLException {
-        List<Voluntario> l = new ArrayList<>();
-        appState.FundsSelect(Voluntario.class, l);
+        List<Equipa> l = appState.habitat().equipaGetAll();
+        appState.FundsSelect(Equipa.class, l);
     }
     
     public void btnEventosAction()throws SQLException {
-        List<Evento> l = new ArrayList<>();
+        List<Evento> l = appState.habitat().eventoGetAll();
         appState.FundsSelect(Evento.class, l);
     }
        
     public void btnDonativosAction()throws SQLException {
-        List<Donativo> l = new ArrayList<>();
+        List<Donativo> l = appState.habitat().donativoGetAll();
         appState.FundsSelect(Donativo.class, l);
     }
     
     public void btnDoadoresAction()throws SQLException {
-        List<Doador> l = new ArrayList<>();
+        List<Doador> l = appState.habitat().doadoresGetAll();
         appState.FundsSelect(Doador.class, l);
     }
     /**

@@ -4,13 +4,19 @@
  * and open the template in the editor.
  */
 
-package ui.familiy;
+package ui.familiy.candidatura;
 
+import business.familiy.Candidatura;
+import business.familiy.Familia;
 import business.familiy.Questao;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -20,15 +26,17 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Jose
  */
-public class FamilyResponderQuestoes extends javax.swing.JFrame {
-
+public class FamilyCandQuestoes extends javax.swing.JFrame {
+    private Candidatura candidatura;
+    private HashMap<Integer, JTextField> respostas;
     /**
      * Creates new form FamilyResponderQuestoes
      */
-    public FamilyResponderQuestoes() {
-        initComponents();        
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    public FamilyCandQuestoes() {
+        initComponents();
+                setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,6 +57,11 @@ public class FamilyResponderQuestoes extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Confirmar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Sair");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -72,7 +85,7 @@ public class FamilyResponderQuestoes extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 424, Short.MAX_VALUE)
+                        .addGap(0, 292, Short.MAX_VALUE)
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -86,7 +99,7 @@ public class FamilyResponderQuestoes extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -99,65 +112,53 @@ public class FamilyResponderQuestoes extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.setVisible(false);
+        //do this to reset possible answers
+        setCandidatura(candidatura);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FamilyResponderQuestoes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FamilyResponderQuestoes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FamilyResponderQuestoes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FamilyResponderQuestoes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        for (Map.Entry<Integer, JTextField> entrySet : respostas.entrySet()) {
+            Integer key = entrySet.getKey();
+            JTextField textField = entrySet.getValue();
+            
+            candidatura.putResposta(key, textField.getText());
         }
-        //</editor-fold>
-        //</editor-fold>
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FamilyResponderQuestoes().setVisible(true);
-            }
-        });
-    }
     
-    public void setDetalhes(HashMap<Integer, Questao> questoes)
-    {     
+    public void setCandidatura(Candidatura f){
         jButton1.setVisible(false);
-        
-        for(Map.Entry<Integer, Questao> q : questoes.entrySet())
-        {                  
+        this.candidatura = f;
+        Map<Integer, Questao> questoes = candidatura.getQuestoes();
+        if (questoes == null){
+            try {
+                candidatura.setQuestoesDefault();
+            } catch (SQLException ex) {
+                Logger.getLogger(FamilyCandQuestoes.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            questoes = candidatura.getQuestoes();
+        }
+        respostas = new HashMap<>(questoes.size());
+        for (Map.Entry<Integer, Questao> entrySet : questoes.entrySet()) {
+            Integer id = entrySet.getKey();
+            Questao q = entrySet.getValue();
+                           
             JPanel panelLabel = new JPanel();  
             JPanel panelTextBox = new JPanel();
             JLabel pergunta = new JLabel();
             JTextField resposta = new JTextField();
-        
+            respostas.put(id, resposta);
+            
             panelLabel.setMaximumSize(new Dimension(2000,14));
             panelLabel.setLayout(new BorderLayout());
             panelTextBox.setMaximumSize(new Dimension(2000,29));
             panelTextBox.setLayout(new BorderLayout());
             panelTextBox.setBorder(new EmptyBorder(3, 0, 12, 0)); 
             
-            pergunta.setText(q.getValue().getPergunta());
+            pergunta.setText(q.getPergunta());
             panelLabel.add(pergunta);
             resposta.setMaximumSize(new Dimension(2000,14));
-            resposta.setText(q.getValue().getResposta());
+            resposta.setText(q.getResposta());
             resposta.setEditable(false);
             panelTextBox.add(resposta);
             jPanel1.add(panelLabel);

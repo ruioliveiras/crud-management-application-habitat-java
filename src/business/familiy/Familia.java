@@ -4,21 +4,35 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import persistence.familia.FamiliaDAO;
 
 public class Familia {
-	private String nomeRepresentante, contactoRepresentate, moradaRepresentante;
-	private int nif, idFunc, id;
-	private GregorianCalendar dataNascimento, dataCriaFam;
-	private String apelido;
-	private ArrayList<ElementoFamilia> elementosFamilia;
-	private Candidatura candidatura;
-        private HashMap<GregorianCalendar, Acompanhamento> acomp;
-        private Prestacao prestacao;
 
-    public Familia(String nomeRepresentante, String contactoRepresentate, 
-            String moradaRepresentante, int nif, int idFunc, int id, GregorianCalendar dataNascimento, 
-            GregorianCalendar dataCriaFam, String apelido, Candidatura candidatura, 
+    private static FamiliaDAO familiaDAO = new FamiliaDAO();
+
+    private String nomeRepresentante, contactoRepresentate, moradaRepresentante;
+    private int nif, idFunc, id;
+    private GregorianCalendar dataNascimento, dataCriaFam;
+    private String apelido;
+    private ArrayList<ElementoFamilia> elementosFamilia;
+    private Candidatura candidatura;
+    private HashMap<GregorianCalendar, Acompanhamento> acomp;
+    private Prestacao prestacao;
+
+    public Familia() {
+       acomp = new HashMap<>();
+        prestacao = new Prestacao();
+        elementosFamilia = new ArrayList<>();
+        dataNascimento = new GregorianCalendar();
+        dataCriaFam = new GregorianCalendar();
+        candidatura = new Candidatura(this);
+    }
+
+    public Familia(String nomeRepresentante, String contactoRepresentate,
+            String moradaRepresentante, int nif, int idFunc, int id, GregorianCalendar dataNascimento,
+            GregorianCalendar dataCriaFam, String apelido, Candidatura candidatura,
             HashMap<GregorianCalendar, Acompanhamento> acomp, ArrayList<ElementoFamilia> elem,
             Prestacao p) {
         this.nomeRepresentante = nomeRepresentante;
@@ -32,18 +46,19 @@ public class Familia {
         this.apelido = apelido;
         this.candidatura = candidatura;
         this.acomp = new HashMap<GregorianCalendar, Acompanhamento>();
-            for(Map.Entry<GregorianCalendar, Acompanhamento> e : acomp.entrySet())
-                this.acomp.put(e.getKey(), e.getValue());
+        for (Map.Entry<GregorianCalendar, Acompanhamento> e : acomp.entrySet()) {
+            this.acomp.put(e.getKey(), e.getValue());
+        }
         this.elementosFamilia = new ArrayList<ElementoFamilia>();
-            for(ElementoFamilia e : elem)
-                this.elementosFamilia.add(e);
+        for (ElementoFamilia e : elem) {
+            this.elementosFamilia.add(e);
+        }
         this.prestacao = p.clone();
     }
-    
-    public Familia(String nomeRepresentante, String contactoRepresentate, 
-            String moradaRepresentante, int nif, int idFunc, int id, GregorianCalendar dataNascimento, 
-            GregorianCalendar dataCriaFam, String apelido)
-    {
+
+    public Familia(String nomeRepresentante, String contactoRepresentate,
+            String moradaRepresentante, int nif, int idFunc, int id, GregorianCalendar dataNascimento,
+            GregorianCalendar dataCriaFam, String apelido) {
         this.nomeRepresentante = nomeRepresentante;
         this.contactoRepresentate = contactoRepresentate;
         this.moradaRepresentante = moradaRepresentante;
@@ -54,7 +69,7 @@ public class Familia {
         this.dataCriaFam = dataCriaFam;
         this.apelido = apelido;
     }
-    
+
     public Familia(Familia f) {
         this.nomeRepresentante = f.getNomeRepresentante();
         this.contactoRepresentate = f.getContactoRepresentate();
@@ -65,7 +80,7 @@ public class Familia {
         this.dataNascimento = f.getDataNascimento();
         this.dataCriaFam = f.getDataCriaFam();
         this.apelido = f.getApelido();
-        this.candidatura = f.getCandidatura();
+        this.candidatura = f.getCandidaturaLast();
         this.elementosFamilia = f.getElementosFamilia();
         this.acomp = f.getAcomp();
         this.prestacao = f.getPrestacao();
@@ -77,23 +92,23 @@ public class Familia {
 
     public void setPrestacao(Prestacao prestacao) {
         this.prestacao = prestacao.clone();
-    }    
-    
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }   
-    
+    }
+
     public int getIdFunc() {
         return idFunc;
     }
 
     public void setIdFunc(int idFunc) {
         this.idFunc = idFunc;
-    }    
+    }
 
     public String getNomeRepresentante() {
         return nomeRepresentante;
@@ -150,62 +165,84 @@ public class Familia {
     public void setApelido(String apelido) {
         this.apelido = apelido;
     }
-    
-    public void addElementoFamilia(ElementoFamilia e)
-    { this.elementosFamilia.add(e.clone()); }
-    
-    public ArrayList<ElementoFamilia> getElementosFamilia() 
-    {        
+
+    public void addElementoFamilia(ElementoFamilia e) {
+        this.elementosFamilia.add(e.clone());
+    }
+
+    public void addElementoFamiliaAt(ElementoFamilia e, int actualIndex) {
+        this.elementosFamilia.remove(actualIndex);
+        this.elementosFamilia.add(actualIndex, e);
+    }
+
+    public void rmElementoFamiliaAt(int selectedIndex) {
+        this.elementosFamilia.remove(selectedIndex);
+    }
+
+    public ArrayList<ElementoFamilia> getElementosFamilia() {
         ArrayList<ElementoFamilia> ret = new ArrayList<ElementoFamilia>();
-        
-        for(ElementoFamilia e : this.elementosFamilia)
+
+        for (ElementoFamilia e : this.elementosFamilia) {
             ret.add(e);
-        
+        }
+
         return ret;
     }
 
-    public void setElementosFamilia(ArrayList<ElementoFamilia> elem) 
-    {
+    public void setElementosFamilia(ArrayList<ElementoFamilia> elem) {
         this.elementosFamilia = new ArrayList<ElementoFamilia>();
-        for(ElementoFamilia e : elem)
+        for (ElementoFamilia e : elem) {
             this.elementosFamilia.add(e);
+        }
     }
 
-    public Candidatura getCandidatura() {
-        return candidatura.clone();
+    public Candidatura getCandidaturaLast() {
+        return candidatura;
     }
 
     public void setCandidatura(Candidatura candidatura) {
         this.candidatura = candidatura;
     }
 
-    public void addAcomp(Acompanhamento a)
-    { this.acomp.put(a.getData(), a.clone()); }            
-    
-    public HashMap<GregorianCalendar, Acompanhamento> getAcomp() 
-    {
+    public void addAcomp(Acompanhamento a) {
+        this.acomp.put(a.getData(), a.clone());
+    }
+
+    public HashMap<GregorianCalendar, Acompanhamento> getAcomp() {
         HashMap<GregorianCalendar, Acompanhamento> ret = new HashMap<GregorianCalendar, Acompanhamento>();
-        
-        for(Map.Entry<GregorianCalendar, Acompanhamento> e : this.acomp.entrySet())
+
+        for (Map.Entry<GregorianCalendar, Acompanhamento> e : this.acomp.entrySet()) {
             ret.put(e.getKey(), e.getValue());
-        
+        }
+
         return ret;
     }
 
-    public void setAcomp(HashMap<GregorianCalendar, Acompanhamento> comp) 
-    {
+    public void setAcomp(HashMap<GregorianCalendar, Acompanhamento> comp) {
         this.acomp = new HashMap<GregorianCalendar, Acompanhamento>();
-        for(Map.Entry<GregorianCalendar, Acompanhamento> e : comp.entrySet())
-            this.acomp.put(e.getKey(), e.getValue()); 
+        for (Map.Entry<GregorianCalendar, Acompanhamento> e : comp.entrySet()) {
+            this.acomp.put(e.getKey(), e.getValue());
+        }
     }
-    
-    public Familia clone()
-    {
+
+    public Familia clone() {
         return new Familia(this);
     }
-    
-    public String toString(){
-        return new String(this.id+"."+this.nomeRepresentante+"."+this.nif);
+
+    public String toString() {
+        return this.id + "." + this.nomeRepresentante + "." + this.nif;
     }
-        
+
+    public List<Candidatura> getCandidaturas() throws SQLException {
+        return familiaDAO.getCandidaturas(this);
+    }
+
+    public List<Prestacao> getPrestacoes() throws SQLException {
+        return familiaDAO.getPrestacoes(id);
+    }
+
+    public List<Acompanhamento> getAconpanhamento() throws SQLException {
+        return familiaDAO.getAcompanhamento(id);
+    }
+
 }

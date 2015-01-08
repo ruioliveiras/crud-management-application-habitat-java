@@ -17,12 +17,11 @@ import ui.util.UIDimension;
  *
  * @author Jose
  */
-public class FamilyDetails extends javax.swing.JPanel implements UIDimension.JDetails<Familia> {
-
+public class FamilyDetalhesPane extends javax.swing.JPanel implements UIDimension.JDetails<Familia> {
     /**
      * Creates new form FamilyDetails
      */
-    public FamilyDetails() {
+    public FamilyDetalhesPane() {
         initComponents();
     }
 

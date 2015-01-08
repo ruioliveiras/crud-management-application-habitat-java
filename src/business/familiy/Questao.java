@@ -3,17 +3,28 @@ package business.familiy;
 import java.util.Objects;
 
 public class Questao {
+    private int perguntaId;
     private String pergunta;
     private String resposta;
 
-    public Questao(String pergunta, String resposta) {
+    public Questao(int perguntaid, String pergunta, String resposta) {
+        this.perguntaId = perguntaid;
         this.pergunta = pergunta;
         this.resposta = resposta;
     }
 
     public Questao(Questao q) {
+        this.perguntaId = q.getPerguntaId();
         this.pergunta = q.getPergunta();
         this.resposta = q.getResposta();
+    }
+
+    public int getPerguntaId() {
+        return perguntaId;
+    }
+
+    public void setPerguntaId(int perguntaId) {
+        this.perguntaId = perguntaId;
     }
     
     public String getPergunta() {

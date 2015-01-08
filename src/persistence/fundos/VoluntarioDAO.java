@@ -67,10 +67,10 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
     public int insert(Voluntario d) throws SQLException {
         newStatement();
         
-        int i = executeSQLWithId("INSERT INTO Individuo(idIndiv, idFunc, nome, dataNascimento, profissao, morada, codPostal, localidade," +
-                    "email, telefone, telemovel, habilitacoes, conhecimentosLing, formacaoComp, experienciaVolunt, conhecimentoConstr," +
-                    "trabalharJuntoVolunt, disponibilidade, comoConheceu, receberInfo, isParceiro, nif, isColetivo, isDoador," +
-                    "isVoluntario, nacionalidadeIndiv, dataCriaIndiv)" + "VALUES (" + 
+        int i = executeSQLWithId("INSERT INTO Individuo(idIndiv, idFunc, nome, dataNascimento, profissao, morada, codigoPostal, localidade," +
+                    "email, telefone, telemovel, habilitacoes, conhecimentosLing, formacaoComp, experienciaVolunt, conhecmentosConstr," +
+                    "trabalharJuntoVolunt, disponibilidade, comoConheceu, receberInfo, isParceiro, nif, isColectivo, isDoador," +
+                    "isVoluntario, nacionalidadeIndev, dataCriaIndiv)" + "VALUES (" + 
                     toSQL(d.getIdIndiv()) + "," + toSQL(d.getIdFunc()) + "," + toSQL(d.getNome()) + "," + toSQL(d.getDataNascimento()) +
                     "," + toSQL(d.getProfissao()) + "," + toSQL(d.getMorada()) + "," + toSQL(d.getCodigoPostal()) + "," + toSQL(d.getLocalidade()) + 
                     "," + toSQL(d.getEmail()) + "," + toSQL(d.getTelefone()) + "," + toSQL(d.getTelemovel()) + 
@@ -93,7 +93,7 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
                 ", dataNascimento=" + toSQL(d.getDataNascimento()) + 
                 ", profissao=" + toSQL(d.getProfissao()) + 
                 ", morada=" + toSQL(d.getMorada()) + 
-                ", codPostal=" + toSQL(d.getCodigoPostal()) + 
+                ", codigoPostal=" + toSQL(d.getCodigoPostal()) + 
                 ", localidade=" + toSQL(d.getLocalidade()) + 
                 ", email=" + toSQL(d.getEmail()) + 
                 ", telefone=" + toSQL(d.getTelefone()) +  
@@ -102,17 +102,17 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
                 ", conhecimentosLing=" + toSQL(d.getConhecimentosLing()) + 
                 ", formacaoComp=" + toSQL(d.getFormacaoComp()) + 
                 ", experienciaVolunt=" + toSQL(d.getExperienciaVolunt()) + 
-                ", conhecimentoConstr=" + toSQL(d.getConhecimentosConstr()) + 
+                ", conhecmentosConstr=" + toSQL(d.getConhecimentosConstr()) + 
                 ", trabalharJuntoVolunt=" + toSQL(d.getTrabalharJuntoVolunt()) + 
                 ", disponibilidade=" + toSQL(d.getDisponibilidade()) + 
                 ", comoConheceu=" + toSQL(d.getComoConheceu()) + 
                 ", receberInfo=" + toSQL(d.getReceberInfo()) + 
                 ", isParceiro=" + toSQL(d.isParceiro()) + 
                 ", nif=" + toSQL(d.getNif()) + 
-                ", isColetivo=" + toSQL(d.isColetivo()) + 
+                ", isColectivo=" + toSQL(d.isColetivo()) + 
                 ", isDoador," + toSQL(d.isDoador()) + 
                 ", isVoluntario=" + toSQL(d.isVoluntario()) + 
-                ", nacionalidadeIndiv=" + toSQL(d.getNacionalidadeIndiv()) + 
+                ", nacionalidadeIndev=" + toSQL(d.getNacionalidadeIndiv()) + 
                 ", dataCriaIndiv=" + toSQL(d.getDataCriaIndiv()) + 
                 " Where idIndiv=" + toSQL(d.getIdIndiv())
         );
@@ -135,7 +135,7 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
             fromSQL(rs.getDate("dataNascimento")),
             rs.getNString("profissao"),
             rs.getNString("morada"),
-            rs.getNString("codPostal"),
+            rs.getNString("codigoPostal"),
             rs.getNString("localidade"),
             rs.getNString("email"),
             rs.getNString("telefone"),
@@ -144,17 +144,17 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
             rs.getNString("conhecimentosLing"),
             rs.getNString("formacaoComp"),
             rs.getNString("experienciaVolunt"),
-            rs.getNString("conhecimentoConstr"),
+            rs.getNString("conhecmentosConstr"),
             rs.getBoolean("trabalharJuntoVolunt"),
             rs.getNString("disponibilidade"),
             rs.getNString("comoConheceu"),
             rs.getBoolean("receberInfo"),
             rs.getBoolean("isParceiro"),
             rs.getInt("nif"),
-            rs.getBoolean("isColetivo"),
+            rs.getBoolean("isColectivo"),
             rs.getBoolean("isDoador"),
             rs.getBoolean("isVoluntario"),
-            rs.getNString("nacionalidadeIndiv"),
+            rs.getNString("nacionalidadeIndev"),
             fromSQL(rs.getDate("dataCriaIndiv"))
         );
     }

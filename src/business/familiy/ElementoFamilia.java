@@ -10,9 +10,14 @@ public class ElementoFamilia
     private String escolaridade;
     private String estadoCivil;
     private int id;
+    private int idFam;
     private GregorianCalendar dataNascimento;
 
-    public ElementoFamilia(int id, String nome, String ocupacao, String parentesco, 
+    public ElementoFamilia() {
+        dataNascimento = new GregorianCalendar();
+    }
+
+    public ElementoFamilia(int id,int idFam, String nome, String ocupacao, String parentesco, 
             String escolaridade, String estadoCivil, GregorianCalendar dataNascimento) {
         this.id = id;
         this.nome = nome;
@@ -25,6 +30,7 @@ public class ElementoFamilia
     
     public ElementoFamilia(ElementoFamilia e) 
     {
+        this.idFam = e.getIdFam();
         this.id = e.getId();
         this.nome = e.getNome();
         this.ocupacao = e.getOcupacao();
@@ -42,6 +48,14 @@ public class ElementoFamilia
     public void setId(int id) {
         this.id = id;
     }   
+
+    public int getIdFam() {
+        return idFam;
+    }
+
+    public void setIdFam(int idFam) {
+        this.idFam = idFam;
+    }
 
     public String getNome() {
         return nome;

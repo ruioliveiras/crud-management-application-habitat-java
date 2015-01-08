@@ -29,6 +29,11 @@ public class QuestaoDAO extends GenericDAO<TipoQuestao>{
     }
 
     
+    public ArrayList<TipoQuestao> getAllAtive() throws SQLException {
+        TipoQuestao t = new TipoQuestao();
+        t.setAtiva(true);
+        return getAllBy(t, Attr.ativa);
+    }
     
     @Override
     protected String getToBD(TipoQuestao p, Enum<?> en) {

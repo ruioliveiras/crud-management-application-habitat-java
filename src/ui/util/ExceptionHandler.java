@@ -20,6 +20,21 @@ public class ExceptionHandler extends javax.swing.JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         initComponents();
     }
+        /**
+     * Creates new form ExeceptionHandler
+     * @param frindly
+     * @param ex
+     */
+    public ExceptionHandler(String frindly) {
+        initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        StringBuilder sb = new StringBuilder();
+        sb.append("Message: \n");
+        sb.append(frindly);
+        
+        jTextArea1.setText(sb.toString());
+        
+    }
     /**
      * Creates new form ExeceptionHandler
      * @param frindly

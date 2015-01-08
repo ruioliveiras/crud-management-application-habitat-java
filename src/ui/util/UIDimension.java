@@ -12,9 +12,6 @@ import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import ui.familiy.FamilyCreate;
-import ui.familiy.FamilyDetails;
-import ui.familiy.FamilyDetalhes;
 
 /** Class que serve para gerir um dados elemento de um modelo de dados.
  * Ou seja o que é possivel fazer com esta class?
