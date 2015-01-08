@@ -34,8 +34,8 @@ public class Main {
         try {
             DAO.initConnection();
             AppState app = new AppState();
-        
-            app.startMain(Funcionario.Tipo.ADMIN);
+
+            app.startLogin();
         } catch (NamingException ex) {
             (new ui.util.ExceptionHandler("Erro nao tem a biblioteca do mysql instalada, instale por favor", ex)).fire();
         } catch (SQLException ex) {
