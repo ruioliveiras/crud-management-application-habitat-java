@@ -9,6 +9,8 @@ public class Donativo {
     private GregorianCalendar dataDon;
     private int idFunc, idEv, idIndiv;
 
+    public Donativo(){}
+    
     public Donativo(int idDon, String descricao, int quantInicial, int quantAtual, int idTipoDon, GregorianCalendar dataDon, int idFunc, int idEv, int idIndiv) {
         this.idDon = idDon;
         this.descricao = descricao;

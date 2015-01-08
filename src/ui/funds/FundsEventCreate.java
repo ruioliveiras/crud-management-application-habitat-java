@@ -8,6 +8,7 @@ package ui.funds;
 import business.building.Projeto;
 import business.funds.Evento;
 import java.awt.Panel;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,6 +29,7 @@ public class FundsEventCreate extends javax.swing.JFrame implements UIDimension.
      */
     public FundsEventCreate(AppState appState) {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         btCancelar.setVisible(false);
         btSave.setVisible(false);
         btnRemove.setVisible(false);
@@ -37,6 +39,7 @@ public class FundsEventCreate extends javax.swing.JFrame implements UIDimension.
     
     public FundsEventCreate(AppState appState, UIDimension.EditonType ty) {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         switch (ty) {
             case EDIT:
                 title = "Editar";
@@ -248,9 +251,12 @@ public class FundsEventCreate extends javax.swing.JFrame implements UIDimension.
 
     @Override
     public void set(Evento e) {
+        if (e==null) e=new Evento();
+        
         textDesignacao.setText(e.getDesignacao());
         textDescricao.setText(e.getDescricao());
-        textDataI.setText(e.getData().toString());
+        DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+        textDataI.setText(df.format(e.getData().getTime()));
         //ver se e mesmo preciso o campo data fim
     }
 

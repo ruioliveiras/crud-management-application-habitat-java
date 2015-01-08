@@ -9,6 +9,8 @@ public class Evento{
     private int idFunc;
     private String descricao;
 
+    public Evento(){}
+    
     public Evento(int idEv, String designacao, GregorianCalendar data, int idFunc, String descricao) {
         this.idEv = idEv;
         this.designacao = designacao;

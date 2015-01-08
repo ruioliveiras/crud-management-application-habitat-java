@@ -29,11 +29,13 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
      */
     public FundsDonateCreateMaterial(AppState appState) {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         enableFields(false);
     }
     
     public FundsDonateCreateMaterial(AppState appState, UIDimension.EditonType ty) {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         switch (ty) {
             case EDIT:
                 title = "Editar";
@@ -50,6 +52,7 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
                 title = "Detalhes";
                 btnAdd.setVisible(false);
                 btnExcluir.setVisible(false);
+                enableFields(false);
                 break;
             default:
         }
@@ -113,6 +116,11 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
         });
 
         btnAdd.setText("Adicionar");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         jList1.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -185,6 +193,10 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMaterialActionPerformed
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -202,8 +214,11 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
 
     @Override
     public void set(Donativo d) {
+        if (d==null) d=new Donativo();
+        
         txtMaterial.setText(d.getDescricao());
         txtQuant.setText(d.getQuantInicial()+"");
+        //checkProj.setSelected(d.);
         //comboProj.getModel().setSelectedItem(d.get());
         //preencher tabela?
     }

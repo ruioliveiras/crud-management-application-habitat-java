@@ -5,6 +5,7 @@
  */
 package ui.familiy.familia;
 
+import business.familiy.Candidatura;
 import business.familiy.Familia;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -68,6 +69,7 @@ public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDet
 
     @Override
     public void set(Familia a) {
+        //Candidatura c =
         familyCandCreate.set(a.getCandidaturaLast());
     }
 
