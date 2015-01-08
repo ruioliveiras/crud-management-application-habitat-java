@@ -14,10 +14,14 @@ import java.util.GregorianCalendar;
  */
 public class Prestacao 
 {
-    private int valor, idFunc, idFam;
+    private int valor, idFunc, idFam, id;
     private GregorianCalendar data;
 
-    public Prestacao(int valor, int idFunc, int idFam, GregorianCalendar data) {
+    public Prestacao() {
+    }
+
+    public Prestacao(int id, int valor, int idFunc, int idFam, GregorianCalendar data) {
+        this.id = id;
         this.valor = valor;
         this.idFunc = idFunc;
         this.idFam = idFam;
@@ -25,12 +29,21 @@ public class Prestacao
     }
     
     public Prestacao(Prestacao p) {
+        this.id = p.getId();
         this.valor = p.getValor();
         this.idFunc = p.getIdFunc();
         this.idFam = p.getIdFam();
         this.data = p.getData();
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public int getValor() {
         return valor;
     }

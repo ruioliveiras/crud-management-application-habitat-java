@@ -1,4 +1,5 @@
 /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -17,9 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 import persistence.util.GenericDAO;
 
-public class FamiliaDAO extends GenericDAO<Familia> {
+public class FamiliaDAO {//extends GenericDAO<Familia> {
 
-    protected enum Attr {
+  /*  protected enum Attr {
 
         idFam, nome, morada, telefone, nif, idFunc, dataNascimento, apelido, dataCriaFam
     };
@@ -71,6 +72,7 @@ public class FamiliaDAO extends GenericDAO<Familia> {
         );
     }
 
+    
     public void insertAcompanhamento() {
 
     }
@@ -91,7 +93,7 @@ public class FamiliaDAO extends GenericDAO<Familia> {
     public void insertFamilia(Familia f) throws SQLException {
         int id;
         id = insert(f);
-        insertCand(f.getCandidatura(), id);
+        insertCand(f.getCandidaturaLast(), id);
         insertElementosFam(f.getElementosFamilia(), id);
     }
 
@@ -171,7 +173,7 @@ public class FamiliaDAO extends GenericDAO<Familia> {
         HashMap<Integer, Questao> q = new HashMap<Integer, Questao>();
 
         newStatement();
-        ResultSet rs = executeSelect("SELECT CQ.idQuestao, CQ.resposta, QE.descricao "
+        ResultSet rs = executeSelect("SELECT CQ.idQuestao as idQuestao, CQ.resposta as resposta, QE.descricao as descricao "
                 + "FROM CandidaturaQuestao AS CQ INNER JOIN Questao AS QE ON QE.idQuestao"
                 + " = CQ.idQuestao WHERE idCand=" + idCand);
         while (rs.next()) {
@@ -216,7 +218,7 @@ public class FamiliaDAO extends GenericDAO<Familia> {
         }
         return candidaturas;
     }
-
+*/
 //    @Override
 //    public Familia getById(int id) throws SQLException{
 //        newStatement();

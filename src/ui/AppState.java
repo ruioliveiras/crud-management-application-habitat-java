@@ -17,8 +17,10 @@ import business.building.DonativoRealizado;
 import business.building.Projeto;
 import business.building.Tarefa;
 import business.building.VoluntariadoRealizado;
+import business.familiy.Acompanhamento;
 import business.familiy.Candidatura;
 import business.familiy.Familia;
+import business.familiy.Prestacao;
 import business.funds.Doador;
 import business.funds.Donativo;
 import business.funds.Equipa;
@@ -38,10 +40,13 @@ import ui.building.BuildingProjectCreateEdit;
 import ui.building.BuildingProjectPanel;
 import ui.building.BuildingProjectGeralVision;
 import ui.building.BuildingTask;
-import ui.familiy.FamilyCreate;
-import ui.familiy.FamilyDetails;
-import ui.familiy.FamilyDetalhes;
+import ui.familiy.FamilyDetalhesPane;
+import ui.familiy.familia.FamilyDetalhes;
 import ui.building.BuildingVolunteerReal;
+import ui.familiy.candidatura.FamilyCanPane;
+import ui.familiy.candidatura.FamilyCandCreate;
+import ui.familiy.candidatura.FamilyCandDetalhes;
+import ui.familiy.familia.FamilyCreate;
 import ui.funds.FundsDonateCreateMaterial;
 import ui.funds.FundsDonatorCreate;
 import ui.funds.FundsEventCreate;
@@ -102,7 +107,9 @@ public class AppState {
     private final UIDimension<DonativoRealizado> buildDonationsReal;
     private final UIDimension<VoluntariadoRealizado> buildVolunteersReal;
     private final UIDimension<Familia> familyFamily;
-    private final UIDimension<Object> familyCand = new UIDimension<>();
+    private final UIDimension<Candidatura> familyCand;
+    private final UIDimension<Prestacao> familyPrestacao;
+    private final UIDimension<Acompanhamento> familyAcompanhamento;
     private final UIDimension<Voluntario> fundsVolunters;
     private final UIDimension<Equipa> fundsEquipa; 
     private final UIDimension<Evento> fundsEvents;
@@ -214,12 +221,22 @@ public class AppState {
         );
         this.familyFamily = new UIDimension<>(
                 this.family,
-                new FamilyDetails(),
+                new FamilyDetalhesPane(),
                 new FamilyCreate(UIDimension.EditonType.EDIT, this),
                 new FamilyCreate(UIDimension.EditonType.NEW, this),
                 new FamilyDetalhes(),
                 new FamilyCreate(this)
         );
+        this.familyCand = new UIDimension<>(
+            this.family,
+            new FamilyCanPane(),
+            new FamilyCandCreate(UIDimension.EditonType.EDIT, this),
+            new FamilyCandCreate(UIDimension.EditonType.NEW, this),
+            new FamilyCandDetalhes(),
+            new FamilyCandDetalhes()
+        );
+        this.familyAcompanhamento = new UIDimension<>();
+        this.familyPrestacao = new UIDimension<>();
         this.buildVolunteersReal = new UIDimension<>(
                 this.building,
                 new BuildingVolunteerReal(this),
@@ -282,7 +299,7 @@ public class AppState {
 
         adminToolBar.btnTarefasAction();
         builddingToolBar.btnSelectProjectAction();
-        familyToolBar.btnCandidaturasAction();
+        familyToolBar.btnFamiliyAction();
         
         this.main = new MainFrame(admin, funds, family, building);
     }
@@ -343,7 +360,10 @@ public class AppState {
             return (UIDimension<A>) familyFamily;
         } else if (cl.equals(Candidatura.class)) {
             return (UIDimension<A>) familyCand;
-            // fundos
+        } else if (cl.equals(Prestacao.class)) {
+            return (UIDimension<A>) familyPrestacao;
+        } else if (cl.equals(Acompanhamento.class)) {
+            return (UIDimension<A>) familyAcompanhamento;
         } else if (cl.equals(Evento.class)) {
             return (UIDimension<A>) fundsEvents;
         } else if (cl.equals(Donativo.class)) {

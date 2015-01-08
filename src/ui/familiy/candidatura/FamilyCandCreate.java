@@ -3,22 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.familiy;
+package ui.familiy.candidatura;
 
-import business.admin.Funcionario;
-import business.familiy.Questao;
 import business.familiy.Candidatura;
 import business.familiy.ElementoFamilia;
 import business.familiy.Familia;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.AbstractListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.text.MaskFormatter;
 import ui.AppState;
 import ui.util.UIDimension;
 
@@ -26,34 +24,38 @@ import ui.util.UIDimension;
  *
  * @author ruioliveiras
  */
-public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDetails<Familia>{
+public class FamilyCandCreate extends javax.swing.JPanel implements UIDimension.JDetails<Candidatura>  {
+
+    private final FamilyCandQuestoes familyQuestoes = new FamilyCandQuestoes();
+    private final FamilyCanAgregado familyAgregado = new FamilyCanAgregado();
 
     private AppState appState;
-    private HashMap<Integer, Questao> questoes = new HashMap<Integer, Questao>();
-    private ArrayList<ElementoFamilia> elems = new ArrayList<ElementoFamilia>();
-    
+    private Familia familia;
+    private Candidatura candidatura;
+
     /**
      * Creates new form CreateFamily
      */
-    public FamilyCreate(AppState ap) {
+    public FamilyCandCreate(AppState ap) {
         initComponents();
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         appState = ap;
+        // familyQuestoes = new FamilyCandQuestoes(f.getCandidaturaLast().getQuestoesList());
     }
-    
-    public FamilyCreate(UIDimension.EditonType ty, AppState ap) {
+
+    public FamilyCandCreate(UIDimension.EditonType ty, AppState ap) {
         initComponents();
         switch (ty) {
             case EDIT:
                 InserirButton.setVisible(false);
+                familia = new Familia();
                 break;
             case NEW:
                 EditarButton.setVisible(false);
                 break;
             default:
         }
+
         appState = ap;
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -77,20 +79,21 @@ public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDet
         NifTextField = new javax.swing.JTextField();
         MoradaTextField = new javax.swing.JTextField();
         ApelidoTextField = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        btnAgregado = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         InserirButton = new javax.swing.JButton();
         TelefoneTextField = new javax.swing.JFormattedTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
-        jButton2 = new javax.swing.JButton();
         EditarButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         rendimentoTextField = new javax.swing.JFormattedTextField();
         dataNascTextFIeld = new javax.swing.JFormattedTextField();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jPanel1 = new javax.swing.JPanel();
+        btnEliminar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        btnAgregado = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
 
         jLabel1.setText("Nome:");
 
@@ -134,10 +137,6 @@ public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDet
             }
         });
 
-        jButton1.setText("Responder as questões");
-
-        btnAgregado.setText("Inserir Elmento da familia");
-
         jButton3.setText("Cancelar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,9 +159,12 @@ public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDet
 
         jScrollPane1.setViewportView(jList1);
 
-        jButton2.setText("Eliminar Elemento");
-
         EditarButton.setText("Salvar");
+        EditarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditarButtonActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Rendimento Familiar:");
 
@@ -170,27 +172,44 @@ public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDet
 
         dataNascTextFIeld.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        btnEliminar.setText("Eliminar Elemento");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEliminar);
+
+        btnEditar.setText("Editar Elemento");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEditar);
+
+        btnAgregado.setText("Inserir Elmento da familia");
+        btnAgregado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregadoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAgregado);
+
+        jButton1.setText("Responder as questões");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(137, Short.MAX_VALUE)
-                        .addComponent(btnAgregado, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jButton2)
-                        .addGap(188, 188, 188))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(51, 51, 51)
-                                .addComponent(jLabel2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(214, 214, 214)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,7 +252,15 @@ public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDet
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(NifTextField)
-                                    .addComponent(MoradaTextField))))))
+                                    .addComponent(MoradaTextField)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -271,20 +298,16 @@ public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDet
                 .addGap(21, 21, 21)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregado)
-                    .addComponent(jButton2))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(InserirButton)
                     .addComponent(jButton3)
                     .addComponent(EditarButton))
                 .addContainerGap())
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void NomeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NomeTextFieldActionPerformed
@@ -308,19 +331,52 @@ public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDet
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void InserirButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserirButtonActionPerformed
-        SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy");
-        GregorianCalendar c = new GregorianCalendar();
-        try{
-            c.setTime(s.parse(dataNascTextFIeld.getText()));
-        }catch(ParseException e){ (new ui.util.ExceptionHandler("Erro ao converter a data", e)).fire(); }
-        try{
-            Familia fam = new Familia(NomeTextField.getText(), TelefoneTextField.getText(),
-                        MoradaTextField.getText(), Integer.parseInt(NifTextField.getText()), 
-                    appState.habitat().getFuncionario().getId(),0, c, new GregorianCalendar(), "");
-            Candidatura cand = new Candidatura(new GregorianCalendar(), 
-                    Double.parseDouble(rendimentoTextField.getText()), 0, "");
-        }catch(NumberFormatException  e) { (new ui.util.ExceptionHandler("Erro na inserção da data", e)).fire(); } 
+        try {
+            get();
+            appState.habitat().familiaInsert(familia);
+        } catch (NumberFormatException e) {
+            (new ui.util.ExceptionHandler("Erro na inserção da data", e)).fire();
+        } catch (ParseException e) {
+            (new ui.util.ExceptionHandler("Erro ao converter a data", e)).fire();
+        } catch (SQLException ex) {
+            Logger.getLogger(FamilyCandCreate.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_InserirButtonActionPerformed
+
+    private void EditarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarButtonActionPerformed
+        try {
+            get();
+            appState.habitat().familiaUpdate(familia, candidatura);
+        } catch (SQLException ex) {
+            Logger.getLogger(FamilyCandCreate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(FamilyCandCreate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(FamilyCandCreate.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_EditarButtonActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if (jList1.getSelectedIndex() != -1) {
+            ((AgregadoModel) jList1.getModel()).delete(jList1.getSelectedIndex());
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if (jList1.getSelectedIndex() != -1) {
+            familyAgregado.setVisible(true);
+            familyAgregado.setAgregado(jList1.getSelectedIndex());
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnAgregadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregadoActionPerformed
+        familyAgregado.setVisible(true);
+        familyAgregado.setAgregado(-1);
+    }//GEN-LAST:event_btnAgregadoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        familyQuestoes.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -332,9 +388,10 @@ public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDet
     private javax.swing.JTextField NomeTextField;
     private javax.swing.JFormattedTextField TelefoneTextField;
     private javax.swing.JButton btnAgregado;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JFormattedTextField dataNascTextFIeld;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -346,13 +403,52 @@ public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDet
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JFormattedTextField rendimentoTextField;
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void set(Familia a) {
-        
+    public void set(Candidatura c) {
+        Familia a; 
+        if (c == null){
+            this.familia = a = new Familia();
+            this.candidatura = a.getCandidaturaLast();
+        } else {
+            this.familia = a = c.getFamilia();
+            this.candidatura = c;
+        }
+
+        /*Direct*/
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        ApelidoTextField.setText(a.getApelido());
+        MoradaTextField.setText(a.getMoradaRepresentante());
+        NifTextField.setText(a.getNif() + "");
+        NomeTextField.setText(a.getNomeRepresentante());
+        TelefoneTextField.setText(a.getContactoRepresentate());
+        dataNascTextFIeld.setText(sdf.format(a.getDataNascimento().getTime()));
+        rendimentoTextField.setText(candidatura.getRendimento() + "");
+        /*auxiliar*/
+        AgregadoModel am = new AgregadoModel();
+        jList1.setModel(am);
+        familyQuestoes.setCandidatura(candidatura);
+        familyAgregado.setFamilia(a, am);
+    }
+
+    public void get() throws ParseException, NumberFormatException {
+        /*Direct*/
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        GregorianCalendar c = new GregorianCalendar();
+        c.setTime(sdf.parse(dataNascTextFIeld.getText()));
+        familia.setApelido(ApelidoTextField.getText());
+        familia.setMoradaRepresentante(MoradaTextField.getText());
+        familia.setNif(Integer.parseInt(NifTextField.getText()));
+        familia.setNomeRepresentante(NomeTextField.getText());
+        familia.setContactoRepresentate(TelefoneTextField.getText());
+        familia.setDataNascimento(c);
+        candidatura.setRendimento(Double.parseDouble(rendimentoTextField.getText()));
+        /*auxiliar*/
     }
 
     @Override
@@ -362,6 +458,45 @@ public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDet
 
     @Override
     public JFrame getFrame() {
-        return this;
+        JFrame f = new JFrame();
+        f.setContentPane(this);
+        return f;
+    }
+
+    public class AgregadoModel extends AbstractListModel<ElementoFamilia> {
+
+        public void append(ElementoFamilia a) {
+            int size = getSize();
+            familia.addElementoFamilia(a);
+            fireIntervalAdded(a, size - 1, size);
+        }
+
+        @Override
+        public int getSize() {
+            return familia.getElementosFamilia().size();
+        }
+
+        @Override
+        public ElementoFamilia getElementAt(int index) {
+            return familia.getElementosFamilia().get(index);
+        }
+
+        public void put(int actualIndex, ElementoFamilia e) {
+            if (actualIndex == -1) {
+                int size = getSize();
+                familia.addElementoFamilia(e);
+                fireIntervalAdded(e, size - 1, size);
+            } else {
+                familia.addElementoFamiliaAt(e, actualIndex);
+                fireContentsChanged(this, actualIndex, actualIndex);
+            }
+        }
+
+        public void delete(int selectedIndex) {
+            int size = getSize();
+            familia.rmElementoFamiliaAt(selectedIndex);
+            fireIntervalRemoved(this, selectedIndex, selectedIndex);
+        }
+
     }
 }

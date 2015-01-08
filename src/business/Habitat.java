@@ -20,13 +20,13 @@ import business.funds.Evento;
 import business.funds.Voluntario;
 import java.sql.SQLException;
 import java.util.List;
-import persistence.FamiliaDAO;
 import persistence.ProjetoDAO;
 import persistence.admin.ActividadeDAO;
 import persistence.admin.FuncionarioDAO;
 import persistence.admin.QuestaoDAO;
 import persistence.admin.TipoDonativoDAO;
 import persistence.admin.TipoTarefaDAO;
+import persistence.familia.FamiliaDAO;
 import persistence.fundos.DoadorDAO;
 import persistence.fundos.DonativoDAO;
 import persistence.fundos.EquipaDAO;
@@ -46,7 +46,7 @@ public class Habitat {
     private final FuncionarioDAO funcionarioDAO = new FuncionarioDAO(); 
     private final QuestaoDAO questaoDAO = new QuestaoDAO(); 
     private final ProjetoDAO projetoDAO = new ProjetoDAO();
-      private final FamiliaDAO familiaDao = new FamiliaDAO();
+      private final FamiliaDAO familiaDAO = new FamiliaDAO();
     private final VoluntarioDAO voluntarioDAO = new VoluntarioDAO();
     private final EquipaDAO equipaDAO = new EquipaDAO();
     private final EventoDAO eventoDAO = new EventoDAO();
@@ -83,8 +83,19 @@ public class Habitat {
     public void projetoInsert(Projeto obj) throws SQLException {projetoDAO.insert(obj);}
     public void projetoRemove(Projeto obj) throws SQLException {projetoDAO.remove(obj);}
     public void projetoUpdate(Projeto obj) throws SQLException {projetoDAO.update(obj);}
-     public List<Familia> familiaGetAll() throws SQLException { return familiaDao.getFamilias(); }
-    public List<Candidatura> candidaturaGetAll() throws SQLException { return familiaDao.getCandidaturas(); }
+    public List<Familia> familiaGetAll() throws SQLException {return familiaDAO.getAll();}
+    public Familia familiaGetById(int id) throws SQLException {return familiaDAO.getById(id);}
+    public void familiaInsert(Familia obj) throws SQLException {familiaDAO.insert(obj);}
+    public void familiaRemove(Familia obj) throws SQLException {familiaDAO.remove(obj);}
+    public void familiaUpdate(Familia obj) throws SQLException {}
+    public void familiaUpdate(Familia f, Candidatura c) throws SQLException { familiaDAO.update(f, c); }
+//    public List<Candidatura> candidaturaGetAll() throws SQLException {return familiaDAO.getAll();}
+//    public Candidatura candidaturaGetById(int id) throws SQLException {return familiaDAO.getC;}
+//    public void candidaturaInsert(Candidatura obj) throws SQLException {familiaDAO.insertCand(obj);}
+//    public void candidaturaRemove(Candidatura obj) throws SQLException {familiaDAO. obj);}
+//    public void candidaturaUpdate(Candidatura obj) throws SQLException {familiaDAO.up;}
+    
+    
     public List<Voluntario> voluntarioGetAll() throws SQLException {return voluntarioDAO.getAll();}
     public Voluntario voluntarioGetById(int id) throws SQLException {return voluntarioDAO.getById(id);}
     public void voluntarioInsert(Voluntario obj) throws SQLException {voluntarioDAO.insert(obj);}
@@ -110,8 +121,9 @@ public class Habitat {
     public void donativoInsert(Donativo obj) throws SQLException {donativoDAO.insert(obj);}
     public void donativoRemove(Donativo obj) throws SQLException {donativoDAO.remove(obj);}
     public void donativoUpdate(Donativo obj) throws SQLException {donativoDAO.update(obj);}
-    
 
+
+    
     public boolean login(String username, String password) throws SQLException {
         this.funcionario = funcionarioDAO.getByUsername(username);
         if (funcionario.getPassword().equals(password)){
@@ -129,6 +141,5 @@ public class Habitat {
     public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
     }   
-
 
 }

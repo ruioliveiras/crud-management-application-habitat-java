@@ -226,7 +226,7 @@ public class BuilddingToolBar extends javax.swing.JPanel {
 
     private void btnSelectProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectProjectActionPerformed
         try {
-            btnSelectProjectAction();
+                btnSelectProjectAction();
         } catch (SQLException ex) {
             (new ui.util.ExceptionHandler("Erro enquanto carregava Projetos", ex)).fire();
         }

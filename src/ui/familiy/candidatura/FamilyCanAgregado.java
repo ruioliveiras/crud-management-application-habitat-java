@@ -1,4 +1,13 @@
-package ui.familiy;
+package ui.familiy.candidatura;
+
+import business.familiy.ElementoFamilia;
+import business.familiy.Familia;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import ui.familiy.candidatura.FamilyCandCreate;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -10,13 +19,16 @@ package ui.familiy;
  *
  * @author Jose
  */
-public class FamilyAgregado extends javax.swing.JFrame {
-
+public class FamilyCanAgregado extends javax.swing.JFrame {
+    private FamilyCandCreate.AgregadoModel model;
+    private int actualIndex;
+    
     /**
      * Creates new form AgregadoFamiliar
      */
-    public FamilyAgregado() {
+    public FamilyCanAgregado() {
         initComponents();
+                setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -40,9 +52,9 @@ public class FamilyAgregado extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         OcupacaoTextField = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnConfirmar = new javax.swing.JButton();
+        btnConfirmarProximo = new javax.swing.JButton();
+        btnSair = new javax.swing.JButton();
         EscolaridadeComboBox = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -63,11 +75,26 @@ public class FamilyAgregado extends javax.swing.JFrame {
 
         jLabel7.setText("Escolaridade:");
 
-        jButton1.setText("Confirmar ");
+        btnConfirmar.setText("Confirmar ");
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Inserir Próximo");
+        btnConfirmarProximo.setText("Inserir Próximo");
+        btnConfirmarProximo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarProximoActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Sair");
+        btnSair.setText("Sair");
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairActionPerformed(evt);
+            }
+        });
 
         EscolaridadeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nenhuma", "4ºano", "6ºano", "9ºano", "12ºano", "Licenciatura/Bacharelado", "Mestrado", "Doutoramento" }));
 
@@ -103,14 +130,14 @@ public class FamilyAgregado extends javax.swing.JFrame {
                         .addComponent(EscolaridadeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 134, Short.MAX_VALUE)
+                .addGap(0, 235, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton3)
+                        .addComponent(btnSair)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(btnConfirmar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(btnConfirmarProximo)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -145,16 +172,43 @@ public class FamilyAgregado extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(EscolaridadeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnConfirmar)
+                    .addComponent(btnConfirmarProximo)
+                    .addComponent(btnSair))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+        try {
+            ElementoFamilia e = get();
+            model.put(actualIndex, e);
+            setAgregado(-1);
+            setVisible(false);
+        } catch (ParseException ex) {
+            Logger.getLogger(FamilyCanAgregado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        setVisible(false);
+    }//GEN-LAST:event_btnSairActionPerformed
+
+    private void btnConfirmarProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarProximoActionPerformed
+        try {
+            ElementoFamilia e = get();
+            model.put(actualIndex, e);
+            setAgregado(-1);
+        } catch (ParseException ex) {
+            Logger.getLogger(FamilyCanAgregado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnConfirmarProximoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -173,14 +227,18 @@ public class FamilyAgregado extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FamilyAgregado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FamilyCanAgregado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FamilyAgregado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FamilyCanAgregado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FamilyAgregado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FamilyCanAgregado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FamilyAgregado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FamilyCanAgregado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -189,7 +247,7 @@ public class FamilyAgregado extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FamilyAgregado().setVisible(true);
+                new FamilyCanAgregado().setVisible(true);
             }
         });
     }
@@ -201,9 +259,9 @@ public class FamilyAgregado extends javax.swing.JFrame {
     private javax.swing.JTextField NomeTextField;
     private javax.swing.JTextField OcupacaoTextField;
     private javax.swing.JTextField ParentescoTextField;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnConfirmar;
+    private javax.swing.JButton btnConfirmarProximo;
+    private javax.swing.JButton btnSair;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -212,4 +270,45 @@ public class FamilyAgregado extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     // End of variables declaration//GEN-END:variables
+
+    public void setFamilia(Familia a, FamilyCandCreate.AgregadoModel am) {
+        this.model = am;
+    }
+    
+    private void set(ElementoFamilia af){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        NomeTextField.setText(af.getNome());
+        ParentescoTextField.setText(af.getParentesco());
+        OcupacaoTextField.setText(af.getOcupacao());
+        EstadoTextField.setText(af.getEstadoCivil());
+        DataNascTextField.setText(sdf.format(af.getDataNascimento().getTime()));
+        EscolaridadeComboBox.setSelectedItem(af.getEscolaridade());
+    }
+
+    private ElementoFamilia get() throws ParseException{
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        GregorianCalendar dataNascimento = new GregorianCalendar();
+        dataNascimento.setTime(sdf.parse(DataNascTextField.getText()));
+        
+        return new ElementoFamilia(
+                -1,
+                -1,//idFam
+                NomeTextField.getText(),
+                OcupacaoTextField.getText(),
+                ParentescoTextField.getText(),
+                EscolaridadeComboBox.getSelectedItem().toString(),
+                EstadoTextField.getText(),
+                dataNascimento
+        );
+   
+    }
+    
+    public void setAgregado(int selectedIndex) {
+        actualIndex = selectedIndex;
+        if (selectedIndex == -1){
+            this.set(new ElementoFamilia());
+        } else {
+            this.set(this.model.getElementAt(selectedIndex));
+        }
+    }
 }
