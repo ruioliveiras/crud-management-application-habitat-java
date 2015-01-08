@@ -23,6 +23,7 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
 
     private String title;
     private AppState appState;
+    private Donativo donativo;
     
     /**
      * Creates new form FundsDonateCreateMaterial
@@ -31,6 +32,7 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         enableFields(false);
+        this.appState =appState;
     }
     
     public FundsDonateCreateMaterial(AppState appState, UIDimension.EditonType ty) {
@@ -56,6 +58,7 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
                 break;
             default:
         }
+            this.appState =appState;
     }
     
     
@@ -221,6 +224,7 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
         //checkProj.setSelected(d.);
         //comboProj.getModel().setSelectedItem(d.get());
         //preencher tabela?
+        donativo = d;
     }
 
     @Override

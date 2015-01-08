@@ -6,14 +6,16 @@ import java.util.GregorianCalendar;
 import persistence.fundos.EquipaDAO;
 
 public class Equipa implements Voluntariado {
+
     private int idEq;
     private String nacionalidadeEq, designacao;
     private GregorianCalendar dataCriaEq;
     private int idFunc;
 
-    
-    public Equipa(){}
-    
+    public Equipa() {
+        dataCriaEq = new GregorianCalendar();
+    }
+
     public Equipa(int idEq, String nacionalidadeEq, String designacao, GregorianCalendar dataCriaEq, int idFunc) {
         this.idEq = idEq;
         this.nacionalidadeEq = nacionalidadeEq;
@@ -21,8 +23,7 @@ public class Equipa implements Voluntariado {
         this.dataCriaEq = dataCriaEq;
         this.idFunc = idFunc;
     }
-    
-    
+
     public Equipa(Equipa e) {
         this.idEq = e.getIdEq();
         this.nacionalidadeEq = e.getNacionalidadeEq();
@@ -30,8 +31,8 @@ public class Equipa implements Voluntariado {
         this.dataCriaEq = e.getDataCriaEq();
         this.idFunc = e.getIdFunc();
     }
-    
-    public ArrayList<String> getMembros() throws SQLException {
+
+    public ArrayList<Voluntario> getMembros() throws SQLException {
         EquipaDAO ed = new EquipaDAO();
         return ed.getMembros(this.idEq);
     }
@@ -75,12 +76,12 @@ public class Equipa implements Voluntariado {
     public void setNacionalidadeEq(String nacionalidadeEq) {
         this.nacionalidadeEq = nacionalidadeEq;
     }
-    
-    public Equipa clone(){
+
+    public Equipa clone() {
         return new Equipa(this);
     }
-    
-    public String toString(){
-        return new String(this.idEq+"."+this.nacionalidadeEq+"."+this.designacao);
+
+    public String toString() {
+        return new String(this.idEq + "." + this.nacionalidadeEq + "." + this.designacao);
     }
 }

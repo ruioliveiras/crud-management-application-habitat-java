@@ -24,7 +24,7 @@ import java.util.List;
 import persistence.ProjetoDAO;
 import persistence.admin.ActividadeDAO;
 import persistence.admin.FuncionarioDAO;
-import persistence.admin.QuestaoDAO;
+import persistence.admin.TipoQuestaoDAO;
 import persistence.admin.TipoDonativoDAO;
 import persistence.admin.TipoTarefaDAO;
 import persistence.familia.FamiliaDAO;
@@ -45,7 +45,7 @@ public class Habitat {
     private final ActividadeDAO actividadeDAO = new ActividadeDAO(); 
     private final TipoDonativoDAO tipoDonativoDAO = new TipoDonativoDAO(); 
     private final FuncionarioDAO funcionarioDAO = new FuncionarioDAO(); 
-    private final QuestaoDAO questaoDAO = new QuestaoDAO(); 
+    private final TipoQuestaoDAO questaoDAO = new TipoQuestaoDAO(); 
     private final ProjetoDAO projetoDAO = new ProjetoDAO();
       private final FamiliaDAO familiaDAO = new FamiliaDAO();
     private final VoluntarioDAO voluntarioDAO = new VoluntarioDAO();
@@ -108,9 +108,9 @@ public class Habitat {
     public void voluntarioUpdate(Voluntario obj) throws SQLException {voluntarioDAO.update(obj);}
     public List<Equipa> equipaGetAll() throws SQLException {return equipaDAO.getAll();}
     public Equipa equipaGetById(int id) throws SQLException {return equipaDAO.getById(id);}
-    public void equipaInsert(Equipa obj) throws SQLException {equipaDAO.insert(obj);}
+    public void equipaInsert(Equipa obj,List<Voluntario> lista) throws SQLException {equipaDAO.insert(obj,lista);}
     public void equipaRemove(Equipa obj) throws SQLException {equipaDAO.remove(obj);}
-    public void equipaUpdate(Equipa obj) throws SQLException {equipaDAO.update(obj);}
+    public void equipaUpdate(Equipa obj,List<Voluntario> lista, List<Voluntario> removed) throws SQLException {equipaDAO.update(obj,lista,removed);}
     public List<Evento> eventoGetAll() throws SQLException {return eventoDAO.getAll();}
     public Evento eventoGetById(int id) throws SQLException {return eventoDAO.getById(id);}
     public void eventoInsert(Evento obj) throws SQLException {eventoDAO.insert(obj);}

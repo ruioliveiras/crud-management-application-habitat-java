@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
-import persistence.admin.QuestaoDAO;
+import persistence.admin.TipoQuestaoDAO;
 
 
 public class Candidatura 
 {
     public enum CandidaturaEstado{APROVADO,NAOAPROVADO,NAOACEITE,PENDENTE};
     
-    private static final QuestaoDAO questaoDAO = new QuestaoDAO();
+    private static final TipoQuestaoDAO questaoDAO = new TipoQuestaoDAO();
     
     private GregorianCalendar dataCand;
     private double rendimento;

@@ -54,11 +54,10 @@ public class DoadorDAO  extends DAO<Doador> {
     public int insert(Doador d) throws SQLException {
         newStatement();
         
-        int i = executeSQLWithId("INSERT INTO Individuo(idIndiv, idFunc, nome, dataNascimento, profissao, morada, codigoPostal, localidade," +
-                                    "email, telefone, telemovel, habilitacoes, conhecimentosLing, formacaoComp, experienciaVolunt, conhecimentosConstr," +
+        int i = executeSQLWithId("INSERT INTO Individuo(idFunc, nome, dataNascimento, profissao, morada, codigoPostal, localidade," +
+                                    "email, telefone, telemovel, habilitacoes, conhecimentosLing, formacaoComp, experienciaVolunt, conhecmentosConstr," +
                                     "trabalharJuntoVolunt, disponibilidade, comoConheceu, receberInfo, isParceiro, nif, isColectivo, isDoador," +
                                     "isVoluntario, nacionalidadeIndev, dataCriaIndiv) VALUES (" + 
-                                    toSQL(d.getIdIndiv()) + "," + 
                                     toSQL(d.getIdFunc()) + "," + 
                                     toSQL(d.getNome()) + "," + 
                                     toSQL(d.getDataNascimento()) + "," + 
@@ -117,7 +116,7 @@ public class DoadorDAO  extends DAO<Doador> {
                 ", isParceiro=" + toSQL(d.isParceiro()) + 
                 ", nif=" + toSQL(d.getNif()) + 
                 ", isColectivo=" + toSQL(d.isColetivo()) + 
-                ", isDoador," + toSQL(d.isDoador()) + 
+                ", isDoador=" + toSQL(d.isDoador()) + 
                 ", isVoluntario=" + toSQL(d.isVoluntario()) + 
                 ", nacionalidadeIndev=" + toSQL(d.getNacionalidadeIndiv()) + 
                 ", dataCriaIndiv=" + toSQL(d.getDataCriaIndiv()) + 
@@ -130,12 +129,14 @@ public class DoadorDAO  extends DAO<Doador> {
     @Override
     public void remove(Doador d) throws SQLException{
         newStatement();
-        executeSQL("DELETE FROM INDIVIDUO WHERE idIndiv = " +  d.getIdIndiv());
+        executeSQL("DELETE FROM Individuo WHERE idIndiv = " +  d.getIdIndiv());
         closeStatemnet();
     }
     
     
-    //@Override
+    //public Doador(int idIndiv, int idFunc, String nome, GregorianCalendar dataNascimento, String profissao, String morada, String codigoPostal, S
+    //tring localidade, String telefone, String telemovel, String email, String habilitacoes, String conhecimentosLing, String formacaoComp, String experienciaVolunt, String conhecimentosConstr, boolean trabalharJuntoVolunt, String disponibilidade, String comoConheceu, boolean receberInfo, boolean isParceiro, int nif, boolean isColetivo, boolean isDoador, boolean isVoluntario, String nacionalidadeIndiv, GregorianCalendar dataCriaIndiv) {
+ 
     public Doador newObject(ResultSet rs) throws SQLException{
         return new Doador(
             rs.getInt("idIndiv"),
@@ -146,9 +147,9 @@ public class DoadorDAO  extends DAO<Doador> {
             rs.getNString("morada"),
             rs.getNString("codigoPostal"),
             rs.getNString("localidade"),
-            rs.getNString("email"),
             rs.getNString("telefone"),
             rs.getNString("telemovel"),
+            rs.getNString("email"),
             rs.getNString("habilitacoes"),
             rs.getNString("conhecimentosLing"),
             rs.getNString("formacaoComp"),

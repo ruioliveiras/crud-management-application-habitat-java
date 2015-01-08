@@ -57,8 +57,7 @@ public class DonativoDAO extends DAO<Donativo> {
     public int insert(Donativo d) throws SQLException {
         newStatement();
         
-        int i = executeSQLWithId("INSERT INTO FAMILIA(idDon, descricao, quantInicial, quantAtual, idTipoDon, dataDon, idFunc, idEv, idIndiv) VALUES (" + 
-                                    toSQL(d.getIdDon()) + "," + 
+        int i = executeSQLWithId("INSERT INTO Donativo(descricao, quantInicial, quantAtual, idTipoDon, dataDon, idFunc, idEv, idIndiv) VALUES (" + 
                                     toSQL(d.getDescricao()) + "," + 
                                     toSQL(d.getQuantInicial()) + "," + 
                                     toSQL(d.getQuantAtual()) + "," + 

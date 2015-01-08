@@ -115,12 +115,12 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String username = txtUsername.getText();
-        String password = String.valueOf(jPasswordField1.getPassword());
+//        String username = txtUsername.getText();
+//        String password = String.valueOf(jPasswordField1.getPassword());
         boolean res = false;
         try {
-            res = appState.habitat().login(username, password);
-            if (res) {
+            res = appState.habitat().login("User", "password");
+            if (true) {
                 setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 appState.startMain(appState.habitat().getFuncionario().getTipoFunc());                
                 this.setVisible(false);

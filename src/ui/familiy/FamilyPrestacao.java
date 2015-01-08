@@ -34,7 +34,7 @@ public class FamilyPrestacao extends javax.swing.JPanel implements UIDimension.J
     /**
      * Creates new form AdminDetailsTask
      */
-    public FamilyPrestacao(AppState appState, Familia f) {
+    public FamilyPrestacao(AppState appState) {
         initComponents();
         btCancelar.setVisible(false);
         btSave.setVisible(false);
@@ -43,11 +43,10 @@ public class FamilyPrestacao extends javax.swing.JPanel implements UIDimension.J
         PrestacaoTextField.setEditable(false);
         this.appState = appState;
         jPanel1.setVisible(false);
-        jLabel1.setVisible(false);
-        fam = f;
+        jLabel1.setVisible(false);;
     }
 
-    public FamilyPrestacao(AppState appState, UIDimension.EditonType ty, Familia f) {
+    public FamilyPrestacao(AppState appState, UIDimension.EditonType ty) {
         initComponents();
         this.appState = appState;
         switch (ty) {
@@ -76,7 +75,6 @@ public class FamilyPrestacao extends javax.swing.JPanel implements UIDimension.J
                 break;
             default:
         }
-        fam = f;
     }
 
     /**
@@ -238,6 +236,8 @@ public class FamilyPrestacao extends javax.swing.JPanel implements UIDimension.J
 
     @Override
     public void set(Prestacao a) {
+        this.fam = appState.get(Familia.class).listSelected();
+        
         obj = a = (a == null) ? new Prestacao() : a;
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
