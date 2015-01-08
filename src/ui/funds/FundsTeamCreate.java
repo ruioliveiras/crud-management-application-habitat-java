@@ -33,6 +33,7 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
      */
     public FundsTeamCreate(AppState appState) {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         btCancelar.setVisible(false);
         btSave.setVisible(false);
         btnRemove.setVisible(false);
@@ -42,6 +43,7 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
     
     public FundsTeamCreate(AppState appState, UIDimension.EditonType ty) {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         switch (ty) {
             case EDIT:
                 title = "Editar";
@@ -261,8 +263,10 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 
-        @Override
+    @Override
     public void set(Equipa a) {
+        if (a==null) a=new Equipa();
+        
         txtName.setText(a.getDesignacao());
         txtNacionalidade.setText(a.getNacionalidadeEq());
         

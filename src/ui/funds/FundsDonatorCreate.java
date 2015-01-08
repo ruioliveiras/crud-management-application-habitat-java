@@ -9,6 +9,7 @@ import business.building.Projeto;
 import business.funds.Doador;
 import business.funds.Donativo;
 import java.awt.Panel;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -29,6 +30,7 @@ public class FundsDonatorCreate extends javax.swing.JFrame implements UIDimensio
      */
     public FundsDonatorCreate(AppState appState) {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         btCancelar.setVisible(false);
         btSave.setVisible(false);
         btnRemove.setVisible(false);
@@ -38,6 +40,7 @@ public class FundsDonatorCreate extends javax.swing.JFrame implements UIDimensio
     
     public FundsDonatorCreate(AppState appState, UIDimension.EditonType ty) {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         switch(ty) {
             case EDIT:
                 title = "Editar";
@@ -467,10 +470,13 @@ public class FundsDonatorCreate extends javax.swing.JFrame implements UIDimensio
         // atributos de Doador
         // o mesmo acontece nos outros Forms.
         
+        if (a==null) a=new Doador();
+        
         txtNome.setText(a.getNome());
         if(a.isParceiro()) comboTipo.getModel().setSelectedItem("Parceiro");
         else comboTipo.getModel().setSelectedItem("Normal");
-        txtDataN.setText(a.getDataNascimento().toString());
+        DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+        txtDataN.setText(df.format(a.getDataNascimento().getTime()));
         txtNacionalidade.setText(a.getNacionalidadeIndiv());
         txtProfissao.setText(a.getProfissao());
         txtMorada.setText(a.getMorada());

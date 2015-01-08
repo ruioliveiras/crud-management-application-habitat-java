@@ -43,10 +43,18 @@ import ui.building.BuildingTask;
 import ui.familiy.FamilyDetalhesPane;
 import ui.familiy.familia.FamilyDetalhes;
 import ui.building.BuildingVolunteerReal;
+<<<<<<< HEAD
 import ui.familiy.candidatura.FamilyCanPane;
 import ui.familiy.candidatura.FamilyCandCreate;
 import ui.familiy.candidatura.FamilyCandDetalhes;
 import ui.familiy.familia.FamilyCreate;
+=======
+import ui.funds.FundsDetalhesDoador;
+import ui.funds.FundsDetalhesDonativo;
+import ui.funds.FundsDetalhesEquipa;
+import ui.funds.FundsDetalhesEvento;
+import ui.funds.FundsDetalhesVolunt;
+>>>>>>> 05d3dbbc02583c6279a90af389c3d0f68d1151ff
 import ui.funds.FundsDonateCreateMaterial;
 import ui.funds.FundsDonatorCreate;
 import ui.funds.FundsEventCreate;
@@ -256,7 +264,7 @@ public class AppState {
 
         this.fundsDonations = new UIDimension<>(
             this.funds,
-            new FundsDonateCreateMaterial(this),
+            new FundsDetalhesDonativo(),
             new FundsDonateCreateMaterial(this,UIDimension.EditonType.EDIT),
             new FundsDonateCreateMaterial(this,UIDimension.EditonType.NEW),
             new FundsDonateCreateMaterial(this,UIDimension.EditonType.DETAILS), 
@@ -264,7 +272,7 @@ public class AppState {
         );
         this.fundsDonors = new UIDimension<>(
             this.funds,
-            new FundsDonatorCreate(this),
+            new FundsDetalhesDoador(),
             new FundsDonatorCreate(this,UIDimension.EditonType.EDIT),
             new FundsDonatorCreate(this,UIDimension.EditonType.NEW),
             new FundsDonatorCreate(this,UIDimension.EditonType.DETAILS), 
@@ -272,7 +280,7 @@ public class AppState {
         );
         this.fundsEvents = new UIDimension<>(
             this.funds,
-            new FundsEventCreate(this),
+            new FundsDetalhesEvento(),
             new FundsEventCreate(this,UIDimension.EditonType.EDIT),
             new FundsEventCreate(this,UIDimension.EditonType.NEW),
             new FundsEventCreate(this,UIDimension.EditonType.DETAILS), 
@@ -281,7 +289,7 @@ public class AppState {
         
         this.fundsVolunters = new UIDimension<>(
             this.funds,
-            new FundsVolunteerCreate(this),
+            new FundsDetalhesVolunt(),
             new FundsVolunteerCreate(this,UIDimension.EditonType.EDIT),
             new FundsVolunteerCreate(this,UIDimension.EditonType.NEW),
             new FundsVolunteerCreate(this,UIDimension.EditonType.DETAILS), 
@@ -290,7 +298,7 @@ public class AppState {
 
         this.fundsEquipa = new UIDimension<>(
             this.funds,
-            new FundsTeamCreate(this),
+            new FundsDetalhesEquipa(),
             new FundsTeamCreate(this,UIDimension.EditonType.EDIT),
             new FundsTeamCreate(this,UIDimension.EditonType.NEW),
             new FundsTeamCreate(this,UIDimension.EditonType.DETAILS), 
@@ -300,6 +308,7 @@ public class AppState {
         adminToolBar.btnTarefasAction();
         builddingToolBar.btnSelectProjectAction();
         familyToolBar.btnFamiliyAction();
+        fundsToolBar.btnVoluntariosAction();
         
         this.main = new MainFrame(admin, funds, family, building);
     }
