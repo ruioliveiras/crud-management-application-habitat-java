@@ -69,8 +69,8 @@ public class FamilyCreate extends javax.swing.JFrame implements UIDimension.JDet
 
     @Override
     public void set(Familia a) {
-        //Candidatura c =
-        familyCandCreate.set(a.getCandidaturaLast());
+        Candidatura c = (a== null) ? null : a.getCandidaturaLast();
+        familyCandCreate.set(c);
     }
 
     @Override

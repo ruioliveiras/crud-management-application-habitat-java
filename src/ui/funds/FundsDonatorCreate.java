@@ -9,8 +9,11 @@ import business.building.Projeto;
 import business.funds.Doador;
 import business.funds.Donativo;
 import java.awt.Panel;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import ui.AppState;
@@ -24,6 +27,7 @@ public class FundsDonatorCreate extends javax.swing.JFrame implements UIDimensio
 
     private String title;
     private AppState appState;
+    private Doador doador;
     
     /**
      * Creates new form FundsDonatorCreate
@@ -36,6 +40,7 @@ public class FundsDonatorCreate extends javax.swing.JFrame implements UIDimensio
         btnRemove.setVisible(false);
         btnSaveEdit.setVisible(false);
         enableFields(false);
+        this.appState = appState;
     }
     
     public FundsDonatorCreate(AppState appState, UIDimension.EditonType ty) {
@@ -67,6 +72,8 @@ public class FundsDonatorCreate extends javax.swing.JFrame implements UIDimensio
                 break;
             default:
         }
+        this.appState = appState;
+        
     }
     
     
@@ -230,7 +237,7 @@ public class FundsDonatorCreate extends javax.swing.JFrame implements UIDimensio
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtConhecimentosL, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE))
+                        .addComponent(txtConhecimentosL, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -403,19 +410,37 @@ public class FundsDonatorCreate extends javax.swing.JFrame implements UIDimensio
     }//GEN-LAST:event_checkReceberInfoActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
+        try {
+            appState.habitat().doadoresRemove(doador);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
+        }
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnSaveEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEditActionPerformed
-        // TODO add your handling code here:
+             try {
+            get();
+            appState.habitat().doadoresUpdate(doador);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
+        }   // TODO add your handling code here:
     }//GEN-LAST:event_btnSaveEditActionPerformed
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        // TODO add your handling code here:
+               try {
+                 get();
+            appState.habitat().doadoresInsert(doador);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
+        } // TODO add your handling code here:
     }//GEN-LAST:event_btSaveActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        // TODO add your handling code here:
+                 this.setVisible(false);
+   // TODO add your handling code here:
     }//GEN-LAST:event_btCancelarActionPerformed
 
 
@@ -492,6 +517,31 @@ public class FundsDonatorCreate extends javax.swing.JFrame implements UIDimensio
         txtComoConheceu.setText(a.getComoConheceu());
         checkReceberInfo.setSelected(a.getReceberInfo());
         checkIsParceiro.setSelected(a.isParceiro());
+        
+        doador =a;
+    }
+    
+    public void get() throws NumberFormatException{
+        if (doador.getIdFunc() == 0){
+            doador.setIdFunc(appState.habitat().getFuncionario().getId());
+        }
+        doador.setNome( txtNome.getText() );
+        doador.setNacionalidadeIndiv( txtNacionalidade.getText() );
+        doador.setProfissao( txtProfissao.getText() );
+        doador.setMorada( txtMorada.getText() );
+        doador.setCodigoPostal( txtCodPostal.getText() );
+        doador.setLocalidade( txtLocalidade.getText() );
+        doador.setTelefone( txtTelefone.getText() );
+        doador.setTelemovel( txtTelemovel.getText() );
+        doador.setEmail( txtEmail.getText() );
+        doador.setNif( Integer.parseInt(txtNif.getText()));
+        doador.setHabilitacoes( txtHabilit.getText() );
+        doador.setConhecimentosLing( txtConhecimentosL.getText() );
+        doador.setFormacaoComp( txtFormComp.getText() );
+        doador.setComoConheceu( txtComoConheceu.getText() );
+        doador.setReceberInfo( checkReceberInfo.isSelected() );
+        doador.setIsParceiro(checkIsParceiro.isSelected());
+        doador.setIsDoador(true);
     }
 
     @Override

@@ -6,28 +6,39 @@
 package ui.funds;
 
 import business.building.Projeto;
+import business.familiy.ElementoFamilia;
+import business.funds.Donativo;
 import business.funds.Equipa;
+import business.funds.Voluntario;
 import java.awt.Panel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractListModel;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import ui.AppState;
+import ui.building.BuildingDonationReal;
+import ui.util.SimpleListModel;
 import ui.util.UIDimension;
 
 /**
  *
  * @author ruioliveiras
  */
-public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimension.JDetails<Equipa>{
+public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimension.JDetails<Equipa> {
 
     private String title;
+    private SimpleListModel<Voluntario> simpleListModel;
     private AppState appState;
-    
+    private Equipa equipa;
+
     /**
      * Creates new form AdminDetailsActivity
      */
@@ -39,8 +50,9 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
         btnRemove.setVisible(false);
         btnSaveEdit.setVisible(false);
         enableFields(false);
+        this.appState = appState;
     }
-    
+
     public FundsTeamCreate(AppState appState, UIDimension.EditonType ty) {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -70,17 +82,15 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
                 break;
             default:
         }
+        this.appState = appState;
     }
 
-    
-
-    public void enableFields(boolean b){
+    public void enableFields(boolean b) {
         txtName.setEditable(b);
         txtNacionalidade.setEditable(b);
-        jButton1.setEnabled(b);
         jButton2.setEnabled(b);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -104,7 +114,6 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
 
         jLabel1.setText("Nome");
 
@@ -145,7 +154,7 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
             }
         });
 
-        jLabel2.setText("Membros");
+        jLabel2.setText("Membros (Seleciona com double click na aplicação)");
         jPanel1.add(jLabel2);
 
         jButton2.setText("Excluir");
@@ -156,14 +165,6 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
         });
         jPanel2.add(jButton2);
 
-        jButton1.setText("Adicionar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButton1);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -172,7 +173,7 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 43, Short.MAX_VALUE)
+                        .addGap(0, 166, Short.MAX_VALUE)
                         .addComponent(btnRemove)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSaveEdit)
@@ -207,7 +208,7 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
                 .addGap(14, 14, 14)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -221,28 +222,42 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
+        try {
+            appState.habitat().equipaRemove(equipa);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
+        }  // TODO add your handling code here:
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnSaveEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEditActionPerformed
-        // TODO add your handling code here:
+        try {
+            get();
+            appState.habitat().equipaUpdate(equipa,simpleListModel.getLista(),simpleListModel.getRemoved());
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
+        }    // TODO add your handling code here:
     }//GEN-LAST:event_btnSaveEditActionPerformed
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        // TODO add your handling code here:
+        try {
+            get();
+            appState.habitat().equipaInsert(equipa,simpleListModel.getLista());
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
+        }   // TODO add your handling code here:
     }//GEN-LAST:event_btSaveActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+        this.setVisible(false);
         // TODO add your handling code here:
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        simpleListModel.delete(lVoluntarios.getSelectedIndex());
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -250,7 +265,6 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
     private javax.swing.JButton btSave;
     private javax.swing.JButton btnRemove;
     private javax.swing.JButton btnSaveEdit;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -263,35 +277,44 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 
+
     @Override
     public void set(Equipa a) {
-        if (a==null) a=new Equipa();
-        
+        if (a == null) {
+            a = new Equipa();
+        }
+
         txtName.setText(a.getDesignacao());
         txtNacionalidade.setText(a.getNacionalidadeEq());
-        
+
         try {
-            final ArrayList<String> listaM;
-            listaM = a.getMembros();
-            lVoluntarios.setModel(new AbstractListModel() {
-
-                @Override
-                public int getSize() {
-                    return listaM.size();
-                }
-
-                @Override
-                public Object getElementAt(int index) {
-                    return listaM.get(index);
-                }
-            });
+            simpleListModel = new SimpleListModel<>(appState.get(Voluntario.class),Voluntario.class, a.getMembros());
+            simpleListModel.setListing(true);
+            lVoluntarios.setModel(simpleListModel);       
         } catch (SQLException ex) {
             Logger.getLogger(FundsTeamCreate.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
+        equipa = a;
+        pack();
     }
 
+    public void get() {
+        if (equipa.getIdFunc() == 0) {
+            equipa.setIdFunc(appState.habitat().getFuncionario().getId());
+        }
+        equipa.setDesignacao(txtName.getText());
+        equipa.setNacionalidadeEq(txtNacionalidade.getText());
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
+        if (simpleListModel != null){
+            simpleListModel.setListing(b);
+        }
+    }
+    
     @Override
     public JPanel getPanel() {
         return new JPanel();
@@ -301,5 +324,6 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
     public JFrame getFrame() {
         this.setTitle(title);
         return this;
-    }    
+    }
+
 }

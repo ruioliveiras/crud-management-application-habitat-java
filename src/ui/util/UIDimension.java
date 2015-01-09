@@ -138,7 +138,11 @@ public class UIDimension<A>{
     public final void listSearch(String s){
         list.search(s);
     }
-
+    
+    public final boolean listIsLoaded(){
+        return (this.mySkelaton.getLoaded() == this);
+    }
+    
     public final void listRefresh(List<A> values){
         this.list = new PrivateListModel(values);
         this.mySkelaton.load(this);
@@ -169,6 +173,7 @@ public class UIDimension<A>{
     
     public interface JSkelaton{
         public void load(UIDimension<?> a);
+        public UIDimension<?> getLoaded();
         public void addMouseClickListener(MouseAdapter mouseAdapter);
         public void removeMouseClickListener(MouseAdapter mouseAdapter);
     }

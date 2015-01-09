@@ -8,10 +8,12 @@ package persistence.fundos;
 import business.building.VoluntariadoRealizado;
 import business.funds.Equipa;
 import business.funds.Voluntariado;
+import business.funds.Voluntario;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import persistence.util.DAO;
 
 /**
@@ -19,13 +21,14 @@ import persistence.util.DAO;
  * @author ruioliveiras
  */
 public class EquipaDAO extends DAO<Equipa>{
+    private VoluntarioDAO voluntarioDAO = new VoluntarioDAO();
     
-    public ArrayList<String> getMembros(int id) throws SQLException{
-        ArrayList<String> r = new ArrayList<>();
+    public ArrayList<Voluntario> getMembros(int id) throws SQLException{
+        ArrayList<Voluntario> r = new ArrayList<>();
         newStatement();
-        ResultSet rs = executeSelect("SELECT ID.nome FROM EquipaIndividuo AS IE INNER JOIN Individuo AS ID ON IE.idIndiv=ID.idIndiv WHERE idEq = "+id);
+        ResultSet rs = executeSelect("SELECT ID.* FROM EquipaIndividuo AS IE INNER JOIN Individuo AS ID ON IE.idIndiv=ID.idIndiv WHERE idEq = "+id);
         while(rs.next()){
-            r.add(rs.getNString("nome"));
+           r.add(voluntarioDAO.newObject(rs));
         }
         closeStatemnet();
         return r;
@@ -80,14 +83,27 @@ public class EquipaDAO extends DAO<Equipa>{
     public int insert(Equipa e) throws SQLException {
         newStatement();
         
-        int i = executeSQLWithId("INSERT INTO Equipa(idEq, nacionalidadeEq, designacao, dataCriaEq, idfunc) VALUES (" +
-                                    toSQL(e.getIdEq()) + "," + 
+        int i = executeSQLWithId("INSERT INTO Equipa(nacionalidadeEq, designacao, dataCriaEq, idfunc) VALUES (" +
                                     toSQL(e.getNacionalidadeEq()) + "," + 
                                     toSQL(e.getDesignacao()) + "," + 
                                     toSQL(e.getDataCriaEq()) + "," + 
                                     toSQL(e.getIdFunc()));
         closeStatemnet();
         return i;
+    }
+    public int insert(Equipa e,List<Voluntario> list) throws SQLException {
+        int ret = insert(e);
+        newStatement();
+        String query = "INSERT INTO EquipaIndividuo(idIndiv,IdEq) VALUES ";
+        for (Voluntario list1 : list) {
+            query += " (" + toSQL(list1.getIdIndiv())  +" , " +  toSQL(e.getIdEq()) + "),";
+        }
+        query = query.substring(0, query.length() - 1);
+        
+        executeSQL(query);
+        
+        closeStatemnet();
+        return ret;
     }
 
     @Override
@@ -107,6 +123,20 @@ public class EquipaDAO extends DAO<Equipa>{
                 ", idfunc=" + toSQL(e.getIdFunc()) + 
                 " Where idEq=" + toSQL(e.getIdEq())
         );
+        closeStatemnet();
+    }
+    
+    public void update(Equipa e,List<Voluntario> list,List<Voluntario> rem) throws SQLException {
+        update(e);
+        newStatement();
+        for (Voluntario list1 : list) {
+            executeSQL("INSERT IGNORE INTO EquipaIndividuo(idIndiv, idEq) VALUES " 
+              + " (" + toSQL(list1.getIdIndiv())  +" , " +  toSQL(e.getIdEq()) + ")");
+               
+        }
+        for (Voluntario list1 : rem) {
+            executeSQL(" DELETE IGNORE FROM EquipaIndividuo WHERE idIndiv = " + list1.getIdIndiv() + " and idEq = " + e.getIdEq());
+        }        
         closeStatemnet();
     }
     

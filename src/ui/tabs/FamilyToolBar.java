@@ -38,7 +38,7 @@ public class FamilyToolBar extends javax.swing.JPanel {
         this.appState = appState;
     }
 
-    public void btnFamiliyAction(){
+    public void btnFamiliyAction() {
         if (isSelected) {
             buttonGroup1.clearSelection();
             try {
@@ -47,31 +47,31 @@ public class FamilyToolBar extends javax.swing.JPanel {
             } catch (SQLException e) {
                 (new ui.util.ExceptionHandler("Erro enquanto carregava Questoes", e)).fire();
             }
-            btnShowFamilys.setText("Selecionar Projeto");
+            btnShowFamilys.setText("Selecionar Familia");
         } else {
             selected = appState.get(Familia.class).listSelected();
-            if (selected != null) {
-                String name = selected.getApelido();
-                if (name.length() > 20) {
-                    jLabel1.setToolTipText(name);
-                    name = name.substring(0, 17) + " ...";
-                }
-                jLabel1.setText(name);
-                try {
-                    btnCandidaturasAction();
-                } catch (SQLException ex) {
-                    (new ui.util.ExceptionHandler("Erro enquanto carregava Questoes", ex)).fire();
-                }
-
+            if (selected == null) {
+                return;
             }
+            String name = selected.getApelido();
+            if (name.length() > 20) {
+                jLabel1.setToolTipText(name);
+                name = name.substring(0, 17) + " ...";
+            }
+            jLabel1.setText(name);
+            try {
+                btnCandidaturasAction();
+            } catch (SQLException ex) {
+                (new ui.util.ExceptionHandler("Erro enquanto carregava Questoes", ex)).fire();
+            }
+
             btnShowFamilys.setText("Voltar a selecionar");
         }
         jToggleButton1.setEnabled(!isSelected);
         jToggleButton2.setEnabled(!isSelected);
-        jToggleButton3.setEnabled(!isSelected);
         isSelected = !isSelected;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -82,36 +82,20 @@ public class FamilyToolBar extends javax.swing.JPanel {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        btnAcompanhamento = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        btnShowFamilys1 = new javax.swing.JButton();
-        btnPaymentPlan = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnShowFamilys = new javax.swing.JButton();
         btnAprovarCand = new javax.swing.JButton();
         jToggleButton1 = new javax.swing.JToggleButton();
         jToggleButton2 = new javax.swing.JToggleButton();
-        jToggleButton3 = new javax.swing.JToggleButton();
-
-        btnAcompanhamento.setText("Acompanhamento");
 
         jLabel2.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
         jLabel2.setText("Ações");
 
-        btnShowFamilys1.setText("Candidaturas");
-        btnShowFamilys1.setHideActionText(true);
-        btnShowFamilys1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnShowFamilys1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnShowFamilys1ActionPerformed(evt);
-            }
-        });
-
-        btnPaymentPlan.setText("Prestação");
-
         jLabel1.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
         jLabel1.setText("Vistas");
 
+        btnShowFamilys.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/familia32.png"))); // NOI18N
         btnShowFamilys.setText("Selecionar Familia");
         btnShowFamilys.setHideActionText(true);
         btnShowFamilys.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -124,7 +108,9 @@ public class FamilyToolBar extends javax.swing.JPanel {
         btnAprovarCand.setText("Aprovar Candidatura");
 
         buttonGroup1.add(jToggleButton1);
+        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/familia_add32.png"))); // NOI18N
         jToggleButton1.setText("Candidaturas");
+        jToggleButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton1ActionPerformed(evt);
@@ -132,18 +118,12 @@ public class FamilyToolBar extends javax.swing.JPanel {
         });
 
         buttonGroup1.add(jToggleButton2);
+        jToggleButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/familia_add32.png"))); // NOI18N
         jToggleButton2.setText("Prestacao");
+        jToggleButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton2ActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(jToggleButton3);
-        jToggleButton3.setText("Acompanhamento");
-        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton3ActionPerformed(evt);
             }
         });
 
@@ -154,13 +134,9 @@ public class FamilyToolBar extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jToggleButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jToggleButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAcompanhamento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAprovarCand, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
-                    .addComponent(btnPaymentPlan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnShowFamilys1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAprovarCand, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                     .addComponent(btnShowFamilys, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,25 +159,14 @@ public class FamilyToolBar extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(80, 80, 80)
                 .addComponent(btnAprovarCand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnShowFamilys1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPaymentPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAcompanhamento, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnShowFamilysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowFamilysActionPerformed
         btnFamiliyAction();
     }//GEN-LAST:event_btnShowFamilysActionPerformed
-
-    private void btnShowFamilys1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowFamilys1ActionPerformed
-        btnAprovarCand.setVisible(true);
-    }//GEN-LAST:event_btnShowFamilys1ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         try {
@@ -219,27 +184,15 @@ public class FamilyToolBar extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
-    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
-        try {
-            btnAconpanhamentoAction();
-        } catch (SQLException e) {
-            (new ui.util.ExceptionHandler("Erro enquanto carregava Questoes", e)).fire();
-        }
-    }//GEN-LAST:event_jToggleButton3ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAcompanhamento;
     private javax.swing.JButton btnAprovarCand;
-    private javax.swing.JButton btnPaymentPlan;
     private javax.swing.JButton btnShowFamilys;
-    private javax.swing.JButton btnShowFamilys1;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
     // End of variables declaration//GEN-END:variables
 
     private void btnCandidaturasAction() throws SQLException {
@@ -247,12 +200,12 @@ public class FamilyToolBar extends javax.swing.JPanel {
         List<Candidatura> l = selected.getCandidaturas();
         appState.FamilySelect(Candidatura.class, l);
     }
-    
+
     private void btnPrestacaoAction() throws SQLException {
         List<Prestacao> l = selected.getPrestacoes();
         appState.FamilySelect(Prestacao.class, l);
     }
-    
+
     private void btnAconpanhamentoAction() throws SQLException {
         List<Acompanhamento> l = selected.getAconpanhamento();
         appState.FamilySelect(Acompanhamento.class, l);

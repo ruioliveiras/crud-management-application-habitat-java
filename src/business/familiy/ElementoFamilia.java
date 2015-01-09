@@ -20,6 +20,7 @@ public class ElementoFamilia
     public ElementoFamilia(int id,int idFam, String nome, String ocupacao, String parentesco, 
             String escolaridade, String estadoCivil, GregorianCalendar dataNascimento) {
         this.id = id;
+        this.idFam = idFam;
         this.nome = nome;
         this.ocupacao = ocupacao;
         this.parentesco = parentesco;

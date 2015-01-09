@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.AbstractListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import ui.AppState;
 import ui.util.UIDimension;
 
@@ -26,7 +27,7 @@ import ui.util.UIDimension;
  */
 public class FamilyCandCreate extends javax.swing.JPanel implements UIDimension.JDetails<Candidatura>  {
 
-    private final FamilyCandQuestoes familyQuestoes = new FamilyCandQuestoes();
+    private final FamilyCandQuestoes familyQuestoes = new FamilyCandQuestoes(true);
     private final FamilyCanAgregado familyAgregado = new FamilyCanAgregado();
 
     private AppState appState;
@@ -327,13 +328,16 @@ public class FamilyCandCreate extends javax.swing.JPanel implements UIDimension.
     }//GEN-LAST:event_ApelidoTextFieldActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        this.setVisible(false);
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void InserirButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserirButtonActionPerformed
         try {
             get();
             appState.habitat().familiaInsert(familia);
+            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.setVisible(false);
         } catch (NumberFormatException e) {
             (new ui.util.ExceptionHandler("Erro na inserção da data", e)).fire();
         } catch (ParseException e) {
@@ -347,6 +351,8 @@ public class FamilyCandCreate extends javax.swing.JPanel implements UIDimension.
         try {
             get();
             appState.habitat().familiaUpdate(familia, candidatura);
+            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.setVisible(false);
         } catch (SQLException ex) {
             Logger.getLogger(FamilyCandCreate.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
@@ -413,7 +419,11 @@ public class FamilyCandCreate extends javax.swing.JPanel implements UIDimension.
     public void set(Candidatura c) {
         Familia a; 
         if (c == null){
-            this.familia = a = new Familia();
+            if(appState.get(Familia.class).listIsLoaded()){
+                this.familia = a = new Familia();
+            } else {
+                this.familia = a = appState.get(Familia.class).listSelected();
+            }
             this.candidatura = a.getCandidaturaLast();
         } else {
             this.familia = a = c.getFamilia();

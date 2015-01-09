@@ -1,5 +1,6 @@
 package business.familiy;
 
+import com.sun.istack.internal.FinalArrayList;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -17,6 +18,7 @@ public class Familia {
     private GregorianCalendar dataNascimento, dataCriaFam;
     private String apelido;
     private ArrayList<ElementoFamilia> elementosFamilia;
+    private ArrayList<ElementoFamilia> elementosFamiliaRemoved = new ArrayList<>();
     private Candidatura candidatura;
 
     public Familia() {
@@ -158,21 +160,25 @@ public class Familia {
     }
 
     public void rmElementoFamiliaAt(int selectedIndex) {
-        this.elementosFamilia.remove(selectedIndex);
+        elementosFamiliaRemoved.add(this.elementosFamilia.remove(selectedIndex));
     }
 
     public ArrayList<ElementoFamilia> getElementosFamilia() {
-        ArrayList<ElementoFamilia> ret = new ArrayList<ElementoFamilia>();
-
+        ArrayList<ElementoFamilia> ret = new ArrayList<>();
         for (ElementoFamilia e : this.elementosFamilia) {
             ret.add(e);
         }
-
         return ret;
     }
-
+    
+    public ArrayList<ElementoFamilia> getElementosFamiliaRemovedReset() {
+        ArrayList<ElementoFamilia> ret = elementosFamiliaRemoved;
+        elementosFamiliaRemoved = new FinalArrayList<>();
+        return ret;
+    }
+    
     public void setElementosFamilia(ArrayList<ElementoFamilia> elem) {
-        this.elementosFamilia = new ArrayList<ElementoFamilia>();
+        this.elementosFamilia = new ArrayList<>();
         for (ElementoFamilia e : elem) {
             this.elementosFamilia.add(e);
         }

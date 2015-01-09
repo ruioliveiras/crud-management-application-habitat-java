@@ -5,6 +5,7 @@ import java.util.GregorianCalendar;
 import persistence.fundos.DoadorDAO;
 
 public class Doador {
+
     private int idIndiv, idFunc;
     private String nome;
     private GregorianCalendar dataNascimento;
@@ -19,8 +20,11 @@ public class Doador {
     private String nacionalidadeIndiv;
     private GregorianCalendar dataCriaIndiv;
 
-    public Doador(){}
-    
+    public Doador() {
+        dataCriaIndiv = new GregorianCalendar();
+        dataNascimento = new GregorianCalendar();
+    }
+
     public Doador(int idIndiv, int idFunc, String nome, GregorianCalendar dataNascimento, String profissao, String morada, String codigoPostal, String localidade, String telefone, String telemovel, String email, String habilitacoes, String conhecimentosLing, String formacaoComp, String experienciaVolunt, String conhecimentosConstr, boolean trabalharJuntoVolunt, String disponibilidade, String comoConheceu, boolean receberInfo, boolean isParceiro, int nif, boolean isColetivo, boolean isDoador, boolean isVoluntario, String nacionalidadeIndiv, GregorianCalendar dataCriaIndiv) {
         this.idIndiv = idIndiv;
         this.idFunc = idFunc;
@@ -51,7 +55,6 @@ public class Doador {
         this.dataCriaIndiv = dataCriaIndiv;
     }
 
-    
     public Doador(Doador d) {
         this.idIndiv = d.getIdIndiv();
         this.idFunc = d.getIdFunc();
@@ -81,28 +84,28 @@ public class Doador {
         this.nacionalidadeIndiv = d.getNacionalidadeIndiv();
         this.dataCriaIndiv = d.getDataCriaIndiv();
     }
-    
+
     public int getQuantDoada() throws SQLException {
         DoadorDAO d = new DoadorDAO();
         return d.getQuantDoada(this.idIndiv);
     }
-    
+
     public boolean isParceiro() {
         return isParceiro;
     }
-    
+
     public boolean isColetivo() {
-        return isParceiro;
+        return isColetivo;
     }
-    
+
     public boolean isDoador() {
-        return isParceiro;
+        return isDoador;
     }
-    
+
     public boolean isVoluntario() {
-        return isParceiro;
+        return isVoluntario;
     }
-    
+
     public boolean getReceberInfo() {
         return receberInfo;
     }
@@ -190,12 +193,10 @@ public class Doador {
     public String getTelefone() {
         return telefone;
     }
-    
+
     public boolean getTrabalharJuntoVolunt() {
         return trabalharJuntoVolunt;
     }
-    
-    
 
     public void setCodigoPostal(String codigoPostal) {
         this.codigoPostal = codigoPostal;
@@ -303,13 +304,13 @@ public class Doador {
 
     public void setTrabalharJuntoVolunt(boolean trabalharJuntoVolunt) {
         this.trabalharJuntoVolunt = trabalharJuntoVolunt;
-    } 
-    
-    public Doador clone(){
+    }
+
+    public Doador clone() {
         return new Doador(this);
     }
-    
-    public String toString(){
-        return new String(this.idIndiv+"."+this.nome+"."+this.profissao);
+
+    public String toString() {
+        return new String(this.idIndiv + "." + this.nome + "." + this.profissao);
     }
 }

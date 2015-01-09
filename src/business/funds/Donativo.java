@@ -3,14 +3,17 @@ package business.funds;
 import java.util.GregorianCalendar;
 
 public class Donativo {
+
     private int idDon;
     private String descricao;
     private int quantInicial, quantAtual, idTipoDon;
     private GregorianCalendar dataDon;
     private int idFunc, idEv, idIndiv;
 
-    public Donativo(){}
-    
+    public Donativo() {
+        dataDon = new GregorianCalendar();
+    }
+
     public Donativo(int idDon, String descricao, int quantInicial, int quantAtual, int idTipoDon, GregorianCalendar dataDon, int idFunc, int idEv, int idIndiv) {
         this.idDon = idDon;
         this.descricao = descricao;
@@ -22,8 +25,8 @@ public class Donativo {
         this.idEv = idEv;
         this.idIndiv = idIndiv;
     }
-    
-    public Donativo(Donativo d){
+
+    public Donativo(Donativo d) {
         this.idDon = d.getIdDon();
         this.descricao = d.getDescricao();
         this.quantInicial = d.getQuantInicial();
@@ -106,14 +109,14 @@ public class Donativo {
     public void setQuantInicial(int quantInicial) {
         this.quantInicial = quantInicial;
     }
-    
+
     @Override
     public Donativo clone() {
         return new Donativo(this);
     }
-    
+
     @Override
-    public String toString(){
-        return this.idDon+"."+this.descricao+"."+this.quantInicial;
+    public String toString() {
+        return this.idDon + "." + this.descricao + "." + this.quantInicial;
     }
 }

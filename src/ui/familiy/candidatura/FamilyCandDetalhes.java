@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ui.familiy.candidatura;
 
 import business.familiy.Candidatura;
@@ -22,16 +21,17 @@ import ui.util.UIDimension;
  *
  * @author Jose
  */
-public class FamilyCandDetalhes extends javax.swing.JPanel implements UIDimension.JDetails<Candidatura>{
+public class FamilyCandDetalhes extends javax.swing.JPanel implements UIDimension.JDetails<Candidatura> {
+
     private final FamilyCandQuestoes familyQuestoes;
     private Familia familia;
-    
+
     /**
      * Creates new form FamilyCandDetalhes
      */
     public FamilyCandDetalhes() {
         initComponents();
-        familyQuestoes = new FamilyCandQuestoes();
+        familyQuestoes = new FamilyCandQuestoes(false);
     }
 
     /**
@@ -167,7 +167,7 @@ public class FamilyCandDetalhes extends javax.swing.JPanel implements UIDimensio
                     .addComponent(ElemEstadoLabel)
                     .addComponent(ElemOcupaLabel)
                     .addComponent(ElemEscolLabel))
-                .addContainerGap(537, Short.MAX_VALUE))
+                .addContainerGap(545, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,7 +288,7 @@ public class FamilyCandDetalhes extends javax.swing.JPanel implements UIDimensio
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 898, Short.MAX_VALUE)
+                            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 906, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -349,7 +349,7 @@ public class FamilyCandDetalhes extends javax.swing.JPanel implements UIDimensio
                             .addComponent(jLabel6)
                             .addComponent(RendimentoLabel))))
                 .addGap(18, 18, 18)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addContainerGap())
@@ -362,28 +362,32 @@ public class FamilyCandDetalhes extends javax.swing.JPanel implements UIDimensio
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        if (jList1.getSelectedIndex() == -1){ return;}
         ElementoFamilia c = (ElementoFamilia) jList1.getModel().getElementAt(jList1.getSelectedIndex());
-        ElemNomeLabel.setText(c.getNome());
-        ElemDataNascLabel.setText(df.format(c.getDataNascimento().getTime()) + "");
-        ElemEscolLabel.setText(c.getEscolaridade());
-        ElemEstadoLabel.setText(c.getEstadoCivil());
-        ElemParenLabel.setText(c.getParentesco());
-        ElemOcupaLabel.setText(c.getOcupacao());
+        loadElement(c);
     }//GEN-LAST:event_jList1ValueChanged
 
+    private void loadElement(ElementoFamilia c){
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            ElemNomeLabel.setText(c.getNome());
+            ElemDataNascLabel.setText(df.format(c.getDataNascimento().getTime()) + "");
+            ElemEscolLabel.setText(c.getEscolaridade());
+            ElemEstadoLabel.setText(c.getEstadoCivil());
+            ElemParenLabel.setText(c.getParentesco());
+            ElemOcupaLabel.setText(c.getOcupacao());        
+    }
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-        familyQuestoes.setVisible(true);
+     familyQuestoes.setVisible(true);
+     
     }//GEN-LAST:event_jButton2ActionPerformed
-
 
     @Override
     public void setVisible(boolean aFlag) {
         super.setVisible(aFlag); //To change body of generated methods, choose Tools | Templates.       
     }
- 
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel DataCandLabel;
     private javax.swing.JLabel DataNascLabel;
@@ -437,7 +441,7 @@ public class FamilyCandDetalhes extends javax.swing.JPanel implements UIDimensio
         dataCriaLabel.setText(df.format(familia.getDataCriaFam().getTime()) + "");
         MoradaLabel.setText(familia.getMoradaRepresentante());
         NIFLabel.setText(familia.getNif() + "");
-        TelefoneLabel.setText(familia.getContactoRepresentate()); 
+        TelefoneLabel.setText(familia.getContactoRepresentate());
         ElemNomeLabel.setText("");
         ElemDataNascLabel.setText("");
         ElemEscolLabel.setText("");
@@ -447,21 +451,27 @@ public class FamilyCandDetalhes extends javax.swing.JPanel implements UIDimensio
         EstadoLabel.setText(c.getEstado().name());
         RendimentoLabel.setText(c.getRendimento() + "");
         DataCandLabel.setText(df.format(c.getDataCand().getTime()) + "");
-       
-            final List<ElementoFamilia> listaElems = familia.getElementosFamilia();
-            jList1.setModel(new AbstractListModel() {
-
-                @Override
-                public int getSize() {
-                    return listaElems.size();
-                }
-
-                @Override
-                public Object getElementAt(int index) {
-                   return listaElems.get(index);
-                }
-            });
+        familyQuestoes.setCandidatura(c);
         
+        final List<ElementoFamilia> listaElems = familia.getElementosFamilia();
+        jList1.setModel(new AbstractListModel() {
+
+            @Override
+            public int getSize() {
+                return listaElems.size();
+            }
+
+            @Override
+            public Object getElementAt(int index) {
+                return listaElems.get(index);
+            }
+        });
+        
+        if (listaElems.size() >= 1){
+            jList1.setSelectedIndex(1);
+            loadElement(listaElems.get(0));
+        } 
+
     }
 
     @Override

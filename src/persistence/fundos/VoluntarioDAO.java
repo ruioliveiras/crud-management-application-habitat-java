@@ -67,11 +67,11 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
     public int insert(Voluntario d) throws SQLException {
         newStatement();
         
-        int i = executeSQLWithId("INSERT INTO Individuo(idIndiv, idFunc, nome, dataNascimento, profissao, morada, codigoPostal, localidade," +
+        int i = executeSQLWithId("INSERT INTO Individuo(idFunc, nome, dataNascimento, profissao, morada, codigoPostal, localidade," +
                     "email, telefone, telemovel, habilitacoes, conhecimentosLing, formacaoComp, experienciaVolunt, conhecmentosConstr," +
                     "trabalharJuntoVolunt, disponibilidade, comoConheceu, receberInfo, isParceiro, nif, isColectivo, isDoador," +
                     "isVoluntario, nacionalidadeIndev, dataCriaIndiv)" + "VALUES (" + 
-                    toSQL(d.getIdIndiv()) + "," + toSQL(d.getIdFunc()) + "," + toSQL(d.getNome()) + "," + toSQL(d.getDataNascimento()) +
+                    toSQL(d.getIdFunc()) + "," + toSQL(d.getNome()) + "," + toSQL(d.getDataNascimento()) +
                     "," + toSQL(d.getProfissao()) + "," + toSQL(d.getMorada()) + "," + toSQL(d.getCodigoPostal()) + "," + toSQL(d.getLocalidade()) + 
                     "," + toSQL(d.getEmail()) + "," + toSQL(d.getTelefone()) + "," + toSQL(d.getTelemovel()) + 
                     "," + toSQL(d.getHabilitacoes()) + "," + toSQL(d.getConhecimentosLing()) + "," + toSQL(d.getFormacaoComp()) + 
@@ -110,7 +110,7 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
                 ", isParceiro=" + toSQL(d.isParceiro()) + 
                 ", nif=" + toSQL(d.getNif()) + 
                 ", isColectivo=" + toSQL(d.isColetivo()) + 
-                ", isDoador," + toSQL(d.isDoador()) + 
+                ", isDoador=" + toSQL(d.isDoador()) + 
                 ", isVoluntario=" + toSQL(d.isVoluntario()) + 
                 ", nacionalidadeIndev=" + toSQL(d.getNacionalidadeIndiv()) + 
                 ", dataCriaIndiv=" + toSQL(d.getDataCriaIndiv()) + 
@@ -122,7 +122,7 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
     @Override
     public void remove(Voluntario d) throws SQLException{
         newStatement();
-        executeSQL("DELETE FROM INDIVIDUO WHERE idIndiv = " +  d.getIdIndiv());
+        executeSQL("DELETE FROM Individuo WHERE idIndiv = " +  d.getIdIndiv());
         closeStatemnet();
     }
             
@@ -137,9 +137,9 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
             rs.getNString("morada"),
             rs.getNString("codigoPostal"),
             rs.getNString("localidade"),
-            rs.getNString("email"),
             rs.getNString("telefone"),
             rs.getNString("telemovel"),
+            rs.getNString("email"),
             rs.getNString("habilitacoes"),
             rs.getNString("conhecimentosLing"),
             rs.getNString("formacaoComp"),

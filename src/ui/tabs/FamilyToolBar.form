@@ -23,13 +23,9 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jToggleButton3" max="32767" attributes="0"/>
                   <Component id="jToggleButton2" alignment="1" max="32767" attributes="0"/>
                   <Component id="jToggleButton1" alignment="1" max="32767" attributes="0"/>
-                  <Component id="btnAcompanhamento" alignment="0" max="32767" attributes="0"/>
-                  <Component id="btnAprovarCand" alignment="0" pref="192" max="32767" attributes="0"/>
-                  <Component id="btnPaymentPlan" alignment="0" max="32767" attributes="0"/>
-                  <Component id="btnShowFamilys1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="btnAprovarCand" alignment="0" pref="195" max="32767" attributes="0"/>
                   <Component id="btnShowFamilys" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -57,46 +53,19 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jToggleButton2" min="-2" pref="45" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jToggleButton3" min="-2" pref="41" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
               <Component id="btnAprovarCand" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="btnShowFamilys1" min="-2" pref="42" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="btnPaymentPlan" min="-2" pref="37" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="btnAcompanhamento" min="-2" pref="38" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="btnAcompanhamento">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Acompanhamento"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Cantarell" size="15" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="A&#xe7;&#xf5;es"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnShowFamilys1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Candidaturas"/>
-        <Property name="hideActionText" type="boolean" value="true"/>
-        <Property name="horizontalAlignment" type="int" value="2"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnShowFamilys1ActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnPaymentPlan">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Presta&#xe7;&#xe3;o"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
@@ -109,6 +78,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnShowFamilys">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/org/assests/familia32.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Selecionar Familia"/>
         <Property name="hideActionText" type="boolean" value="true"/>
         <Property name="horizontalAlignment" type="int" value="2"/>
@@ -127,7 +99,11 @@
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="buttonGroup1"/>
         </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/org/assests/familia_add32.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Candidaturas"/>
+        <Property name="horizontalAlignment" type="int" value="2"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton1ActionPerformed"/>
@@ -138,21 +114,14 @@
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="buttonGroup1"/>
         </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/org/assests/familia_add32.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Prestacao"/>
+        <Property name="horizontalAlignment" type="int" value="2"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton2ActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JToggleButton" name="jToggleButton3">
-      <Properties>
-        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-          <ComponentRef name="buttonGroup1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Acompanhamento"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton3ActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

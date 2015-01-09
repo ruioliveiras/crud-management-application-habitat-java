@@ -38,12 +38,11 @@ public class EventoDAO  extends DAO<Evento> {
     public int insert(Evento e) throws SQLException {
         newStatement();
         
-        int i = executeSQLWithId("INSERT INTO Evento(idEv, designacao, data, idFunc, descricao) VALUES (" +
-                                    toSQL(e.getIdEv()) + "," + 
+        int i = executeSQLWithId("INSERT INTO Evento(designacao, data, idFunc, descricao) VALUES (" +
                                     toSQL(e.getDesignacao()) + "," + 
                                     toSQL(e.getData()) + "," + 
                                     toSQL(e.getIdFunc()) + "," + 
-                                    toSQL(e.getDescricao()));
+                                    toSQL(e.getDescricao()) + ")") ;
         closeStatemnet();
         return i;
     }

@@ -18,13 +18,13 @@ import business.admin.TipoQuestao;
  *
  * @author ruioliveiras
  */
-public class QuestaoDAO extends GenericDAO<TipoQuestao>{
+public class TipoQuestaoDAO extends GenericDAO<TipoQuestao>{
     
     public enum Attr{
        idQuestao, descricao, ativa 
     }
     
-    public QuestaoDAO() {
+    public TipoQuestaoDAO() {
         super(Attr.values(), 1 , "Questao");
     }
 
@@ -54,7 +54,7 @@ public class QuestaoDAO extends GenericDAO<TipoQuestao>{
     
     public static void main(String[] args) throws NamingException, SQLException {
         GenericDAO.initConnection();
-        QuestaoDAO adao = new QuestaoDAO();
+        TipoQuestaoDAO adao = new TipoQuestaoDAO();
         TipoQuestao q = adao.getAll().get(6);
         adao.insert(new TipoQuestao(-1, "Vosse esta disposto a ter uma casa?",false));
         adao.update(new TipoQuestao(4, "Contrutor", true));

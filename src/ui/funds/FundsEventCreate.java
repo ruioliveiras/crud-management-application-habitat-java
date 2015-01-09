@@ -8,8 +8,13 @@ package ui.funds;
 import business.building.Projeto;
 import business.funds.Evento;
 import java.awt.Panel;
+import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import ui.AppState;
@@ -23,6 +28,7 @@ public class FundsEventCreate extends javax.swing.JFrame implements UIDimension.
 
     private String title;
     private AppState appState;
+    private Evento evento;
     
     /**
      * Creates new form FundsEventCreate
@@ -35,6 +41,7 @@ public class FundsEventCreate extends javax.swing.JFrame implements UIDimension.
         btnRemove.setVisible(false);
         btnSaveEdit.setVisible(false);
         enableFields(false);
+        this.appState = appState;
     }
     
     public FundsEventCreate(AppState appState, UIDimension.EditonType ty) {
@@ -66,6 +73,7 @@ public class FundsEventCreate extends javax.swing.JFrame implements UIDimension.
                 break;
             default:
         }
+            this.appState =appState;
     }
     
     
@@ -212,19 +220,41 @@ public class FundsEventCreate extends javax.swing.JFrame implements UIDimension.
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
+                try {
+            appState.habitat().eventoRemove(evento);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
+        } // TODO add your handling code here:
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        // TODO add your handling code here:
+              try {
+                 get();
+            appState.habitat().eventoInsert(evento);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
+        } catch (ParseException ex) {
+             (new ui.util.ExceptionHandler("Valor errado", ex)).fire();
+        }  // TODO add your handling code here:
     }//GEN-LAST:event_btSaveActionPerformed
 
     private void btnSaveEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEditActionPerformed
-        // TODO add your handling code here:
+             try {
+                 get();
+            appState.habitat().eventoUpdate(evento);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
+        } catch (ParseException ex) {
+            (new ui.util.ExceptionHandler("Valor errado", ex)).fire();
+        }    // TODO add your handling code here:
     }//GEN-LAST:event_btnSaveEditActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        // TODO add your handling code here:
+                 this.setVisible(false);
+   // TODO add your handling code here:
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void textDataFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textDataFActionPerformed
@@ -258,6 +288,21 @@ public class FundsEventCreate extends javax.swing.JFrame implements UIDimension.
         DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
         textDataI.setText(df.format(e.getData().getTime()));
         //ver se e mesmo preciso o campo data fim
+        
+        evento = e;
+    }
+    
+    public void get() throws ParseException {
+        DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+        GregorianCalendar g = new GregorianCalendar();
+                if (evento.getIdFunc() == 0){
+            evento.setIdFunc(appState.habitat().getFuncionario().getId());
+        }
+        
+        evento.setDesignacao(textDesignacao.getText());
+        evento.setDescricao(textDescricao.getText());
+        g.setTime(df.parse(textDataI.getText()));
+        evento.setData(g);
     }
 
     @Override

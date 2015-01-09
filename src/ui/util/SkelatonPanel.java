@@ -267,6 +267,11 @@ public class SkelatonPanel extends javax.swing.JPanel implements JSkelaton{
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
+    @Override
+    public UIDimension<?> getLoaded() {
+        return dimension;
+    }
+
     public void setRight(boolean b) {
         btnEdit.setEnabled(b);
         btnAdd.setEnabled(b);

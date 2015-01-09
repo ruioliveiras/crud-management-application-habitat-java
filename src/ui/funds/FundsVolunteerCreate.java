@@ -6,8 +6,10 @@
 package ui.funds;
 
 import business.building.Projeto;
+import business.funds.Doador;
 import business.funds.Voluntario;
 import java.awt.Panel;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
@@ -22,6 +24,7 @@ import ui.util.UIDimension;
 public class FundsVolunteerCreate extends javax.swing.JFrame implements UIDimension.JDetails<Voluntario> {
     private AppState appState;
     private String title;
+    private Voluntario voluntario;
     /**
      * Creates new form AdminDetailsEmployee
      */
@@ -428,19 +431,37 @@ public class FundsVolunteerCreate extends javax.swing.JFrame implements UIDimens
     }//GEN-LAST:event_checkReceberInfoActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
+                try {
+            appState.habitat().voluntarioRemove(voluntario);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
+        } // TODO add your handling code here:
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnSaveEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEditActionPerformed
-        // TODO add your handling code here:
+             try {
+                 get();
+            appState.habitat().voluntarioUpdate(voluntario);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
+        }    // TODO add your handling code here:
     }//GEN-LAST:event_btnSaveEditActionPerformed
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        // TODO add your handling code here:
+               try {
+                 get();
+            appState.habitat().voluntarioInsert(voluntario);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
+        }  // TODO add your handling code here:
     }//GEN-LAST:event_btSaveActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        // TODO add your handling code here:
+                this.setVisible(false);
+    // TODO add your handling code here:
     }//GEN-LAST:event_btCancelarActionPerformed
 
 
@@ -519,8 +540,31 @@ public class FundsVolunteerCreate extends javax.swing.JFrame implements UIDimens
         txtComoConheceu.setText(a.getComoConheceu());
         checkReceberInfo.setSelected(a.getReceberInfo());
         checkIsParceiro.setSelected(a.isParceiro());   
+        
+        voluntario = a;
     }
 
+    public void get() throws NumberFormatException{
+        if (voluntario.getIdFunc() == 0){
+            voluntario.setIdFunc(appState.habitat().getFuncionario().getId());
+        }
+        voluntario.setNome( txtNome.getText() );
+        voluntario.setNacionalidadeIndiv( txtNacionalidade.getText() );
+        voluntario.setProfissao( txtProfissao.getText() );
+        voluntario.setMorada( txtMorada.getText() );
+        voluntario.setCodigoPostal( txtCodPostal.getText() );
+        voluntario.setLocalidade( txtLocalidade.getText() );
+        voluntario.setTelefone( txtTelefone.getText() );
+        voluntario.setTelemovel( txtTelemovel.getText() );
+        voluntario.setEmail( txtEmail.getText() );
+        voluntario.setNif( Integer.parseInt(txtNif.getText()));
+        voluntario.setHabilitacoes( txtHabilit.getText() );
+        voluntario.setConhecimentosLing( txtConhecimentosL.getText() );
+        voluntario.setFormacaoComp( txtFormComp.getText() );
+        voluntario.setComoConheceu( txtComoConheceu.getText() );
+        voluntario.setReceberInfo( checkReceberInfo.isSelected() );
+        voluntario.setIsParceiro(checkIsParceiro.isSelected());
+    }
     @Override
     public JPanel getPanel() {
         return new JPanel();

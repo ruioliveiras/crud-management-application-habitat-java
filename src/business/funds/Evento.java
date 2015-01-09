@@ -2,15 +2,18 @@ package business.funds;
 
 import java.util.GregorianCalendar;
 
-public class Evento{
+public class Evento {
+
     private int idEv;
     private String designacao;
     private GregorianCalendar data;
     private int idFunc;
     private String descricao;
 
-    public Evento(){}
-    
+    public Evento() {
+        data = new GregorianCalendar();
+    }
+
     public Evento(int idEv, String designacao, GregorianCalendar data, int idFunc, String descricao) {
         this.idEv = idEv;
         this.designacao = designacao;
@@ -18,14 +21,14 @@ public class Evento{
         this.idFunc = idFunc;
         this.descricao = descricao;
     }
-    
+
     public Evento(Evento e) {
         this.idEv = e.getIdEv();
         this.designacao = e.getDesignacao();
         this.data = e.getData();
         this.idFunc = e.getIdFunc();
         this.descricao = e.getDescricao();
-    }    
+    }
 
     public GregorianCalendar getData() {
         return data;
@@ -66,12 +69,12 @@ public class Evento{
     public void setIdFunc(int idFunc) {
         this.idFunc = idFunc;
     }
-    
+
     public Evento clone() {
         return new Evento(this);
     }
-    
-    public String toString(){
-        return new String(this.idEv+"."+this.designacao+"."+this.descricao);
+
+    public String toString() {
+        return new String(this.idEv + "." + this.designacao + "." + this.descricao);
     }
 }

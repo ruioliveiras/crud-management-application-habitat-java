@@ -168,7 +168,7 @@ public class CandidaturaDAO extends GenericDAO<Candidatura> {
         public KeyValue<Integer, Questao> newObject(ResultSet rs) throws SQLException {
             return new KeyValue<>(
                     rs.getInt("idCand"),
-                    new Questao(rs.getInt("idQuestao"), rs.getString("resposta"), rs.getString("questao"))
+                    new Questao(rs.getInt("idQuestao"), rs.getString("questao"), rs.getString("resposta"))
             );
         }
 

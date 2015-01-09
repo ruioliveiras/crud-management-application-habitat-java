@@ -24,7 +24,7 @@ import java.util.List;
 import persistence.ProjetoDAO;
 import persistence.admin.ActividadeDAO;
 import persistence.admin.FuncionarioDAO;
-import persistence.admin.QuestaoDAO;
+import persistence.admin.TipoQuestaoDAO;
 import persistence.admin.TipoDonativoDAO;
 import persistence.admin.TipoTarefaDAO;
 import persistence.familia.CandidaturaDAO;
@@ -46,7 +46,7 @@ public class Habitat {
     private final ActividadeDAO actividadeDAO = new ActividadeDAO(); 
     private final TipoDonativoDAO tipoDonativoDAO = new TipoDonativoDAO(); 
     private final FuncionarioDAO funcionarioDAO = new FuncionarioDAO(); 
-    private final QuestaoDAO questaoDAO = new QuestaoDAO(); 
+    private final TipoQuestaoDAO questaoDAO = new TipoQuestaoDAO(); 
     private final ProjetoDAO projetoDAO = new ProjetoDAO();
     private final FamiliaDAO familiaDAO = new FamiliaDAO();
     private final VoluntarioDAO voluntarioDAO = new VoluntarioDAO();
@@ -362,7 +362,7 @@ public class Habitat {
     * @param obj Equipa a ser adicionada à Base de Dados
      * @throws SQLException Se existir algum problema de ligação à Base de Dados
      */
-    public void equipaInsert(Equipa obj) throws SQLException {equipaDAO.insert(obj);}
+    public void equipaInsert(Equipa obj,List<Voluntario> lista) throws SQLException {equipaDAO.insert(obj,lista);}
     /**
      * Remove uma Equipa da Base de Dados
      * @param obj Equipa a ser removida da Base de Dados
@@ -374,7 +374,7 @@ public class Habitat {
      * @param obj Equipa a ser atualizada na Base de Dados
      * @throws SQLException Se existir algum problema de ligação à Base de Dados
      */
-    public void equipaUpdate(Equipa obj) throws SQLException {equipaDAO.update(obj);}
+    public void equipaUpdate(Equipa obj,List<Voluntario> lista, List<Voluntario> removed) throws SQLException {equipaDAO.update(obj,lista,removed);}
      /**
      * Retorna todos os Eventos existentes 
      * @return Lista com todos os Eventos existentes na Base de Dados

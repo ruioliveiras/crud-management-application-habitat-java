@@ -137,7 +137,7 @@ public abstract class GenericDAO<A> extends DAO<A> {
         executeSQL("UPDATE " + tableName + " SET "
                 + queryBuilderAttrsValues(obj, indexNotKey, -1)
                 + " WHERE  "
-                + queryBuilderAttrsValues(obj, 0, indexNotKey)
+                + queryBuilderAttrsValuesAnd(obj, 0, indexNotKey)
         );
         closeStatemnet();
     }
@@ -170,6 +170,23 @@ public abstract class GenericDAO<A> extends DAO<A> {
 
         return res;
     }
+    
+    protected String queryBuilderAttrsValuesAnd(A source, int fromIndex, int until){
+                String res = "";
+        if (until == -1) {
+            until = attrs.length;
+        }
+        int i;
+        for (i = fromIndex; i < until - 1; i++) {
+            res += attrs[i].name() + " = " + getToBD(source, attrs[i]) + " and ";
+        }
+        if (i < until) {
+            res += attrs[i].name() + " = " + getToBD(source, attrs[i]);
+        }
+
+        return res;
+    }
+    
 
     private String queryBuilderValues(A source, int fromIndex) {
         String res = "";

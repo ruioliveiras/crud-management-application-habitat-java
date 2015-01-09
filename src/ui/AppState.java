@@ -43,6 +43,7 @@ import ui.building.BuildingTask;
 import ui.familiy.FamilyDetalhesPane;
 import ui.familiy.familia.FamilyDetalhes;
 import ui.building.BuildingVolunteerReal;
+import ui.familiy.FamilyPrestacao;
 import ui.familiy.candidatura.FamilyCanPane;
 import ui.familiy.candidatura.FamilyCandCreate;
 import ui.familiy.candidatura.FamilyCandDetalhes;
@@ -241,7 +242,14 @@ public class AppState {
             new FamilyCandDetalhes()
         );
         this.familyAcompanhamento = new UIDimension<>();
-        this.familyPrestacao = new UIDimension<>();
+        this.familyPrestacao = new UIDimension<>(
+                this.family,
+                new FamilyPrestacao(this),
+                new FamilyPrestacao(this,UIDimension.EditonType.EDIT),
+                new FamilyPrestacao(this,UIDimension.EditonType.NEW),
+                new FamilyPrestacao(this,UIDimension.EditonType.DETAILS), 
+                new FamilyPrestacao(this,UIDimension.EditonType.DELETE)
+        );
         this.buildVolunteersReal = new UIDimension<>(
                 this.building,
                 new BuildingVolunteerReal(this),
