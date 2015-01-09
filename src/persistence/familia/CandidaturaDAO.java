@@ -71,6 +71,13 @@ public class CandidaturaDAO extends GenericDAO<Candidatura> {
             questaoDAO.update(qv);
         }
     }
+    
+    
+    public void updateEstado(Candidatura obj) throws SQLException {
+        newStatement();
+        executeSQL("UPDATE Candidatura SET estado = '" + obj.getEstado() + "' WHERE idCand =" + obj.getId());
+        closeStatemnet();
+    }
 
     @Override
     public Candidatura newObject(ResultSet rs) throws SQLException {

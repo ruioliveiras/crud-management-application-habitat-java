@@ -14,31 +14,53 @@ import java.util.Objects;
 public class TipoTarefa {
         private int id;
     private String descricao;
-
+/**
+ * Construtor Vazio
+ */
     public TipoTarefa() {
     }
-
+/**
+ * Construtor Parametrizado
+ * @param id Código identificativo
+ * @param descricao Descrição
+ */
     public TipoTarefa(int id, String descricao) {
         this.id = id;
         this.descricao = descricao;
     }
-
+/**
+ * Retorna a Descrição
+ * @return Descrição
+ */
     public String getDescricao() {
         return descricao;
     }
-
+/**
+ * Retorna o Código Identificativo 
+ * @return ID
+ */
     public int getId() {
         return id;
     }
-
+/**
+ * Modifica a Descrição 
+ * @param descricao Nova Descrição
+ */
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
+/**
+ * Modifica o Código Identificativo
+ * @param id Novo Código
+ */
     public void setId(int id) {
         this.id = id;
     }
-
+/**
+ * Método de verificação de igualdade semântica entre dois objectos
+ * @param obj Objecto que será comparado a this
+ * @return True se this e obj forem semanticamente iguais <p> Caso Contrário False
+ */
     @Override
     public boolean equals(Object obj) {
         if (obj == this) return true;
@@ -51,7 +73,10 @@ public class TipoTarefa {
         }
         return false;
     }
-
+/**
+ * 
+ * @return Código Hash
+ */
     @Override
     public int hashCode() {
         int hash = 7;
@@ -59,7 +84,10 @@ public class TipoTarefa {
         hash = 89 * hash + Objects.hashCode(this.descricao);
         return hash;
     }
-
+/**
+ * Retorna a Representação textual do objecto
+ * @return Representação textual
+ */
     @Override
     public String toString(){
         return new String(this.id+"."+this.descricao);
