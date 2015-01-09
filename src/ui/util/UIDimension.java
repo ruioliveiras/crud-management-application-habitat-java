@@ -234,7 +234,7 @@ public class UIDimension<A>{
         public void setSelectedItem(Object anItem) {
             for (A el : usingList) {
                 if (el.equals(anItem)){
-                    selected = anItem;
+                    selected = el;
                     break;
                 }
             }

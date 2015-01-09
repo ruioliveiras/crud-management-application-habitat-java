@@ -66,12 +66,16 @@ public class FamiliaDAO extends GenericDAO<Familia> {
 
     @Override
     public int insert(Familia obj) throws SQLException {
-        int ret = super.insert(obj);
-        for (ElementoFamilia e : obj.getElementosFamilia()) {
-            elementosFamiliaDAO.insert(e);
+        //martelada -.-
+        if (obj.getId() <= 0) {
+            int ret = super.insert(obj);    
+            obj.setId(ret);
+            for (ElementoFamilia e : obj.getElementosFamilia()) {
+                elementosFamiliaDAO.insert(e);
+            }
         }
         candidaturaDAO.insert(obj.getCandidaturaLast());
-        return ret;
+        return obj.getId();
     }
 
     @Override
@@ -106,7 +110,7 @@ public class FamiliaDAO extends GenericDAO<Familia> {
     public Familia newObject(ResultSet rs) throws SQLException {
         return new Familia(
                 rs.getNString(Attr.nome.name()),
-                rs.getString(Attr.telefone.name()),
+                rs.getInt(Attr.telefone.name()),
                 rs.getNString(Attr.morada.name()),
                 rs.getInt(Attr.nif.name()),
                 rs.getInt(Attr.idFunc.name()),

@@ -44,6 +44,7 @@ import ui.familiy.FamilyDetalhesPane;
 import ui.familiy.familia.FamilyDetalhes;
 import ui.building.BuildingVolunteerReal;
 import ui.familiy.FamilyPrestacao;
+import ui.familiy.candidatura.FamilyCanDetailPanel;
 import ui.familiy.candidatura.FamilyCanPane;
 import ui.familiy.candidatura.FamilyCandCreate;
 import ui.familiy.candidatura.FamilyCandDetalhes;
@@ -236,7 +237,7 @@ public class AppState {
         );
         this.familyCand = new UIDimension<>(
             this.family,
-            new FamilyCanPane(),
+            new FamilyCanDetailPanel(),
             new FamilyCandCreate(UIDimension.EditonType.EDIT, this),
             new FamilyCandCreate(UIDimension.EditonType.NEW, this),
             new FamilyCandDetalhes(),

@@ -70,6 +70,15 @@ public class Evento {
         this.idFunc = idFunc;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Evento){
+            return this.getIdEv() == ((Evento) obj).getIdEv();
+        }
+        return false;
+    }
+
+    
     public Evento clone() {
         return new Evento(this);
     }

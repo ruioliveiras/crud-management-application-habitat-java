@@ -292,7 +292,7 @@ public final class FundsTeamCreate extends javax.swing.JFrame implements UIDimen
             simpleListModel.setListing(true);
             lVoluntarios.setModel(simpleListModel);       
         } catch (SQLException ex) {
-            Logger.getLogger(FundsTeamCreate.class.getName()).log(Level.SEVERE, null, ex);
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
         }
 
         equipa = a;

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ui.AppState;
+import ui.familiy.FamilyMudarEstadoCandidatura;
 
 /**
  *
@@ -39,6 +40,7 @@ public class FamilyToolBar extends javax.swing.JPanel {
     }
 
     public void btnFamiliyAction() {
+        btnAprovarCand.setEnabled(false);
         if (isSelected) {
             buttonGroup1.clearSelection();
             try {
@@ -105,7 +107,15 @@ public class FamilyToolBar extends javax.swing.JPanel {
             }
         });
 
-        btnAprovarCand.setText("Aprovar Candidatura");
+        btnAprovarCand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/editar32.png"))); // NOI18N
+        btnAprovarCand.setText("Alterar Estado");
+        btnAprovarCand.setToolTipText("Mudar Estado da Candidatura");
+        btnAprovarCand.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnAprovarCand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAprovarCandActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jToggleButton1);
         jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/assests/familia_add32.png"))); // NOI18N
@@ -159,8 +169,8 @@ public class FamilyToolBar extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAprovarCand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(btnAprovarCand, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(52, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -169,6 +179,7 @@ public class FamilyToolBar extends javax.swing.JPanel {
     }//GEN-LAST:event_btnShowFamilysActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+
         try {
             btnCandidaturasAction();
         } catch (SQLException e) {
@@ -177,12 +188,21 @@ public class FamilyToolBar extends javax.swing.JPanel {
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+
         try {
             btnPrestacaoAction();
         } catch (SQLException e) {
             (new ui.util.ExceptionHandler("Erro enquanto carregava Questoes", e)).fire();
         }
     }//GEN-LAST:event_jToggleButton2ActionPerformed
+
+    private void btnAprovarCandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAprovarCandActionPerformed
+        FamilyMudarEstadoCandidatura f = new FamilyMudarEstadoCandidatura(
+                appState.get(Candidatura.class).listSelected(),
+                appState
+        );
+        f.getFrame().setVisible(true);
+    }//GEN-LAST:event_btnAprovarCandActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -196,12 +216,14 @@ public class FamilyToolBar extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void btnCandidaturasAction() throws SQLException {
+        btnAprovarCand.setEnabled(true);
         jToggleButton1.setSelected(true);
         List<Candidatura> l = selected.getCandidaturas();
         appState.FamilySelect(Candidatura.class, l);
     }
 
     private void btnPrestacaoAction() throws SQLException {
+        btnAprovarCand.setEnabled(false);
         List<Prestacao> l = selected.getPrestacoes();
         appState.FamilySelect(Prestacao.class, l);
     }

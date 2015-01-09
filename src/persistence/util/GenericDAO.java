@@ -111,6 +111,16 @@ public abstract class GenericDAO<A> extends DAO<A> {
         closeStatemnet();
         return ret;
     }
+    
+    public void insertNoAuto(A obj) throws SQLException {
+        newStatement();
+        String query = "INSERT INTO " + tableName
+                + " (" + queryBuilderAttrs(0) + ")"
+                + " VALUES "
+                + " (" + queryBuilderValues(obj, 0) + ")";
+        executeSQL(query);
+        closeStatemnet();
+    }
 
     /**
      *

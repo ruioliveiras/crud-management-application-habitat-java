@@ -201,11 +201,6 @@ public class FamilyCandDetalhes extends javax.swing.JPanel implements UIDimensio
 
         jSplitPane1.setRightComponent(jPanel1);
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Familiares", " " };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 jList1ValueChanged(evt);
@@ -441,7 +436,7 @@ public class FamilyCandDetalhes extends javax.swing.JPanel implements UIDimensio
         dataCriaLabel.setText(df.format(familia.getDataCriaFam().getTime()) + "");
         MoradaLabel.setText(familia.getMoradaRepresentante());
         NIFLabel.setText(familia.getNif() + "");
-        TelefoneLabel.setText(familia.getContactoRepresentate());
+        TelefoneLabel.setText(familia.getContactoRepresentate() + "");
         ElemNomeLabel.setText("");
         ElemDataNascLabel.setText("");
         ElemEscolLabel.setText("");

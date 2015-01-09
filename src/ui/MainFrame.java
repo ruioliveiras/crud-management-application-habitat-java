@@ -88,13 +88,13 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                                  (new ui.util.ExceptionHandler("Erro", ex)).fire();
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                                  (new ui.util.ExceptionHandler("Erro", ex)).fire();
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                                              (new ui.util.ExceptionHandler("Erro", ex)).fire();
         }
         //</editor-fold>
         //</editor-fold>

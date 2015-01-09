@@ -10,6 +10,7 @@ import business.building.Projeto;
 import business.funds.Doador;
 import business.funds.Donativo;
 import business.funds.Evento;
+import java.awt.Dimension;
 import java.awt.Panel;
 import java.awt.event.MouseAdapter;
 import java.sql.SQLException;
@@ -27,16 +28,17 @@ import ui.util.UIDimension;
  *
  * @author ruioliveiras
  */
-public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UIDimension.JDetails<Donativo>{
+public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UIDimension.JDetails<Donativo> {
 
     private String title;
     private AppState appState;
     private Donativo donativo;
     private Doador doador;
     private MouseAdapter mouseAdapter;
-    
+
     /**
      * Creates new form FundsDonateCreateMaterial
+     *
      * @param appState
      */
     public FundsDonateCreateMaterial(AppState appState) {
@@ -44,15 +46,15 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         cmbMaterial.setModel(appState.get(TipoDonativo.class).listModelCopy());
         cmbEvento.setModel(appState.get(Evento.class).listModelCopy());
-        
+
         enableFields(false);
-        this.appState =appState;
+        this.appState = appState;
     }
-    
+
     public FundsDonateCreateMaterial(AppState appState, UIDimension.EditonType ty) {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        switch(ty) {
+        switch (ty) {
             case EDIT:
                 title = "Editar";
                 btnRemove.setVisible(false);
@@ -63,6 +65,7 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
                 btnRemove.setVisible(false);
                 btnSaveEdit.setVisible(false);
                 usagePanel.setVisible(false);
+                this.setPreferredSize(new Dimension(0, 250));
                 break;
             case DELETE:
                 enableFields(false);
@@ -83,10 +86,10 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
         cmbEvento.setModel(appState.get(Evento.class).listModelCopy());
         this.appState = appState;
     }
-    
-    
-    public void enableFields(boolean b){
-        cmbMaterial.setEditable(b);
+
+    public void enableFields(boolean b) {
+        cmbMaterial.setEnabled(b);
+        cmbEvento.setEnabled(b);
         txtQuant.setEditable(b);
         txtDescr.setEnabled(b);
     }
@@ -109,16 +112,16 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
         jLabel3 = new javax.swing.JLabel();
         cmbMaterial = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
-        btnRemove = new javax.swing.JButton();
-        btnSaveEdit = new javax.swing.JButton();
-        btSave = new javax.swing.JButton();
-        btCancelar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         txtDescr = new javax.swing.JTextField();
         lbDoubleClick = new javax.swing.JLabel();
         txtDoador = new javax.swing.JTextField();
         cmbEvento = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
+        btnRemove = new javax.swing.JButton();
+        btnSaveEdit = new javax.swing.JButton();
+        btSave = new javax.swing.JButton();
+        btCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Donativo Material");
@@ -140,11 +143,14 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
         usagePanel.setLayout(usagePanelLayout);
         usagePanelLayout.setHorizontalGroup(
             usagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
             .addGroup(usagePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(usagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(usagePanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel3)
+                        .addGap(0, 483, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         usagePanelLayout.setVerticalGroup(
             usagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,12 +158,28 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         cmbMaterial.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbMaterial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbMaterialActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("unidade");
+
+        jLabel5.setText("Descricao");
+
+        lbDoubleClick.setText("Double click no doador");
+
+        txtDoador.setEditable(false);
+
+        cmbEvento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel6.setText("Evento");
 
         btnRemove.setText("Remover");
         btnRemove.addActionListener(new java.awt.event.ActionListener() {
@@ -187,16 +209,6 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
             }
         });
 
-        jLabel5.setText("Descricao");
-
-        lbDoubleClick.setText("Double click no doador");
-
-        txtDoador.setEditable(false);
-
-        cmbEvento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel6.setText("Evento");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -205,15 +217,6 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(usagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnRemove)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSaveEdit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btSave)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btCancelar))
                     .addComponent(txtDoador)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -225,7 +228,7 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
                             .addComponent(txtDescr)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cmbEvento, 0, 356, Short.MAX_VALUE)
+                                    .addComponent(cmbEvento, 0, 308, Short.MAX_VALUE)
                                     .addComponent(cmbMaterial, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel2)
@@ -235,7 +238,16 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
                                 .addComponent(jLabel4))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbDoubleClick)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnRemove)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSaveEdit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btSave)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btCancelar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -272,8 +284,8 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCancelar)
                     .addComponent(btSave)
-                    .addComponent(btnRemove)
-                    .addComponent(btnSaveEdit))
+                    .addComponent(btnSaveEdit)
+                    .addComponent(btnRemove))
                 .addContainerGap())
         );
 
@@ -296,6 +308,8 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
             this.setVisible(false);
         } catch (SQLException ex) {
             (new ui.util.ExceptionHandler("Erro", ex)).fire();
+        } catch (ParseException ex) {
+            (new ui.util.ExceptionHandler("Parsing Error", ex)).fire();
         }   // TODO add your handling code here:
     }//GEN-LAST:event_btnSaveEditActionPerformed
 
@@ -306,6 +320,8 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
             this.setVisible(false);
         } catch (SQLException ex) {
             (new ui.util.ExceptionHandler("Erro", ex)).fire();
+        } catch (ParseException ex) {
+            (new ui.util.ExceptionHandler("Parsing Error", ex)).fire();
         } // TODO add your handling code here:
     }//GEN-LAST:event_btSaveActionPerformed
 
@@ -313,6 +329,10 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
         this.setVisible(false);
         // TODO add your handling code here:
     }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void cmbMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMaterialActionPerformed
+        jLabel4.setText(((TipoDonativo) cmbMaterial.getSelectedItem()).getUnidade());
+    }//GEN-LAST:event_cmbMaterialActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -337,24 +357,37 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
     private javax.swing.JPanel usagePanel;
     // End of variables declaration//GEN-END:variables
 
-
     @Override
     public void set(Donativo d) {
-        if (d==null){
-            d=new Donativo();
+        if (d == null) {
+            d = new Donativo();
             doador = null;
-        }else{
+        } else {
             try {
                 doador = d.getDoador();
                 txtDoador.setText(doador.toString());
             } catch (SQLException ex) {
-                Logger.getLogger(FundsDonateCreateMaterial.class.getName()).log(Level.SEVERE, null, ex);
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
             }
         }
         donativo = d;
-        txtQuant.setText(d.getQuantInicial()+"");
+        if (d.getIdEv() != 0) {
+            Evento evento = new Evento();
+            evento.setIdEv(d.getIdEv());
+            cmbEvento.getModel().setSelectedItem(evento);
+        }else{
+            cmbEvento.setSelectedIndex(0);
+        }
+        if (d.getIdTipoDon() != 0) {
+            TipoDonativo tipo = new TipoDonativo();
+            tipo.setId(d.getIdTipoDon());
+            cmbMaterial.getModel().setSelectedItem(tipo);
+        }else{
+            cmbMaterial.setSelectedIndex(0);
+        }
+        txtQuant.setText(d.getQuantInicial() + "");
         txtDescr.setText(d.getDescricao());
-        
+        jLabel4.setText(((TipoDonativo) cmbMaterial.getSelectedItem()).getUnidade());
         /*Active*/
         mouseAdapter = appState.get(Doador.class).listListeningStart(new UIDimension.Action<Doador>() {
             @Override
@@ -362,38 +395,41 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
                 doador = a;
                 txtDoador.setText(doador.toString());
             }
-        });   
+        });
     }
 
-    public void get() throws ParseException{
-        if ((TipoDonativo)cmbMaterial.getSelectedItem() == null)
-        { throw new ParseException("Material nao definido", 1);}
-        if ((Evento)cmbEvento.getSelectedItem() == null)
-        { throw new ParseException("Evento nao definido", 1);}
-        if (doador == null)
-        { throw new ParseException("Doador nao definido", 1);}
-        
+    public void get() throws ParseException {
+        if ((TipoDonativo) cmbMaterial.getSelectedItem() == null) {
+            throw new ParseException("Material nao definido", 1);
+        }
+        if ((Evento) cmbEvento.getSelectedItem() == null) {
+            throw new ParseException("Evento nao definido", 1);
+        }
+        if (doador == null) {
+            throw new ParseException("Doador nao definido", 1);
+        }
+
         donativo.setDataDon(new GregorianCalendar());
         donativo.setDescricao(txtDescr.getText());
         donativo.setQuantInicial(Integer.parseInt(txtQuant.getText()));
-        donativo.setIdTipoDon(((TipoDonativo)cmbMaterial.getSelectedItem()).getId());
-        donativo.setIdEv(((Evento)cmbEvento.getSelectedItem()).getIdEv());
+        donativo.setIdIndiv(doador.getIdIndiv());
+        donativo.setIdTipoDon(((TipoDonativo) cmbMaterial.getSelectedItem()).getId());
+        donativo.setIdEv(((Evento) cmbEvento.getSelectedItem()).getIdEv());
         donativo.setIdDon(-1);
-        if (donativo.getIdFunc() == 0)
-        {donativo.setIdFunc(appState.habitat().getFuncionario().getId());}
+        if (donativo.getIdFunc() == 0) {
+            donativo.setIdFunc(appState.habitat().getFuncionario().getId());
+        }
     }
 
     @Override
     public void setVisible(boolean b) {
         //*metodo nao esta a ser chamado ao iniciar
         super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
-        if (!b && mouseAdapter != null){
-           appState.get(Doador.class).listListeningStop(mouseAdapter);
+        if (!b && mouseAdapter != null) {
+            appState.get(Doador.class).listListeningStop(mouseAdapter);
         }
     }
-    
-    
-    
+
     @Override
     public JPanel getPanel() {
         return new JPanel();
