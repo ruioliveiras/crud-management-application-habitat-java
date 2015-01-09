@@ -15,7 +15,7 @@ import ui.util.UIDimension.JSkelaton;
  *
  * @author ruioliveiras
  */
-public class SkelatonPanel extends javax.swing.JPanel implements JSkelaton{
+public class SkeletonPanel extends javax.swing.JPanel implements JSkelaton{
     
     private UIDimension<?> dimension;
     private AppState appState;
@@ -24,11 +24,11 @@ public class SkelatonPanel extends javax.swing.JPanel implements JSkelaton{
     /**
      * Creates new form BuildingPanel
      */
-    public SkelatonPanel() {
+    public SkeletonPanel() {
         initComponents();
     }
 
-    public SkelatonPanel(AppState.ViewDimension view, JPanel toolbar, AppState appState) {
+    public SkeletonPanel(AppState.ViewDimension view, JPanel toolbar, AppState appState) {
         initComponents();
         pButtons.add(toolbar);
         this.view = view;
@@ -76,7 +76,6 @@ public class SkelatonPanel extends javax.swing.JPanel implements JSkelaton{
         jLabel3 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
         jTextField1 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox();
@@ -150,13 +149,14 @@ public class SkelatonPanel extends javax.swing.JPanel implements JSkelaton{
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pDetails.add(jComboBox1, java.awt.BorderLayout.PAGE_START);
 
-        jTextField1.setText("jTextField1");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
         pDetails.add(jTextField1, java.awt.BorderLayout.PAGE_END);
 
-        jLabel5.setText("jLabel5");
-        pDetails.add(jLabel5, java.awt.BorderLayout.LINE_END);
-
-        jLabel6.setText("jLabel5");
+        jLabel6.setText("Exemplo");
         pDetails.add(jLabel6, java.awt.BorderLayout.LINE_START);
 
         jLabel7.setText("jLabel3");
@@ -165,7 +165,11 @@ public class SkelatonPanel extends javax.swing.JPanel implements JSkelaton{
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pDetails.add(jComboBox2, java.awt.BorderLayout.CENTER);
 
-        jTextField2.setText("jTextField1");
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
         pDetails.add(jTextField2, java.awt.BorderLayout.CENTER);
 
         pButtons.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -242,6 +246,14 @@ public class SkelatonPanel extends javax.swing.JPanel implements JSkelaton{
         }
     }//GEN-LAST:event_lDataValueChanged
 
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -252,7 +264,6 @@ public class SkelatonPanel extends javax.swing.JPanel implements JSkelaton{
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;

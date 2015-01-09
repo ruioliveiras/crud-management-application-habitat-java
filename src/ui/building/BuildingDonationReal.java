@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import ui.AppState;
-import ui.util.SkelatonPanel;
+import ui.util.SkeletonPanel;
 import ui.util.UIDimension;
 
 /**

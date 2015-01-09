@@ -62,7 +62,7 @@ import ui.tabs.AdminToolBar;
 import ui.tabs.BuilddingToolBar;
 import ui.tabs.FamilyToolBar;
 import ui.tabs.FundsToolBar;
-import ui.util.SkelatonPanel;
+import ui.util.SkeletonPanel;
 import ui.util.UIDimension;
 
 /**
@@ -87,10 +87,10 @@ public class AppState {
 
     private Habitat habitat = new Habitat();
 
-    private final SkelatonPanel admin;
-    private final SkelatonPanel funds;
-    private final SkelatonPanel family;
-    private final SkelatonPanel building;
+    private final SkeletonPanel admin;
+    private final SkeletonPanel funds;
+    private final SkeletonPanel family;
+    private final SkeletonPanel building;
 
     private final MainFrame main;
     private final LoginFrame login;
@@ -137,10 +137,10 @@ public class AppState {
         FamilyToolBar familyToolBar = new FamilyToolBar(this);
         BuilddingToolBar builddingToolBar = new BuilddingToolBar(this);
         
-        this.admin = new SkelatonPanel(ViewDimension.ADMIN, adminToolBar, this);
-        this.funds = new SkelatonPanel(ViewDimension.FUNDS, fundsToolBar, this);
-        this.family = new SkelatonPanel(ViewDimension.FAMILY, familyToolBar, this);
-        this.building = new SkelatonPanel(ViewDimension.BUILDING, builddingToolBar, this);
+        this.admin = new SkeletonPanel(ViewDimension.ADMIN, adminToolBar, this);
+        this.funds = new SkeletonPanel(ViewDimension.FUNDS, fundsToolBar, this);
+        this.family = new SkeletonPanel(ViewDimension.FAMILY, familyToolBar, this);
+        this.building = new SkeletonPanel(ViewDimension.BUILDING, builddingToolBar, this);
         /** Bloco de codigo de contrução das dimenenções da aplicação, cada dimensao
          * representa uma determinada "coisa" que é preciso gerir
          * Como por exemplos no caso do adminstrador terá que inserir remover editar ver
@@ -190,7 +190,8 @@ public class AppState {
                 new AdminDonationtype(this,UIDimension.EditonType.EDIT),
                 new AdminDonationtype(this,UIDimension.EditonType.NEW),
                 new AdminDonationtype(this,UIDimension.EditonType.DETAILS),
-                new AdminDonationtype(this,UIDimension.EditonType.DELETE)
+                new AdminDonationtype(this,UIDimension.EditonType.DELETE),
+                habitat.tipoDonativoGetAll()
         );
         this.adminQuestao = new UIDimension<>(
                 this.admin,
@@ -266,7 +267,15 @@ public class AppState {
                 new BuildingDonationReal(this,UIDimension.EditonType.DETAILS), 
                 new BuildingDonationReal(this,UIDimension.EditonType.DELETE)
         );
-
+        this.fundsEvents = new UIDimension<>(
+            this.funds,
+            new FundsDetalhesEvento(),
+            new FundsEventCreate(this,UIDimension.EditonType.EDIT),
+            new FundsEventCreate(this,UIDimension.EditonType.NEW),
+            new FundsEventCreate(this,UIDimension.EditonType.DETAILS), 
+            new FundsEventCreate(this,UIDimension.EditonType.DELETE),
+            habitat.eventoGetAll()
+        );
         this.fundsDonations = new UIDimension<>(
             this.funds,
             new FundsDetalhesDonativo(),
@@ -283,14 +292,7 @@ public class AppState {
             new FundsDonatorCreate(this,UIDimension.EditonType.DETAILS), 
             new FundsDonatorCreate(this,UIDimension.EditonType.DELETE)
         );
-        this.fundsEvents = new UIDimension<>(
-            this.funds,
-            new FundsDetalhesEvento(),
-            new FundsEventCreate(this,UIDimension.EditonType.EDIT),
-            new FundsEventCreate(this,UIDimension.EditonType.NEW),
-            new FundsEventCreate(this,UIDimension.EditonType.DETAILS), 
-            new FundsEventCreate(this,UIDimension.EditonType.DELETE)
-        );
+
         
         this.fundsVolunters = new UIDimension<>(
             this.funds,
@@ -425,7 +427,7 @@ public class AppState {
     }
     
     
-    public SkelatonPanel getSkelaton(ViewDimension viewDimension) {
+    public SkeletonPanel getSkelaton(ViewDimension viewDimension) {
         switch (viewDimension){
             case ADMIN: return admin;
             case FUNDS: return funds;

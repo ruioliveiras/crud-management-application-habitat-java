@@ -7,7 +7,7 @@
 package ui;
 
 import java.awt.Component;
-import ui.util.SkelatonPanel;
+import ui.util.SkeletonPanel;
 import java.awt.HeadlessException;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -27,9 +27,9 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
     }
 
-    public MainFrame(SkelatonPanel...panels) {
+    public MainFrame(SkeletonPanel...panels) {
         initComponents();
-        for (SkelatonPanel panel : panels) {
+        for (SkeletonPanel panel : panels) {
             jTabbedPane1.add(panel.getTitle(), panel);
         }
         
