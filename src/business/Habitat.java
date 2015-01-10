@@ -20,6 +20,7 @@ import business.funds.Equipa;
 import business.funds.Evento;
 import business.funds.Voluntario;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import persistence.ProjetoDAO;
 import persistence.admin.ActividadeDAO;
@@ -58,6 +59,26 @@ public class Habitat {
     
     public void candidaturaUpdateEstado(Candidatura cand) throws SQLException
     { candidaturaDAO.updateEstado(cand); }
+    
+    /**
+     * Retorna a candidatura de um projeto
+     * @param p o projeto da candidatura
+     * @return Candidatura de um projeto
+     * @throws SQLException Caso exista problemas na ligação à Base de Dados
+     */
+    public Candidatura getProjetoCandidatura(Projeto p) throws SQLException
+    {
+        return candidaturaDAO.getCandidaturaProjeto(p);
+    } 
+    /**
+     * Retorna as candidaturas aprovadas que não tem projeto
+     * @return Lista com todas candidaturas aprovadas que ainda não tem projeto
+     * @throws SQLException Caso exista problemas na ligação à Base de Dados
+     */
+    public List<Candidatura> getCandidaturasAprovadas() throws SQLException
+    {
+        return candidaturaDAO.getAprovadoSProjeto();
+    }
     /**
      * Retorna todos os tipos de tarefa 
      * @return Lista com todos os tipos de tarefa

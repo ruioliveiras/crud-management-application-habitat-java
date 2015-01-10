@@ -1,11 +1,13 @@
 package business.building;
 
-import business.funds.Donativo;
+import business.familiy.Candidatura;
 import business.funds.Voluntariado;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import persistence.ProjetoDAO;
+import persistence.familia.CandidaturaDAO;
 import persistence.fundos.DonativoDAO;
 
 public class Projeto {
@@ -13,7 +15,7 @@ public class Projeto {
     private static DonativoDAO donativoDAO = new DonativoDAO();
     
     private int id,idFunc,idCand;
-    private Double orcamento;
+    private int orcamento;
     private Double prestacao;
     private String designacao, descricao;
     private GregorianCalendar dataInicio, dataFim, dataCriaProj, prazo;
@@ -43,7 +45,7 @@ public class Projeto {
      * @param dataCriaProj Data de Criação do Projeto
      * @param prazo Prazo de Finalização do Projeto
      */    
-    public Projeto(int id,int idFunc,int idCand, Double orcamento, Double prestacao, String designacao, 
+    public Projeto(int id,int idFunc,int idCand, int orcamento, Double prestacao, String designacao, 
             String descricao, GregorianCalendar dataInicio, GregorianCalendar dataFim, 
             GregorianCalendar dataCriaProj, GregorianCalendar prazo) {
         this.id = id;
@@ -57,11 +59,38 @@ public class Projeto {
         this.dataFim = dataFim;
         this.dataCriaProj = dataCriaProj;
         this.prazo = prazo;
-    }    
-/**
- * Construtor de Cópia
- * @param p Projecto a ser Copiado
- */
+    }
+    /**
+     * Construtor Parametrizado sem prestação
+     * @param id Código de Identificação
+     * @param idFunc Identificação do funcionário que supervisiona a execução
+     * @param idCand Identificação da candidatura que originou o projecto 
+     * @param orcamento Orçamento disponível para o Projeto
+     * @param designacao Nome do Projeto
+     * @param descricao Descrição do Projecto
+     * @param dataInicio Data de Início da Obra
+     * @param dataFim Data de Fim da Obra
+     * @param dataCriaProj Data de Criação do Projeto
+     * @param prazo Prazo de Finalização do Projeto
+     */    
+    public Projeto(int id,int idFunc,int idCand, int orcamento, String designacao, 
+            String descricao, GregorianCalendar dataInicio, GregorianCalendar dataFim, 
+            GregorianCalendar dataCriaProj, GregorianCalendar prazo) {
+        this.id = id;
+        this.idCand = idCand;
+        this.idFunc = idFunc;
+        this.orcamento = orcamento;
+        this.designacao = designacao;
+        this.descricao = descricao;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+        this.dataCriaProj = dataCriaProj;
+        this.prazo = prazo;
+    }  
+    /**
+     * Construtor de Cópia
+     * @param p Projecto a ser Copiado
+     */
     public Projeto(Projeto p) {
         this.idCand = p.getCandidaturaId();
         this.idFunc = p.getFuncionarioId();
@@ -74,6 +103,23 @@ public class Projeto {
         this.dataFim = p.getDataFim();
         this.dataCriaProj = p.getDataCriaProj();
         this.prazo = p.getPrazo();
+    }
+    /**
+    * Construtor de vazio
+    * 
+    */
+    public Projeto() {
+        this.idCand = 0;
+        this.idFunc = 0;
+        this.id = 0;
+        this.orcamento = 0;
+        this.prestacao = 0.0;
+        this.designacao = "";
+        this.descricao = "";
+        this.dataInicio = new GregorianCalendar();
+        this.dataFim = new GregorianCalendar();
+        this.dataCriaProj = new GregorianCalendar();
+        this.prazo = new GregorianCalendar();
     }
 /**
  * Retorna Identificador do Projeto
@@ -156,7 +202,7 @@ public class Projeto {
  * Retorna o Orçamento para a obra
  * @return Orçamento
  */
-    public Double getOrcamento() {
+    public int getOrcamento() {
         return orcamento;
     }
 /**
@@ -205,7 +251,7 @@ public class Projeto {
  * Modifica o Orçamento do Projeto
  * @param orcamento Novo Orçamento do Projeto
  */
-    public void setOrcamento(Double orcamento) {
+    public void setOrcamento(int orcamento) {
         this.orcamento = orcamento;
     }
 /**

@@ -262,15 +262,17 @@ public class BuildingTask extends javax.swing.JPanel implements UIDimension.JDet
 
     @Override
     public void set(Tarefa a) {
-        txtTipo.getModel().setSelectedItem(new TipoTarefa(a.getIdTar(), a.getTipoTarefa()));
-        txtDecricao.setText("Juntar isto a BD!!!");
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-      
-        try{dataIniPrev.setText(df.format(a.getDataInicioPrevista().getTime()));}catch(Exception e){}
-        try{dataFimPrev.setText(df.format(a.getDataFimPrevista().getTime()));}catch(Exception e){}
-        try{dataIniEfet.setText(df.format(a.getDataInicio().getTime()));}catch(Exception e){}
-        try{dataFimEfet.setText(df.format(a.getDataFim().getTime()));}catch(Exception e){}
-        this.repaint();
+        if(a != null){
+            txtTipo.getModel().setSelectedItem(new TipoTarefa(a.getIdTar(), a.getTipoTarefa()));
+            txtDecricao.setText("Juntar isto a BD!!!");
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+            try{dataIniPrev.setText(df.format(a.getDataInicioPrevista().getTime()));}catch(Exception e){}
+            try{dataFimPrev.setText(df.format(a.getDataFimPrevista().getTime()));}catch(Exception e){}
+            try{dataIniEfet.setText(df.format(a.getDataInicio().getTime()));}catch(Exception e){}
+            try{dataFimEfet.setText(df.format(a.getDataFim().getTime()));}catch(Exception e){}
+            this.repaint();
+        }
     }
 
     @Override

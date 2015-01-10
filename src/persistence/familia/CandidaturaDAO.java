@@ -5,6 +5,7 @@
  */
 package persistence.familia;
 
+import business.building.Projeto;
 import business.familiy.Candidatura;
 import business.familiy.Questao;
 import java.sql.ResultSet;
@@ -127,7 +128,7 @@ public class CandidaturaDAO extends GenericDAO<Candidatura> {
         }
         return c;
     }
-
+    
     public ArrayList<Candidatura> getAllByIdFam(int idFam) throws SQLException {
         ArrayList<Candidatura> c = new ArrayList<>();
 
@@ -141,6 +142,36 @@ public class CandidaturaDAO extends GenericDAO<Candidatura> {
 
         closeStatemnet();
         beforeReturn(c);
+        return c;
+    }
+    
+    public ArrayList<Candidatura> getAprovadoSProjeto() throws SQLException {
+        ArrayList<Candidatura> c = new ArrayList<>();
+
+        newStatement();
+        ResultSet rs = executeSelect("SELECT * From Candidatura WHERE Estado = "
+                + "'APROVADO' AND  idCand NOT IN(SELECT idCand FROM Projeto);");
+        
+        while(rs.next()) {
+            c.add(newObject(rs));
+        }
+
+        closeStatemnet();
+        beforeReturn(c);
+        return c;
+    }
+    
+    public Candidatura getCandidaturaProjeto(Projeto p) throws SQLException {
+        Candidatura c = null;
+
+        newStatement();
+        ResultSet rs = executeSelect("SELECT * From Candidatura WHERE idCand = " + p.getCandidaturaId());
+        
+        if(rs.next()) {
+            c = newObject(rs);
+        }
+
+        closeStatemnet();
         return c;
     }
 

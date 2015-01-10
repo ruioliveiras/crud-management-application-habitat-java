@@ -69,7 +69,7 @@ public class ProjetoDAO extends GenericDAO<Projeto> {
                 rs.getInt(Attr.idProj.name()),
                 rs.getInt(Attr.idFunc.name()),
                 rs.getInt(Attr.idCand.name()),
-                rs.getDouble(Attr.orcamento.name()),
+                rs.getInt(Attr.orcamento.name()),
                 0.0,//shit
                 rs.getNString(Attr.designacao.name()),
                 rs.getNString(Attr.descricao.name()),
@@ -142,7 +142,7 @@ public class ProjetoDAO extends GenericDAO<Projeto> {
          String descricao, GregorianCalendar dataInicio, GregorianCalendar dataFim, 
          GregorianCalendar dataCriaProj, GregorianCalendar prazo) {
          */
-        f.insert(new Projeto(-1, 1, 12, 100d, 11d, "Quinta do bill", " Muita coisa para fazer",
+        f.insert(new Projeto(-1, 1, 12, 100, 11d, "Quinta do bill", " Muita coisa para fazer",
                 new GregorianCalendar(), new GregorianCalendar(), new GregorianCalendar(), new GregorianCalendar()));
         Projeto f1 = f.getById(53);
         Projeto f2 = f.getById(104);

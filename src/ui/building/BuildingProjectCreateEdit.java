@@ -7,10 +7,18 @@ package ui.building;
 
 import business.admin.TipoActividade;
 import business.building.Projeto;
+import business.familiy.Candidatura;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.input.DataFormat;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import ui.AppState;
 import ui.util.UIDimension;
 
 /**
@@ -19,46 +27,72 @@ import ui.util.UIDimension;
  */
 public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UIDimension.JDetails<Projeto> {
     private String title;
+    private Projeto projeto;
+    private AppState appState;
     
     /**
      * Creates new form AdminDetailsActivity
      */
-    public BuildingProjectCreateEdit() {
+    public BuildingProjectCreateEdit(AppState appState) {
         initComponents();
         btCancelar.setVisible(false);
         btSave.setVisible(false);
         btnRemove.setVisible(false);
         btnSaveEdit.setVisible(false);
+        this.appState = appState;
     }
 
-    public BuildingProjectCreateEdit(UIDimension.EditonType ty) {
+    public BuildingProjectCreateEdit(UIDimension.EditonType ty, AppState appState) {
         initComponents();
         switch (ty) {
             case EDIT:
                 title = "Editar";
                 btnRemove.setVisible(false);
                 btSave.setVisible(false);
+                dataCriaProjText.setEditable(false);
+                jComboBox1.setEnabled(false);
                 break;
             case NEW:
                 title = "Adicionar";
                 btnRemove.setVisible(false);
                 btnSaveEdit.setVisible(false);
+                jLabel10.setVisible(false);
+                dataCriaProjText.setVisible(false);
                 break;
             case DELETE:
                 title = "Apagar";
                 btnSaveEdit.setVisible(false);
                 btSave.setVisible(false);
+                dataCriaProjText.setEditable(false);
+                jComboBox1.setEnabled(false);
+                jFormattedTextField1.setEditable(false);
+                txtDescricao.setEditable(false);
+                txtDesignacao.setEditable(false);
+                dataCriaProjText.setEditable(false);
+                dataFimText.setEditable(false);
+                dataInicioText.setEditable(false);
+                dataPrazoText.setEditable(false);
                 setEnabled(false);
                 break;
             case DETAILS:
                 title = "Detalhes";
                 btnRemove.setVisible(false);
                 btnSaveEdit.setVisible(false);
-                btSave.setVisible(false);
+                btSave.setVisible(false);                 
+                dataCriaProjText.setEditable(false);
+                jComboBox1.setEnabled(false);
+                jFormattedTextField1.setEditable(false);
+                txtDescricao.setEditable(false);
+                txtDesignacao.setEditable(false);
+                dataCriaProjText.setEditable(false);
+                dataFimText.setEditable(false);
+                dataInicioText.setEditable(false);
+                dataPrazoText.setEditable(false);
                 setEnabled(false);
                 break;
             default:
         }
+        this.appState = appState;
     }
 
     
@@ -73,6 +107,8 @@ public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UID
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel5 = new javax.swing.JLabel();
+        dataPrazo1 = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnRemove = new javax.swing.JButton();
@@ -84,17 +120,25 @@ public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UID
         txtDesignacao = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDescricao = new javax.swing.JTextArea();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        dataIniPrev = new javax.swing.JFormattedTextField();
-        dataFimPrev = new javax.swing.JFormattedTextField();
-        dataIniEfet = new javax.swing.JFormattedTextField();
-        dataFimEfet = new javax.swing.JFormattedTextField();
+        dataPrazoText = new javax.swing.JFormattedTextField();
+        dataInicioText = new javax.swing.JFormattedTextField();
+        dataFimText = new javax.swing.JFormattedTextField();
+        jComboBox1 = new javax.swing.JComboBox();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jLabel10 = new javax.swing.JLabel();
+        dataCriaProjText = new javax.swing.JFormattedTextField();
 
-        jLabel1.setText("Designacao");
+        jLabel5.setText("Prazo:");
 
-        jLabel2.setText("Descricao");
+        dataPrazo1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+
+        jLabel1.setText("Designação:");
+
+        jLabel2.setText("Descrição:");
 
         btnRemove.setText("Remover");
         btnRemove.addActionListener(new java.awt.event.ActionListener() {
@@ -124,9 +168,10 @@ public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UID
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setText("Datas:");
 
-        jLabel4.setText("Prevista inicio");
+        jLabel4.setText("Prazo:");
 
         txtDesignacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,19 +183,25 @@ public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UID
         txtDescricao.setRows(5);
         jScrollPane1.setViewportView(txtDescricao);
 
-        jLabel5.setText("prevista Fim");
+        jLabel6.setText("Data de inicio:");
 
-        jLabel6.setText("inicio efetiva");
+        jLabel7.setText("Data do fim:");
 
-        jLabel7.setText("fim efitivo");
+        dataPrazoText.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
-        dataIniPrev.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        dataInicioText.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
-        dataFimPrev.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        dataFimText.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
-        dataIniEfet.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        jLabel8.setText("Candidatura:");
 
-        dataFimEfet.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        jLabel9.setText("Orçamento:");
+
+        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
+
+        jLabel10.setText("Data criação:");
+
+        dataCriaProjText.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -159,48 +210,67 @@ public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UID
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
-                            .addComponent(txtDesignacao)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnRemove)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dataPrazoText, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dataCriaProjText, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 25, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnRemove)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSaveEdit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btSave)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btCancelar))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(dataInicioText, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                                    .addComponent(dataFimText)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnSaveEdit)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btSave)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btCancelar))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(23, 23, 23)
-                        .addComponent(dataFimPrev)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel7)
-                        .addGap(30, 30, 30)
-                        .addComponent(dataFimEfet))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dataIniPrev)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dataIniEfet)))
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel2))
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addComponent(txtDesignacao)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtDesignacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -211,19 +281,24 @@ public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UID
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(dataIniPrev, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel6)
-                        .addComponent(dataIniEfet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel4))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel7)
-                    .addComponent(dataFimPrev, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dataFimEfet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(dataPrazoText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(dataCriaProjText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(dataInicioText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(dataFimText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCancelar)
                     .addComponent(btSave)
@@ -234,15 +309,36 @@ public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UID
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
+        try {
+            appState.habitat().projetoRemove(projeto);
+            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        // TODO add your handling code here:
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.setVisible(false);
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void btnSaveEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEditActionPerformed
-        // TODO add your handling code here:
+        try {
+            try {
+                get();
+            } catch (ParseException ex) {
+                (new ui.util.ExceptionHandler("Erro no formato das datas", ex)).fire();
+            } catch (NumberFormatException ex) {
+                (new ui.util.ExceptionHandler("Erro no formato dos números", ex)).fire();
+            }
+
+            appState.habitat().projetoUpdate(projeto);
+            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
     }//GEN-LAST:event_btnSaveEditActionPerformed
 
     private void txtDesignacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDesignacaoActionPerformed
@@ -250,7 +346,21 @@ public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UID
     }//GEN-LAST:event_txtDesignacaoActionPerformed
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        // TODO add your handling code here:
+         try {
+             try {
+                 get();
+            } catch (ParseException ex) {
+                (new ui.util.ExceptionHandler("Erro no formato das datas", ex)).fire();
+            } catch (NumberFormatException ex) {
+                (new ui.util.ExceptionHandler("Erro no formato dos números", ex)).fire();
+            }
+
+            appState.habitat().projetoInsert(projeto);
+            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.setVisible(false);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
     }//GEN-LAST:event_btSaveActionPerformed
 
 
@@ -259,31 +369,77 @@ public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UID
     private javax.swing.JButton btSave;
     private javax.swing.JButton btnRemove;
     private javax.swing.JButton btnSaveEdit;
-    private javax.swing.JFormattedTextField dataFimEfet;
-    private javax.swing.JFormattedTextField dataFimPrev;
-    private javax.swing.JFormattedTextField dataIniEfet;
-    private javax.swing.JFormattedTextField dataIniPrev;
+    private javax.swing.JFormattedTextField dataCriaProjText;
+    private javax.swing.JFormattedTextField dataFimText;
+    private javax.swing.JFormattedTextField dataInicioText;
+    private javax.swing.JFormattedTextField dataPrazo1;
+    private javax.swing.JFormattedTextField dataPrazoText;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea txtDescricao;
     private javax.swing.JTextField txtDesignacao;
     // End of variables declaration//GEN-END:variables
 
-        @Override
+    @Override
     public void set(Projeto a) {
-        txtDescricao.setText(a.getDescricao());
-        txtDesignacao.setText(a.getDesignacao());
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        dataIniPrev.setText(df.format(a.getDataCriaProj().getTime()));
-        dataFimPrev.setText(df.format(a.getPrazo().getTime()));
-        dataIniEfet.setText(df.format(a.getDataInicio().getTime()));
-        dataFimEfet.setText(df.format(a.getDataFim().getTime()));
+        if(a != null){
+            projeto = a;
+            txtDescricao.setText(a.getDescricao());
+            txtDesignacao.setText(a.getDesignacao());
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            dataPrazoText.setText(df.format(a.getPrazo().getTime()));
+            dataCriaProjText.setText(df.format(a.getDataCriaProj().getTime()));
+            dataInicioText.setText(df.format(a.getDataInicio().getTime()));
+            dataFimText.setText(df.format(a.getDataFim().getTime()));
+            jFormattedTextField1.setText(a.getOrcamento() + "");
+            try {
+                jComboBox1.addItem(appState.habitat().getProjetoCandidatura(projeto));
+            } catch (SQLException ex) {
+                (new ui.util.ExceptionHandler("Erro no acesso a base de dados", ex)).fire();
+            }
+        }
+        else
+        {
+            try {
+                for(Candidatura c : appState.habitat().getCandidaturasAprovadas())
+                    jComboBox1.addItem(c);
+            } catch (SQLException ex) {
+                (new ui.util.ExceptionHandler("Erro no acesso a base de dados", ex)).fire();
+            }
+        }
+    }
+    
+    public void get() throws ParseException, NumberFormatException {
+        int id = (projeto != null) ? projeto.getId() : -1;
+        Candidatura c = (Candidatura) jComboBox1.getSelectedItem();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        GregorianCalendar dataCriaProj;
+        GregorianCalendar dataInicio = new GregorianCalendar();
+        GregorianCalendar dataFim = new GregorianCalendar();
+        GregorianCalendar prazo = new GregorianCalendar();
+        
+        dataInicio.setTime(sdf.parse(dataInicioText.getText()));
+        dataFim.setTime(sdf.parse(dataFimText.getText()));
+        prazo.setTime(sdf.parse(dataPrazoText.getText()));
+        
+        if(id == -1){ dataCriaProj = new GregorianCalendar(); }
+        else { dataCriaProj = projeto.getDataCriaProj(); }
+        
+        projeto = new Projeto(id, appState.habitat().getFuncionario().getId(), 
+            c.getId(), Integer.parseInt(jFormattedTextField1.getText()),
+            txtDesignacao.getText(), txtDescricao.getText(), dataInicio,
+            dataFim, dataCriaProj, prazo);
     }
 
     @Override
