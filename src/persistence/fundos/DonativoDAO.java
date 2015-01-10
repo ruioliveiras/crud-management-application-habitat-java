@@ -80,7 +80,7 @@ public class DonativoDAO extends DAO<Donativo> {
                 "descricao=" + toSQL(d.getDescricao()) + 
                 ", quantInicial=" + toSQL(d.getQuantInicial()) +
                 ", quantAtual=" + toSQL(d.getQuantAtual()) + 
-                ", isTipoDon=" + toSQL(d.getIdTipoDon()) + 
+                ", idTipoDon=" + toSQL(d.getIdTipoDon()) + 
                 ", dataDon=" + toSQL(d.getDataDon()) +
                 ", idFunc=" + toSQL(d.getIdFunc()) + 
                 ", idEv=" + toSQL(d.getIdEv()) + 

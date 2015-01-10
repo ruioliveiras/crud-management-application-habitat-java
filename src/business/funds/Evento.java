@@ -123,4 +123,14 @@ public class Evento{
     public String toString(){
         return new String(this.idEv+"."+this.designacao+"."+this.descricao);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Evento){
+            return ((Evento) obj).getIdEv() == this.getIdEv();
+        }
+        return false;
+    }
+    
+    
 }

@@ -26,9 +26,10 @@ public class DoadorDAO  extends DAO<Doador> {
     public Doador getById(int id) throws SQLException{
         newStatement();
         ResultSet rs = executeSelect("Select * from Individuo where idIndiv = "+ id);
-        
-        Doador r = newObject(rs);
-        
+         Doador r = null;
+        if(rs.next()) {
+            r = newObject(rs);
+        }
         closeStatemnet();
         
         return r;

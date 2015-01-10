@@ -32,7 +32,7 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="textTelf" pref="281" max="32767" attributes="0"/>
+                              <Component id="textTelf" pref="113" max="32767" attributes="0"/>
                           </Group>
                           <Component id="textEmail" alignment="0" max="32767" attributes="0"/>
                           <Component id="textNome" alignment="0" max="32767" attributes="0"/>

@@ -24,6 +24,7 @@ public class Doador {
        public Doador() {
         dataCriaIndiv = new GregorianCalendar();
         dataNascimento = new GregorianCalendar();
+        isDoador = true;
     }
     /**
      * Construtor Parametrizado

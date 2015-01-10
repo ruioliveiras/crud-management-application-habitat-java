@@ -7,6 +7,7 @@ package ui.funds;
 
 import business.funds.Donativo;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import ui.util.UIDimension;
@@ -64,7 +65,7 @@ public class FundsDetalhesDonativo extends javax.swing.JPanel implements UIDimen
                         .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textData, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+                    .addComponent(textData, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
                     .addComponent(textTipoDon)
                     .addComponent(textQuantI)
                     .addComponent(textQuantA))
@@ -110,7 +111,8 @@ public class FundsDetalhesDonativo extends javax.swing.JPanel implements UIDimen
     public void set(Donativo a) {
         textQuantI.setText(a.getQuantInicial()+"");
         textQuantA.setText(a.getQuantAtual()+"");
-        textData.setText(a.getDataDon().toString());
+        SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy");
+        textData.setText(s.format(a.getDataDon().getTime()));
         if(a.getIdTipoDon()==1) textTipoDon.setText("Monetário");
         else textTipoDon.setText("Material");
     }

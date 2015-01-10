@@ -23,6 +23,7 @@ public class Voluntario implements Voluntariado {
       public Voluntario() {
         dataCriaIndiv = new GregorianCalendar();
         dataNascimento = new GregorianCalendar();
+        isVoluntario = true;
     }
     /**
      * Construtor Parametrizado
@@ -491,6 +492,21 @@ public class Voluntario implements Voluntariado {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
+
+    /**
+     * 
+     * @param obj
+     * @return 
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Voluntario){
+            return ((Voluntario) obj).getIdIndiv() == this.getIdIndiv();
+        }
+        return false;
+    }
+    
+    
 /**
  * Modifica vontade de trabalhar junto de outro voluntário
  * @param trabalharJuntoVolunt Nova vontade de trabalhar junto de outro voluntário

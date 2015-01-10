@@ -408,14 +408,13 @@ public class FundsDonateCreateMaterial extends javax.swing.JFrame implements UID
         if (doador == null) {
             throw new ParseException("Doador nao definido", 1);
         }
-
+          
         donativo.setDataDon(new GregorianCalendar());
         donativo.setDescricao(txtDescr.getText());
         donativo.setQuantInicial(Integer.parseInt(txtQuant.getText()));
         donativo.setIdIndiv(doador.getIdIndiv());
         donativo.setIdTipoDon(((TipoDonativo) cmbMaterial.getSelectedItem()).getId());
         donativo.setIdEv(((Evento) cmbEvento.getSelectedItem()).getIdEv());
-        donativo.setIdDon(-1);
         if (donativo.getIdFunc() == 0) {
             donativo.setIdFunc(appState.habitat().getFuncionario().getId());
         }

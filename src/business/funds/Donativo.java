@@ -17,6 +17,7 @@ public class Donativo {
  */
     public Donativo() {
         dataDon = new GregorianCalendar();
+        idDon = -1;
     }
     /**
      * Construtor Parametrizado

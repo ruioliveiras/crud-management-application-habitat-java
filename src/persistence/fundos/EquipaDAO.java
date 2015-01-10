@@ -115,7 +115,7 @@ public class EquipaDAO extends DAO<Equipa> {
                 + toSQL(e.getNacionalidadeEq()) + ","
                 + toSQL(e.getDesignacao()) + ","
                 + toSQL(e.getDataCriaEq()) + ","
-                + toSQL(e.getIdFunc()));
+                + toSQL(e.getIdFunc()) + ")" );
         closeStatemnet();
         return i;
     }
@@ -125,6 +125,7 @@ public class EquipaDAO extends DAO<Equipa> {
         newStatement();
         String query = "INSERT INTO EquipaIndividuo(idIndiv,IdEq) VALUES ";
         for (Voluntario list1 : list) {
+            e.setIdEq(ret);
             query += " (" + toSQL(list1.getIdIndiv()) + " , " + toSQL(e.getIdEq()) + "),";
         }
         query = query.substring(0, query.length() - 1);
