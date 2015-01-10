@@ -1,5 +1,7 @@
 package persistence.fundos;
 
+import business.Individuo;
+import business.building.Tarefa;
 import business.building.VoluntariadoRealizado;
 import business.funds.Equipa;
 import business.funds.Voluntariado;
@@ -25,14 +27,15 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
         return r;
     }
 
-    public ArrayList<VoluntariadoRealizado> getByTarefa(int idProj, int idTar) throws SQLException {
+    public ArrayList<VoluntariadoRealizado> getByTarefa(Tarefa t) throws SQLException {
         newStatement();
         ArrayList<VoluntariadoRealizado> r = new ArrayList<>();
        
         ResultSet rs = executeSelect("Select i.*,dataTrabalho, duracao from Individuo i inner join IndividuoTarefaProjeto itp on itp.idIndiv = i.idIndiv "
-                + " where itp.idProj = " + idProj + " and itp.idTar = "+ idTar);
+                + " where itp.idProj = " + t.getIdProj() + " and itp.idTar = "+ t.getIdTar());
         while(rs.next()) {
             VoluntariadoRealizado vr = new VoluntariadoRealizado(
+                    t,
                     newObject(rs),
                     fromSQL(rs.getDate("dataTrabalho")),
                     rs.getInt("duracao")
@@ -43,6 +46,29 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
         closeStatemnet();
         
         return r;   
+    }
+        public void updateTarefaRealizada(VoluntariadoRealizado voluntariadoRealizado) throws SQLException {
+        newStatement();
+        executeSQL("UPDATE IndividuoTarefaProjeto SET "
+                + "dataTrabalho = " + toSQL(voluntariadoRealizado.getData())
+                + " ,duracao = " + toSQL(voluntariadoRealizado.getDurationMinutos())
+                + " where idIndiv = " + toSQL(((Voluntario) voluntariadoRealizado.getVoluntariado()).getIdIndiv())
+                + " and idProj = " + toSQL(voluntariadoRealizado.getTarefa().getIdProj())
+                + " and idTar = " + toSQL(voluntariadoRealizado.getTarefa().getIdTar()));
+        newStatement();
+    }
+
+    public void insertTarefaRealizada(VoluntariadoRealizado voluntariadoRealizado) throws SQLException {
+        newStatement();
+        executeSQL("INSERT INTO IndividuoTarefaProjeto(dataTrabalho,duracao,idIndiv,idProj,idTar)  VALUES ("
+                + "" + toSQL(voluntariadoRealizado.getData())
+                + "," + toSQL(voluntariadoRealizado.getDurationMinutos())
+                + "," + toSQL(((Voluntario) voluntariadoRealizado.getVoluntariado()).getIdIndiv())
+                + "," + toSQL(voluntariadoRealizado.getTarefa().getIdProj())
+                + "," + toSQL(voluntariadoRealizado.getTarefa().getIdTar())
+                + ")"
+        );
+        newStatement();
     }
     
     @Override

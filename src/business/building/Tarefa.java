@@ -1,6 +1,7 @@
 package business.building;
 
 
+import business.funds.Equipa;
 import business.funds.Voluntariado;
 import business.funds.Voluntario;
 import java.sql.SQLException;
@@ -154,10 +155,40 @@ public class Tarefa {
      */
     public List<VoluntariadoRealizado> getVoluntariado() throws SQLException{
         List<VoluntariadoRealizado> vo = new ArrayList<>();
-        vo.addAll(voluntarioDAO.getByTarefa(idProj,idTar));
-        vo.addAll(equipaDAO.getByTarefa(idProj,idTar));
+        vo.addAll(voluntarioDAO.getByTarefa(this));
+        vo.addAll(equipaDAO.getByTarefa(this));
         return vo;
     }
+  
+    /**
+     * Insere o voluntario
+     * @param v the VoluntariadoRealizado to insert
+     * @throws SQLException Caso exista problemas na ligação à Base de Dados 
+     */
+    public void putVoluntariado(VoluntariadoRealizado v) throws SQLException{
+        v.setTarefa(this);
+        if (v.getVoluntariado() instanceof Equipa){
+            equipaDAO.updateTarefaRealizada(v);
+        } else {
+            voluntarioDAO.updateTarefaRealizada(v);
+        }
+    }
+
+    /**
+     * Actualiza o voluntario guardando
+     * @param v
+     * @throws SQLException Caso exista problemas na ligação à Base de Dados 
+     */
+    public void addVoluntariado(VoluntariadoRealizado v) throws SQLException{
+        v.setTarefa(this);
+        if (v.getVoluntariado() instanceof Equipa){
+            equipaDAO.insertTarefaRealizada(v);
+        } else {
+            voluntarioDAO.insertTarefaRealizada(v);
+        }
+    }
+
+    
 /**
  * Verificação de Igualdade Semântica entre dois objectos
  * @param obj Objecto comparado a this

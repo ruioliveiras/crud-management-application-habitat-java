@@ -7,12 +7,18 @@ package ui.building;
 
 import business.building.DonativoRealizado;
 import business.building.Projeto;
+import business.building.Tarefa;
 import business.building.VoluntariadoRealizado;
 import business.funds.Donativo;
 import business.funds.Voluntariado;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -29,7 +35,9 @@ public class BuildingVolunteerReal extends javax.swing.JPanel implements UIDimen
     private AppState appState;
     private String title;
     private UIDimension.EditonType editonType;
+    private Projeto projeto;
     private Voluntariado voluntariado;
+    private VoluntariadoRealizado voluntariadoRealizado;
 
     /**
      * Creates new form AdminDetailsActivity
@@ -114,10 +122,12 @@ public class BuildingVolunteerReal extends javax.swing.JPanel implements UIDimen
         btSave = new javax.swing.JButton();
         btCancelar = new javax.swing.JButton();
         txtVoluntariado = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        cmbTarefa = new javax.swing.JComboBox();
 
-        jLabel1.setText("Selecione o donativo na aplicação com double-click");
+        jLabel1.setText("Selecione o Voluntariado na aplicação com double-click");
 
-        jLabel2.setText("Donativo");
+        jLabel2.setText("Voluntario");
 
         jLabel3.setText("Duracao");
 
@@ -157,6 +167,10 @@ public class BuildingVolunteerReal extends javax.swing.JPanel implements UIDimen
 
         txtVoluntariado.setEditable(false);
 
+        jLabel5.setText("tareafa");
+
+        cmbTarefa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -166,7 +180,7 @@ public class BuildingVolunteerReal extends javax.swing.JPanel implements UIDimen
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(0, 11, Short.MAX_VALUE))
+                        .addGap(0, 42, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -175,7 +189,8 @@ public class BuildingVolunteerReal extends javax.swing.JPanel implements UIDimen
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel5))
                                 .addGap(6, 6, 6)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -183,7 +198,8 @@ public class BuildingVolunteerReal extends javax.swing.JPanel implements UIDimen
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel4))
                             .addComponent(data, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtVoluntariado))
+                            .addComponent(txtVoluntariado)
+                            .addComponent(cmbTarefa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -201,7 +217,11 @@ public class BuildingVolunteerReal extends javax.swing.JPanel implements UIDimen
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(cmbTarefa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtVoluntariado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -214,7 +234,7 @@ public class BuildingVolunteerReal extends javax.swing.JPanel implements UIDimen
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(data, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCancelar)
                     .addComponent(btSave)
@@ -229,11 +249,25 @@ public class BuildingVolunteerReal extends javax.swing.JPanel implements UIDimen
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnSaveEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEditActionPerformed
-        // TODO add your handling code here:
+        try {
+            get();
+            ((Tarefa) cmbTarefa.getSelectedItem()).putVoluntariado(voluntariadoRealizado);
+        } catch (SQLException ex) {
+            Logger.getLogger(BuildingVolunteerReal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(BuildingVolunteerReal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSaveEditActionPerformed
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        // TODO add your handling code here:
+        try {
+            get();
+            ((Tarefa) cmbTarefa.getSelectedItem()).addVoluntariado(voluntariadoRealizado);
+        } catch (SQLException ex) {
+            Logger.getLogger(BuildingVolunteerReal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(BuildingVolunteerReal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btSaveActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
@@ -246,12 +280,14 @@ public class BuildingVolunteerReal extends javax.swing.JPanel implements UIDimen
     private javax.swing.JButton btSave;
     private javax.swing.JButton btnRemove;
     private javax.swing.JButton btnSaveEdit;
+    private javax.swing.JComboBox cmbTarefa;
     private javax.swing.JFormattedTextField data;
     private javax.swing.JTextField duracao;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField txtVoluntariado;
     // End of variables declaration//GEN-END:variables
@@ -270,11 +306,37 @@ public class BuildingVolunteerReal extends javax.swing.JPanel implements UIDimen
 
     @Override
     public void set(VoluntariadoRealizado a) {
+        if (a == null) {
+            a = new VoluntariadoRealizado();
+        }
+        voluntariadoRealizado = a;
+        projeto = appState.get(Projeto.class).listSelected();
+        //apenas funciona porque as tarefas sao as primeiras a fazer load
+        cmbTarefa.setModel(appState.get(Tarefa.class).listModelCopy());
+        if (a.getTarefa() != null) {
+            cmbTarefa.setSelectedItem(a.getTarefa());
+        }
         voluntariado = a.getVoluntariado();
-        txtVoluntariado.setText(a.getVoluntariado().toString());
+        if (voluntariado != null) {
+            txtVoluntariado.setText(a.getVoluntariado().toString());
+        }
+
         duracao.setText("" + a.getDurationMinutos());
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         data.setText(df.format(a.getData().getTime()));
+    }
+
+    private void get() throws ParseException {
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        GregorianCalendar c = new GregorianCalendar();
+        c.setTime(df.parse(data.getText()));
+        voluntariadoRealizado.setData(c);
+        voluntariadoRealizado.setDurationMinutos(Integer.parseInt(duracao.getText()));
+        if (voluntariado == null) {
+            throw new ParseException("Voluntario nao selecinado", 0);
+        }
+        voluntariadoRealizado.setVoluntariado(voluntariado);
+//        voluntariadoRealizado.
     }
 
     @Override

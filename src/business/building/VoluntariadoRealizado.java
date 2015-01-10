@@ -13,17 +13,34 @@ import java.util.GregorianCalendar;
  * @author ruioliveiras
  */
 public class VoluntariadoRealizado{
+    private Tarefa tarefa;
     private Voluntariado voluntariado;
     private GregorianCalendar data;
     private int durationMinutos;
 
     public VoluntariadoRealizado() {
+        data = new GregorianCalendar();
     }
 
-    public VoluntariadoRealizado(Voluntariado voluntariado, GregorianCalendar data, int durationMinutos) {
+    public VoluntariadoRealizado(Tarefa t,Voluntariado voluntariado, GregorianCalendar data, int durationMinutos) {
+        this.tarefa = t;
         this.voluntariado = voluntariado;
         this.data = data;
         this.durationMinutos = durationMinutos;
+    }
+
+    /**
+     * @return the Tarefa
+     */
+    public Tarefa getTarefa() {
+        return tarefa;
+    }
+
+    /**
+     * @param The tarefa to set
+     */
+    public void setTarefa(Tarefa tarefa) {
+        this.tarefa = tarefa;
     }
     
     /**
