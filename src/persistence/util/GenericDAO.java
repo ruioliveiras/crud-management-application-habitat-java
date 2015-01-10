@@ -142,14 +142,15 @@ public abstract class GenericDAO<A> extends DAO<A> {
      * @throws SQLException
      */
     @Override
-    public void update(A obj) throws SQLException {
+    public int update(A obj) throws SQLException {
         newStatement();
-        executeSQL("UPDATE " + tableName + " SET "
+        int ret = statement.executeUpdate("UPDATE " + tableName + " SET "
                 + queryBuilderAttrsValues(obj, indexNotKey, -1)
                 + " WHERE  "
                 + queryBuilderAttrsValuesAnd(obj, 0, indexNotKey)
         );
         closeStatemnet();
+        return ret;
     }
 
     protected String queryBuilderAttrs(int fromIndex) {

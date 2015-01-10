@@ -74,7 +74,7 @@ StringBuilder sb = new StringBuilder();
     public ExceptionHandler(String frindly, Exception ex) {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    StringBuilder sb = new StringBuilder();
+         StringBuilder sb = new StringBuilder();
         sb.append("Message: \n");
         sb.append(frindly);
         sb.append("\nException: \n");

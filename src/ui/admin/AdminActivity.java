@@ -221,7 +221,7 @@ public class AdminActivity extends javax.swing.JPanel implements UIDimension.JDe
 
     public void get() {
         int id = (obj != null) ? obj.getId() : -1;
-        obj = new TipoActividade(-1, txtName.getText());
+        obj = new TipoActividade(id, txtName.getText());
     }
 
     @Override

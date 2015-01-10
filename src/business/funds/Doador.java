@@ -5,7 +5,6 @@ import java.util.GregorianCalendar;
 import persistence.fundos.DoadorDAO;
 
 public class Doador {
-
     private int idIndiv, idFunc;
     private String nome;
     private GregorianCalendar dataNascimento;
@@ -19,12 +18,43 @@ public class Doador {
     private boolean isColetivo, isDoador, isVoluntario;
     private String nacionalidadeIndiv;
     private GregorianCalendar dataCriaIndiv;
-
-    public Doador() {
+/**
+ * Construtor Vazio
+ */
+       public Doador() {
         dataCriaIndiv = new GregorianCalendar();
         dataNascimento = new GregorianCalendar();
     }
-
+    /**
+     * Construtor Parametrizado
+     * @param idIndiv Identificador de Indivíduo
+     * @param idFunc Identificador de Funcionário
+     * @param nome Nome
+     * @param dataNascimento Data de Nascimento
+     * @param profissao Profissão
+     * @param morada Morada
+     * @param codigoPostal Código Postal
+     * @param localidade Localidade
+     * @param telefone Telefone
+     * @param telemovel Telemóvel
+     * @param email E-Mail
+     * @param habilitacoes Habilitações Literárias
+     * @param conhecimentosLing Conhecimentos Linguísticos 
+     * @param formacaoComp Formação Complementar
+     * @param experienciaVolunt Experiência como Voluntário 
+     * @param conhecimentosConstr Conhecimentos de Construção
+     * @param trabalharJuntoVolunt Se pretende trabalhar junto de outro voluntário
+     * @param disponibilidade Disponibilidade
+     * @param comoConheceu Como conheceu a Organização
+     * @param receberInfo Se pretende Receber Informação
+     * @param isParceiro Se é parceiro
+     * @param nif Número de Identificação Fiscal
+     * @param isColetivo Se é Coletivo
+     * @param isDoador Se é Doador
+     * @param isVoluntario Se é Voluntário
+     * @param nacionalidadeIndiv Nacionalidade do Individuo
+     * @param dataCriaIndiv Data de Criação
+     */
     public Doador(int idIndiv, int idFunc, String nome, GregorianCalendar dataNascimento, String profissao, String morada, String codigoPostal, String localidade, String telefone, String telemovel, String email, String habilitacoes, String conhecimentosLing, String formacaoComp, String experienciaVolunt, String conhecimentosConstr, boolean trabalharJuntoVolunt, String disponibilidade, String comoConheceu, boolean receberInfo, boolean isParceiro, int nif, boolean isColetivo, boolean isDoador, boolean isVoluntario, String nacionalidadeIndiv, GregorianCalendar dataCriaIndiv) {
         this.idIndiv = idIndiv;
         this.idFunc = idFunc;
@@ -55,6 +85,10 @@ public class Doador {
         this.dataCriaIndiv = dataCriaIndiv;
     }
 
+  /**
+   * Construtor de Cópia 
+   * @param d Doador a ser copiado
+   */  
     public Doador(Doador d) {
         this.idIndiv = d.getIdIndiv();
         this.idFunc = d.getIdFunc();
@@ -84,233 +118,408 @@ public class Doador {
         this.nacionalidadeIndiv = d.getNacionalidadeIndiv();
         this.dataCriaIndiv = d.getDataCriaIndiv();
     }
-
+/**
+ * 
+ * @return Quantidade doada 
+ * @throws SQLException Caso haja problema de Ligação à Base de Dados
+ */    
     public int getQuantDoada() throws SQLException {
         DoadorDAO d = new DoadorDAO();
         return d.getQuantDoada(this.idIndiv);
     }
-
+    
+/**
+    * 
+    * @return Se é parceiro da organização 
+    */ 
     public boolean isParceiro() {
         return isParceiro;
     }
-
+    /**
+     * 
+     * @return Se é Coletivo 
+     */
     public boolean isColetivo() {
         return isColetivo;
     }
-
+    /**
+     * 
+     * @return Se é doador 
+     */
     public boolean isDoador() {
         return isDoador;
     }
-
+    /**
+     * 
+     * @return se é Voluntário 
+     */
     public boolean isVoluntario() {
         return isVoluntario;
     }
-
+    /**
+     * 
+     * @return Se pretende Receber Informações
+     */
     public boolean getReceberInfo() {
         return receberInfo;
     }
-
+/**
+ * Código Postal
+ * @return 
+ */
     public String getCodigoPostal() {
         return codigoPostal;
     }
-
+/**
+ * 
+ * @return Como Conheceu A Organização 
+ */
     public String getComoConheceu() {
         return comoConheceu;
     }
-
+/**
+ * 
+ * @return Conhecimentos de Construção
+ */
     public String getConhecimentosConstr() {
         return conhecimentosConstr;
     }
-
+/**
+ * 
+ * @return Conhecimentos Linguísticos
+ */
     public String getConhecimentosLing() {
         return conhecimentosLing;
     }
-
+/**
+ * 
+ * @return Data de Criação
+ */
     public GregorianCalendar getDataCriaIndiv() {
         return dataCriaIndiv;
     }
-
+/**
+ * 
+ * @return Data de Nascimento
+ */
     public GregorianCalendar getDataNascimento() {
         return dataNascimento;
     }
-
+/**
+ * 
+ * @return Disponibilidade
+ */
     public String getDisponibilidade() {
         return disponibilidade;
     }
-
+/**
+ * 
+ * @return E-Mail
+ */
     public String getEmail() {
         return email;
     }
-
+/**
+ * 
+ * @return Experiência como Voluntário
+ */
     public String getExperienciaVolunt() {
         return experienciaVolunt;
     }
-
+/**
+ * 
+ * @return Formação Complementar
+ */
     public String getFormacaoComp() {
         return formacaoComp;
     }
-
+/**
+ * 
+ * @return Habilitações Literárias
+ */
     public String getHabilitacoes() {
         return habilitacoes;
     }
-
+/**
+ * 
+ * @return Identificador do Funcionário Responsável
+ */
     public int getIdFunc() {
         return idFunc;
     }
-
+/**
+ * 
+ * @return Identificador de Indivíduo
+ */
     public int getIdIndiv() {
         return idIndiv;
     }
-
+/**
+ * 
+ * @return Localidade
+ */
     public String getLocalidade() {
         return localidade;
     }
-
+/**
+ * 
+ * @return Morada
+ */
     public String getMorada() {
         return morada;
     }
-
+/**
+ * 
+ * @return Nacionalidade
+ */
     public String getNacionalidadeIndiv() {
         return nacionalidadeIndiv;
     }
-
+/**
+ * 
+ * @return Número de Identificação Fiscal
+ */
     public int getNif() {
         return nif;
     }
-
+/**
+ * 
+ * @return Nome
+ */
     public String getNome() {
         return nome;
     }
-
+/**
+ * 
+ * @return Profissão
+ */
     public String getProfissao() {
         return profissao;
     }
-
+/**
+ * 
+ * @return Telemóvel
+ */
     public String getTelemovel() {
         return telemovel;
     }
-
+/**
+ * 
+ * @return Telefone
+ */
     public String getTelefone() {
         return telefone;
     }
-
+/**
+ * 
+ * @return Se pretende trabalhar junto de outro Voluntário
+ */    
     public boolean getTrabalharJuntoVolunt() {
         return trabalharJuntoVolunt;
     }
-
+    
+    
+/**
+ * Modifica o Código Postal
+ * @param codigoPostal Novo Código Postal
+ */
     public void setCodigoPostal(String codigoPostal) {
         this.codigoPostal = codigoPostal;
     }
-
+/**
+ * Modifica como conheceu a Organização
+ * @param comoConheceu Nova forma de conhecer a Organização
+ */
     public void setComoConheceu(String comoConheceu) {
         this.comoConheceu = comoConheceu;
     }
-
+/**
+ * Modifica os Conhecimentos de Construção
+ * @param conhecimentosConstr Novos Conhecimentos de Construção
+ */
     public void setConhecimentosConstr(String conhecimentosConstr) {
         this.conhecimentosConstr = conhecimentosConstr;
     }
-
+/**
+ * Modifica os Conhecimentos Linguísticos
+ * @param conhecimentosLing Novos Conhecimentos Linguísticos
+ */
     public void setConhecimentosLing(String conhecimentosLing) {
         this.conhecimentosLing = conhecimentosLing;
     }
-
+/**
+ * Modifica a data de Criação 
+ * @param dataCriaIndiv Nova data de Criação
+ */
     public void setDataCriaIndiv(GregorianCalendar dataCriaIndiv) {
         this.dataCriaIndiv = dataCriaIndiv;
     }
-
+/**
+ * Modifica a data de Nascimento
+ * @param dataNascimento Nova data de Nasciento
+ */
     public void setDataNascimento(GregorianCalendar dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
-
+/**
+ * Modifica a Disponibilidade
+ * @param disponibilidade Nova Disponibilidade
+ */
     public void setDisponibilidade(String disponibilidade) {
         this.disponibilidade = disponibilidade;
     }
-
+/**
+ * Modifica o E-Mail
+ * @param email Novo E-Mail
+ */
     public void setEmail(String email) {
         this.email = email;
     }
-
+/**
+ * Modifica a experiência como Voluntario
+ * @param experienciaVolunt Nova Experiência
+ */
     public void setExperienciaVolunt(String experienciaVolunt) {
         this.experienciaVolunt = experienciaVolunt;
     }
-
+/**
+ * Modifica a Formação Complementar
+ * @param formacaoComp Nova Formação Complementar
+ */
     public void setFormacaoComp(String formacaoComp) {
         this.formacaoComp = formacaoComp;
     }
-
+/**
+ * Modifica as Habilitações Literárias 
+ * @param habilitacoes Novas Habilitações Literárias
+ */
     public void setHabilitacoes(String habilitacoes) {
         this.habilitacoes = habilitacoes;
     }
-
+/**
+ * Modifica o Identificador do Funcionário Responsável
+ * @param idFunc Novo Identificador de Funcionário Responsável
+ */
     public void setIdFunc(int idFunc) {
         this.idFunc = idFunc;
     }
-
+/**
+ * Muda o Identificador
+ * @param idIndiv Novo Identificador
+ */
     public void setIdIndiv(int idIndiv) {
         this.idIndiv = idIndiv;
     }
-
+/**
+ * Modifica Multiplicidade do Voluntario
+ * @param isColetivo Nova Multiplicidade
+ */
     public void setIsColetivo(boolean isColetivo) {
         this.isColetivo = isColetivo;
     }
-
+/**
+ * Modifica Estado relativo a Doador
+ * @param isDoador Novo Estado de Doador
+ */
     public void setIsDoador(boolean isDoador) {
         this.isDoador = isDoador;
     }
-
+/**
+ * Modifica o estado de Parceiro
+ * @param isParceiro Novo estado de Parceiro
+ */
     public void setIsParceiro(boolean isParceiro) {
         this.isParceiro = isParceiro;
     }
-
+/**
+ * Modifica o estado de Voluntário
+ * @param isVoluntario Novo estado de Voluntário
+ */
     public void setIsVoluntario(boolean isVoluntario) {
         this.isVoluntario = isVoluntario;
     }
-
+/**
+ * Modifica a Localidade
+ * @param localidade Nova Localidade
+ */
     public void setLocalidade(String localidade) {
         this.localidade = localidade;
     }
-
+/**
+ * Modifica a Morada
+ * @param morada Nova Morada
+ */
     public void setMorada(String morada) {
         this.morada = morada;
     }
-
+/**
+ * Modifica a Nacionalidade
+ * @param nacionalidadeIndiv Nova Nacionalidade 
+ */
     public void setNacionalidadeIndiv(String nacionalidadeIndiv) {
         this.nacionalidadeIndiv = nacionalidadeIndiv;
     }
-
+/**
+ * Modifica o NIF 
+ * @param nif Novo NIF
+ */
     public void setNif(int nif) {
         this.nif = nif;
     }
-
+/**
+ * Modifica o Nome
+ * @param nome Novo Nome
+ */
     public void setNome(String nome) {
         this.nome = nome;
     }
-
+/**
+ * Modifica a profissão 
+ * @param profissao Nova Profissão
+ */
     public void setProfissao(String profissao) {
         this.profissao = profissao;
     }
-
+/**
+ * Modifica vontade de receber Informação 
+ * @param receberInfo Nova vontade de Receber Informação
+ */
     public void setReceberInfo(boolean receberInfo) {
         this.receberInfo = receberInfo;
     }
-
+/**
+ * Modifica o Telemóvel
+ * @param telemovel Novo Telemóvel
+ */
     public void setTelemovel(String telemovel) {
         this.telemovel = telemovel;
     }
-
+/**
+ * Modifica o Telefone
+ * @param telefone Novo Telefone
+ */
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-
+/**
+ * Modifica vontade de trabalhar junto de outro voluntário
+ * @param trabalharJuntoVolunt Nova vontade de trabalhar junto de outro voluntário
+ */
     public void setTrabalharJuntoVolunt(boolean trabalharJuntoVolunt) {
         this.trabalharJuntoVolunt = trabalharJuntoVolunt;
-    }
-
-    public Doador clone() {
+    } 
+    /**
+     * 
+     * @return Cópia da Instância actual
+     */
+    public Doador clone(){
         return new Doador(this);
     }
-
-    public String toString() {
-        return new String(this.idIndiv + "." + this.nome + "." + this.profissao);
+    /**
+     * 
+     * @return Representação textual do Doador usando o Identificador, Nome e Profissão
+     */
+    public String toString(){
+        return new String(this.idIndiv+"."+this.nome+"."+this.profissao);
     }
 }

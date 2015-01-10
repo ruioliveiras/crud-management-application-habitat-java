@@ -55,7 +55,7 @@ public class EventoDAO  extends DAO<Evento> {
     }
 
     @Override
-    public void update(Evento e) throws SQLException {
+    public int update(Evento e) throws SQLException {
         newStatement();
         executeSQL("UPDATE Evento SET " +
                 "designacao=" + toSQL(e.getDesignacao()) + 
@@ -65,6 +65,7 @@ public class EventoDAO  extends DAO<Evento> {
                 " Where idEv=" + toSQL(e.getIdEv())
         );
         closeStatemnet();
+                return 0;
     }
     
     public Evento newObj(ResultSet rs) throws SQLException{

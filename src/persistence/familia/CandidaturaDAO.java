@@ -68,12 +68,16 @@ public class CandidaturaDAO extends GenericDAO<Candidatura> {
     }
 
     @Override
-    public void update(Candidatura obj) throws SQLException {
+    public int update(Candidatura obj) throws SQLException {
         super.update(obj); //To change body of generated methods, choose Tools | Templates.
         for (Questao q : obj.getQuestoesList()) {
             KeyValue<Integer, Questao> qv = new KeyValue<>(obj.getId(), q);
-            questaoDAO.update(qv);
+            if (questaoDAO.update(qv) == 0){
+                 //martelada -.-
+                questaoDAO.insertNoAuto(qv);
+            }
         }
+        return 0;
     }
 
     public void updateEstado(Candidatura obj) throws SQLException {
@@ -185,7 +189,7 @@ public class CandidaturaDAO extends GenericDAO<Candidatura> {
         public QuestaoDAO() {
             super(AttrQuestao.values(), 2, "CandidaturaQuestao", "ViewCandidaturaQuestao");
         }
-
+        
         @Override
         protected String getToBD(KeyValue<Integer, Questao> p, Enum<?> a) {
             AttrQuestao e = (AttrQuestao) a;

@@ -111,7 +111,7 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
     }
         
     @Override
-    public void update(Voluntario d)throws SQLException{
+    public int update(Voluntario d)throws SQLException{
         newStatement();
         executeSQL("UPDATE Individuo SET " +
                 "idFunc=" + toSQL(d.getIdFunc()) + 
@@ -143,6 +143,7 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
                 " Where idIndiv=" + toSQL(d.getIdIndiv())
         );
         closeStatemnet();
+                return 0;
     }
 
     @Override

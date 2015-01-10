@@ -74,7 +74,7 @@ public class DonativoDAO extends DAO<Donativo> {
     
    
     @Override
-    public void update(Donativo d)throws SQLException{
+    public int update(Donativo d)throws SQLException{
         newStatement();
         executeSQL("UPDATE Donativo SET  " +
                 "descricao=" + toSQL(d.getDescricao()) + 
@@ -87,6 +87,7 @@ public class DonativoDAO extends DAO<Donativo> {
                 ", idIndiv=" + toSQL(d.getIdIndiv()) +
                 " WHERE idDon=" + toSQL(d.getIdDon()));
         closeStatemnet();
+                return 0;
     }
     
 

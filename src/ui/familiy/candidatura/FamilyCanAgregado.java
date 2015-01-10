@@ -22,6 +22,7 @@ import ui.familiy.candidatura.FamilyCandCreate;
 public class FamilyCanAgregado extends javax.swing.JFrame {
     private FamilyCandCreate.AgregadoModel model;
     private int actualIndex;
+    private ElementoFamilia elemento ;
     
     /**
      * Creates new form AgregadoFamiliar
@@ -205,7 +206,7 @@ public class FamilyCanAgregado extends javax.swing.JFrame {
             model.put(actualIndex, e);
             setAgregado(-1);
         } catch (ParseException ex) {
-                                  (new ui.util.ExceptionHandler("Erro", ex)).fire();
+             (new ui.util.ExceptionHandler("Erro", ex)).fire();
         }
         
     }//GEN-LAST:event_btnConfirmarProximoActionPerformed
@@ -234,6 +235,8 @@ public class FamilyCanAgregado extends javax.swing.JFrame {
     }
     
     private void set(ElementoFamilia af){
+        elemento = af;
+        
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         NomeTextField.setText(af.getNome());
         ParentescoTextField.setText(af.getParentesco());
@@ -247,10 +250,13 @@ public class FamilyCanAgregado extends javax.swing.JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         GregorianCalendar dataNascimento = new GregorianCalendar();
         dataNascimento.setTime(sdf.parse(DataNascTextField.getText()));
+        String escolariade = (EscolaridadeComboBox.getSelectedItem() != null) ?
+                    EscolaridadeComboBox.getSelectedItem().toString() 
+                :   "";
         
         return new ElementoFamilia(
-                -1,
-                -1,//idFam
+                elemento.getId(),
+                elemento.getIdFam(),//idFam
                 NomeTextField.getText(),
                 OcupacaoTextField.getText(),
                 ParentescoTextField.getText(),

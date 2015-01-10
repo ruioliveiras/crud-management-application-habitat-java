@@ -71,6 +71,7 @@ public class FamiliaDAO extends GenericDAO<Familia> {
             int ret = super.insert(obj);    
             obj.setId(ret);
             for (ElementoFamilia e : obj.getElementosFamilia()) {
+                e.setIdFam(ret);
                 elementosFamiliaDAO.insert(e);
             }
         }
@@ -79,13 +80,18 @@ public class FamiliaDAO extends GenericDAO<Familia> {
     }
 
     @Override
-    public void update(Familia obj) throws SQLException {
+    public int update(Familia obj) throws SQLException {
         update(obj,obj.getCandidaturaLast());
+        return 0;
     }
     public void update(Familia obj, Candidatura c) throws SQLException {
         super.update(obj); //To change body of generated methods, choose Tools | Templates.
         for (ElementoFamilia e : obj.getElementosFamilia()) {
-            elementosFamiliaDAO.update(e);
+            if  (e.getId() == 0){
+                elementosFamiliaDAO.insert(e);
+            }else{
+                elementosFamiliaDAO.update(e);    
+            }
         }
         for (ElementoFamilia e : obj.getElementosFamiliaRemovedReset()) {
             elementosFamiliaDAO.remove(e);

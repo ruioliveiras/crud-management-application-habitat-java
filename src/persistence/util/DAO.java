@@ -73,7 +73,7 @@ public abstract class DAO<A> {
 
     public abstract void remove(A obj) throws SQLException;
 
-    public abstract void update(A obj) throws SQLException;
+    public abstract int update(A obj) throws SQLException;
 
     protected String toSQL(GregorianCalendar o){
         if (o == null){

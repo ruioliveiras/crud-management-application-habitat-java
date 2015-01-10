@@ -143,7 +143,7 @@ public class EquipaDAO extends DAO<Equipa> {
     }
 
     @Override
-    public void update(Equipa e) throws SQLException {
+    public int update(Equipa e) throws SQLException {
         newStatement();
         executeSQL("UPDATE Equipa SET "
                 + "nacionalidadeEq=" + toSQL(e.getNacionalidadeEq())
@@ -153,6 +153,7 @@ public class EquipaDAO extends DAO<Equipa> {
                 + " Where idEq=" + toSQL(e.getIdEq())
         );
         closeStatemnet();
+                return 0;
     }
 
     public void update(Equipa e, List<Voluntario> list, List<Voluntario> rem) throws SQLException {

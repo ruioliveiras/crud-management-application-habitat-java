@@ -501,11 +501,13 @@ public class FamilyCandCreate extends javax.swing.JPanel implements UIDimension.
         }
 
         public void put(int actualIndex, ElementoFamilia e) {
-            if (actualIndex == -1) {
+            e.setIdFam(familia.getId());
+             if (actualIndex == -1) {
                 int size = getSize();
                 familia.addElementoFamilia(e);
                 fireIntervalAdded(e, size, size);
             } else {
+                e.setIdFam(familia.getId());
                 familia.addElementoFamiliaAt(e, actualIndex);
                 fireContentsChanged(this, actualIndex, actualIndex);
             }

@@ -91,7 +91,7 @@ public class DoadorDAO  extends DAO<Doador> {
     
  
    @Override
-    public void update(Doador d)throws SQLException{
+    public int update(Doador d)throws SQLException{
         newStatement();
         executeSQL("UPDATE Individuo SET " +
                 "idFunc=" + toSQL(d.getIdFunc()) + 
@@ -123,6 +123,7 @@ public class DoadorDAO  extends DAO<Doador> {
                 " Where idIndiv=" + toSQL(d.getIdIndiv())
         );
         closeStatemnet();
+                return 0;
     }
     
 

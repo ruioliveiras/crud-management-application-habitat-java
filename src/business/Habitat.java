@@ -20,7 +20,6 @@ import business.funds.Equipa;
 import business.funds.Evento;
 import business.funds.Voluntario;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import persistence.ProjetoDAO;
 import persistence.admin.ActividadeDAO;
@@ -57,7 +56,12 @@ public class Habitat {
     private final DonativoDAO donativoDAO = new DonativoDAO();
     private final CandidaturaDAO candidaturaDAO = new CandidaturaDAO();
     
-    public void candidaturaUpdateEstado(Candidatura cand) throws SQLException
+    /**
+     * faz update ao estado de uma candidatura
+     * @param cand
+     * @throws SQLException 
+     */
+     public void candidaturaUpdateEstado(Candidatura cand) throws SQLException
     { candidaturaDAO.updateEstado(cand); }
     
     /**
@@ -79,6 +83,7 @@ public class Habitat {
     {
         return candidaturaDAO.getAprovadoSProjeto();
     }
+    
     /**
      * Retorna todos os tipos de tarefa 
      * @return Lista com todos os tipos de tarefa
@@ -381,6 +386,7 @@ public class Habitat {
     /**
     * Insere uma nova Equipa na Base de Dados
     * @param obj Equipa a ser adicionada à Base de Dados
+     * @param lista lista de voluntarios da Equipa
      * @throws SQLException Se existir algum problema de ligação à Base de Dados
      */
     public void equipaInsert(Equipa obj,List<Voluntario> lista) throws SQLException {equipaDAO.insert(obj,lista);}
@@ -393,9 +399,11 @@ public class Habitat {
     /**
      * Atualiza uma Equipa existente na Base de Dados
      * @param obj Equipa a ser atualizada na Base de Dados
+     * @param lista Lista de voluntarios a inserir
+     * @param removed lista de voluntarios a remover
      * @throws SQLException Se existir algum problema de ligação à Base de Dados
      */
-    public void equipaUpdate(Equipa obj,List<Voluntario> lista, List<Voluntario> removed) throws SQLException {equipaDAO.update(obj,lista,removed);}
+  public void equipaUpdate(Equipa obj,List<Voluntario> lista, List<Voluntario> removed) throws SQLException {equipaDAO.update(obj,lista,removed);}
      /**
      * Retorna todos os Eventos existentes 
      * @return Lista com todos os Eventos existentes na Base de Dados
