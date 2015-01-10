@@ -7,7 +7,7 @@
 package ui;
 
 import java.awt.Component;
-import ui.util.SkelatonPanel;
+import ui.util.SkeletonPanel;
 import java.awt.HeadlessException;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -27,9 +27,9 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
     }
 
-    public MainFrame(SkelatonPanel...panels) {
+    public MainFrame(SkeletonPanel...panels) {
         initComponents();
-        for (SkelatonPanel panel : panels) {
+        for (SkeletonPanel panel : panels) {
             jTabbedPane1.add(panel.getTitle(), panel);
         }
         
@@ -88,13 +88,13 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                                  (new ui.util.ExceptionHandler("Erro", ex)).fire();
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                                  (new ui.util.ExceptionHandler("Erro", ex)).fire();
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                                              (new ui.util.ExceptionHandler("Erro", ex)).fire();
         }
         //</editor-fold>
         //</editor-fold>

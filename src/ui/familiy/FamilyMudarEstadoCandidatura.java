@@ -12,13 +12,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import ui.AppState;
 
 /**
  *
  * @author Jose
  */
-public class MudarEstadoCandidatura extends javax.swing.JPanel {
+public class FamilyMudarEstadoCandidatura extends javax.swing.JPanel {
 
     Candidatura candidatura;
     AppState appState;
@@ -26,7 +27,7 @@ public class MudarEstadoCandidatura extends javax.swing.JPanel {
     /**
      * Creates new form MudarEstadoCandidatura
      */
-    public MudarEstadoCandidatura(Candidatura cand, AppState appState) {
+    public FamilyMudarEstadoCandidatura(Candidatura cand, AppState appState) {
         initComponents();
         this.candidatura = cand;
         this.appState = appState;
@@ -84,7 +85,7 @@ public class MudarEstadoCandidatura extends javax.swing.JPanel {
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 18, Short.MAX_VALUE))
+                                .addGap(0, 11, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jButton1)))
@@ -101,11 +102,11 @@ public class MudarEstadoCandidatura extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -115,11 +116,12 @@ public class MudarEstadoCandidatura extends javax.swing.JPanel {
             appState.habitat().candidaturaUpdateEstado(new Candidatura(candidatura.getDataCand(),
                     candidatura.getRendimento(), candidatura.getId(),
                     Candidatura.CandidaturaEstado.values()[jComboBox1.getSelectedIndex()]) );
+            ((JFrame) SwingUtilities.getWindowAncestor(this)).setVisible(false);
         }catch(SQLException e){ (new ui.util.ExceptionHandler("Erro de SQL", e)).fire(); }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.setVisible(false);
+        ((JFrame) SwingUtilities.getWindowAncestor(this)).setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
 
@@ -140,6 +142,7 @@ public class MudarEstadoCandidatura extends javax.swing.JPanel {
     public JFrame getFrame() {
         JFrame f = new JFrame();
         f.setContentPane(this);
+        f.pack();
         return f;
     }
 }

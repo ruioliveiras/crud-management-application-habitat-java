@@ -136,7 +136,7 @@ public class FamilyDetalhesPane extends javax.swing.JPanel implements UIDimensio
         MoradaLabel.setText(a.getMoradaRepresentante());
         DataCriaLabel.setText(df.format(a.getDataCriaFam().getTime()) + "");
         DataNascLabel.setText(df.format(a.getDataNascimento().getTime()) + "");
-        TelefoneLabel.setText(a.getContactoRepresentate());
+        TelefoneLabel.setText(a.getContactoRepresentate()+"");
         NifLabel.setText(a.getNif() + "");
     }
 

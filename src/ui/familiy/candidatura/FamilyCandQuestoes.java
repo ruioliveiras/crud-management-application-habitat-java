@@ -133,11 +133,11 @@ public class FamilyCandQuestoes extends javax.swing.JFrame {
     public void setCandidatura(Candidatura f) {
         this.candidatura = f;
         Map<Integer, Questao> questoes = candidatura.getQuestoes();
-        if (questoes == null) {
+        if (questoes == null || questoes.isEmpty()) {
             try {
                 candidatura.setQuestoesDefault();
             } catch (SQLException ex) {
-                Logger.getLogger(FamilyCandQuestoes.class.getName()).log(Level.SEVERE, null, ex);
+                (new ui.util.ExceptionHandler("Erro", ex)).fire();
             }
             questoes = candidatura.getQuestoes();
         }

@@ -18,6 +18,7 @@ import javax.swing.AbstractListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import org.eclipse.persistence.internal.jpa.parsing.GreaterThanEqualToNode;
 import ui.AppState;
 import ui.util.UIDimension;
 
@@ -258,7 +259,7 @@ public class FamilyCandCreate extends javax.swing.JPanel implements UIDimension.
                         .addGap(51, 51, 51)
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -302,7 +303,7 @@ public class FamilyCandCreate extends javax.swing.JPanel implements UIDimension.
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(InserirButton)
                     .addComponent(jButton3)
@@ -343,7 +344,7 @@ public class FamilyCandCreate extends javax.swing.JPanel implements UIDimension.
         } catch (ParseException e) {
             (new ui.util.ExceptionHandler("Erro ao converter a data", e)).fire();
         } catch (SQLException ex) {
-            Logger.getLogger(FamilyCandCreate.class.getName()).log(Level.SEVERE, null, ex);
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
         }
     }//GEN-LAST:event_InserirButtonActionPerformed
 
@@ -354,11 +355,11 @@ public class FamilyCandCreate extends javax.swing.JPanel implements UIDimension.
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             topFrame.setVisible(false);
         } catch (SQLException ex) {
-            Logger.getLogger(FamilyCandCreate.class.getName()).log(Level.SEVERE, null, ex);
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
         } catch (ParseException ex) {
-            Logger.getLogger(FamilyCandCreate.class.getName()).log(Level.SEVERE, null, ex);
+            (new ui.util.ExceptionHandler("Erro", ex)).fire();
         } catch (NumberFormatException ex) {
-            Logger.getLogger(FamilyCandCreate.class.getName()).log(Level.SEVERE, null, ex);
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
         }
     }//GEN-LAST:event_EditarButtonActionPerformed
 
@@ -436,7 +437,7 @@ public class FamilyCandCreate extends javax.swing.JPanel implements UIDimension.
         MoradaTextField.setText(a.getMoradaRepresentante());
         NifTextField.setText(a.getNif() + "");
         NomeTextField.setText(a.getNomeRepresentante());
-        TelefoneTextField.setText(a.getContactoRepresentate());
+        TelefoneTextField.setText(a.getContactoRepresentate() + "");
         dataNascTextFIeld.setText(sdf.format(a.getDataNascimento().getTime()));
         rendimentoTextField.setText(candidatura.getRendimento() + "");
         /*auxiliar*/
@@ -455,9 +456,17 @@ public class FamilyCandCreate extends javax.swing.JPanel implements UIDimension.
         familia.setMoradaRepresentante(MoradaTextField.getText());
         familia.setNif(Integer.parseInt(NifTextField.getText()));
         familia.setNomeRepresentante(NomeTextField.getText());
-        familia.setContactoRepresentate(TelefoneTextField.getText());
+        if (!TelefoneTextField.getText().trim().equals("")){
+            familia.setContactoRepresentate(Integer.parseInt(TelefoneTextField.getText().trim()));
+        }else{
+            //do nothing whith contact
+        }
         familia.setDataNascimento(c);
         candidatura.setRendimento(Double.parseDouble(rendimentoTextField.getText()));
+        candidatura.setDataCand(new GregorianCalendar());
+        if(familia.getIdFunc() <= 0){
+            familia.setIdFunc(appState.habitat().getFuncionario().getId());
+        }
         /*auxiliar*/
     }
 
@@ -478,7 +487,7 @@ public class FamilyCandCreate extends javax.swing.JPanel implements UIDimension.
         public void append(ElementoFamilia a) {
             int size = getSize();
             familia.addElementoFamilia(a);
-            fireIntervalAdded(a, size - 1, size);
+            fireIntervalAdded(a, size, size);
         }
 
         @Override
@@ -495,7 +504,7 @@ public class FamilyCandCreate extends javax.swing.JPanel implements UIDimension.
             if (actualIndex == -1) {
                 int size = getSize();
                 familia.addElementoFamilia(e);
-                fireIntervalAdded(e, size - 1, size);
+                fireIntervalAdded(e, size, size);
             } else {
                 familia.addElementoFamiliaAt(e, actualIndex);
                 fireContentsChanged(this, actualIndex, actualIndex);

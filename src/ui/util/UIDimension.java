@@ -6,11 +6,13 @@
 package ui.util;
 
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
 
 /** Class que serve para gerir um dados elemento de um modelo de dados.
@@ -156,7 +158,7 @@ public class UIDimension<A>{
     public A listSelected(){
         return selected;
     }
-
+    
     public void listAddMouseClickListener(MouseAdapter mouseAdapter){
         mySkelaton.addMouseClickListener(mouseAdapter);
     }
@@ -165,6 +167,30 @@ public class UIDimension<A>{
         mySkelaton.removeMouseClickListener(mouseAdapter);
     }
 
+    public MouseAdapter listListeningStart(final Action<A> action) {
+        MouseAdapter m = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                JList list = (JList) evt.getSource();
+                if (!listIsLoaded()) {
+                    return;
+                }
+                if (evt.getClickCount() == 2 || evt.getClickCount() == 3) {
+                    int index = list.locationToIndex(evt.getPoint());
+                    // passar a receber class para poder fazer cast seguro.. apenas assegurado por listIsLoaded
+                    A obj = (A) list.getModel().getElementAt(index);
+                    action.doo(obj);
+                }
+            }
+        };
+        mySkelaton.addMouseClickListener(m);
+        return m;
+    }
+    
+    public void listListeningStop(MouseAdapter mouseAdapter){
+        mySkelaton.removeMouseClickListener(mouseAdapter);
+    }
+    
     public interface JDetails<A>{
         public void set(A a);
         public JPanel getPanel();
@@ -176,6 +202,10 @@ public class UIDimension<A>{
         public UIDimension<?> getLoaded();
         public void addMouseClickListener(MouseAdapter mouseAdapter);
         public void removeMouseClickListener(MouseAdapter mouseAdapter);
+    }
+    
+    public interface Action<A>{
+        public void doo(A a);
     }
     
     public static class PrivateListModel<A> extends AbstractListModel<A> implements ComboBoxModel<A>{
@@ -204,7 +234,7 @@ public class UIDimension<A>{
         public void setSelectedItem(Object anItem) {
             for (A el : usingList) {
                 if (el.equals(anItem)){
-                    selected = anItem;
+                    selected = el;
                     break;
                 }
             }

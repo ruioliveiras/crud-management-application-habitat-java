@@ -26,13 +26,14 @@ public class Candidatura
 
     public Candidatura() {
         questoes = new HashMap<>();
+        projeto = null;
+        estado = Candidatura.CandidaturaEstado.PENDENTE;
     }
     
     public Candidatura(Familia f){
+        this();
         familia = f;
-        projeto = null;
-        questoes = null;
-    }
+     }
     
     public Candidatura(GregorianCalendar dataCand, double rendimento, int id, 
             CandidaturaEstado estado, Familia familia, Projeto projeto, HashMap<Integer, Questao> questoes) {

@@ -73,6 +73,17 @@ public class TipoDonativo {
     public void setUnidade(String unidade) {
         this.unidade = unidade;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof TipoDonativo){
+            return this.getId() == ((TipoDonativo) obj).getId();
+        }
+        return false;
+    }
+    
+    
+    
 /**
  * Retorna a Representação textual do Tipo de Donativo utilizando o Identificador, Descrição e Unidade de Medida
  * @return Representação textual do Tipo de Donativo

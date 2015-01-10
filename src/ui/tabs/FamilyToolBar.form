@@ -53,8 +53,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jToggleButton2" min="-2" pref="45" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="btnAprovarCand" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="btnAprovarCand" min="-2" pref="44" max="-2" attributes="0"/>
+              <EmptySpace pref="52" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -91,8 +91,16 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnAprovarCand">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Aprovar Candidatura"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/org/assests/editar32.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Alterar Estado"/>
+        <Property name="toolTipText" type="java.lang.String" value="Mudar Estado da Candidatura"/>
+        <Property name="horizontalAlignment" type="int" value="2"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAprovarCandActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JToggleButton" name="jToggleButton1">
       <Properties>

@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import org.eclipse.persistence.internal.jaxb.many.MapEntry;
 import persistence.util.GenericDAO;
@@ -56,10 +57,12 @@ public class CandidaturaDAO extends GenericDAO<Candidatura> {
 
     @Override
     public int insert(Candidatura obj) throws SQLException {
-       int ret = super.insert(obj); //To change body of generated methods, choose Tools | Templates.
+        int ret = super.insert(obj); //To change body of generated methods, choose Tools | Templates.
+        obj.setId(ret);
         for (Questao q : obj.getQuestoesList()) {
             KeyValue<Integer, Questao> qv = new KeyValue<>(obj.getId(), q);
-            questaoDAO.insert(qv);
+            //martelada -.-
+            questaoDAO.insertNoAuto(qv);
         }
         return ret;
     }
@@ -72,8 +75,7 @@ public class CandidaturaDAO extends GenericDAO<Candidatura> {
             questaoDAO.update(qv);
         }
     }
-    
-    
+
     public void updateEstado(Candidatura obj) throws SQLException {
         newStatement();
         executeSQL("UPDATE Candidatura SET estado = '" + obj.getEstado() + "' WHERE idCand =" + obj.getId());
@@ -83,7 +85,8 @@ public class CandidaturaDAO extends GenericDAO<Candidatura> {
     @Override
     public Candidatura newObject(ResultSet rs) throws SQLException {
         Candidatura.CandidaturaEstado estado;
-        if (rs.getString("estado") == null) {
+
+        if (rs.getString("estado") != null) {
             estado = Candidatura.CandidaturaEstado.valueOf(rs.getString("estado"));
         } else {
             estado = Candidatura.CandidaturaEstado.PENDENTE;
@@ -101,9 +104,11 @@ public class CandidaturaDAO extends GenericDAO<Candidatura> {
     public void beforeReturn(List<Candidatura> a) throws SQLException {
         for (Candidatura c : a) {
             KeyValue<Integer, Questao> qv = new KeyValue<>(c.getId(), null);
-            c.setQuestoes(KeyValue.convertHash(
-                    this.questaoDAO.getAllBy(qv, QuestaoDAO.AttrQuestao.idCand)
-            ));
+            HashMap<Integer,Questao> map= new HashMap<>();
+            for (KeyValue<Integer, Questao> a1 : this.questaoDAO.getAllBy(qv, QuestaoDAO.AttrQuestao.idCand)) {
+                map.put(a1.getValue().getPerguntaId(), a1.getValue());
+            }
+            c.setQuestoes(map);
         }
     }
 
@@ -118,7 +123,7 @@ public class CandidaturaDAO extends GenericDAO<Candidatura> {
         }
 
         closeStatemnet();
-        if (c != null){
+        if (c != null) {
             beforeReturn(Arrays.asList(c));
         }
         return c;
@@ -130,8 +135,8 @@ public class CandidaturaDAO extends GenericDAO<Candidatura> {
         newStatement();
         ResultSet rs = executeSelect("SELECT * FROM Candidatura WHERE idFam = " + idFam
                 + " ORDER BY dataCand");
-        
-        while(rs.next()) {
+
+        while (rs.next()) {
             c.add(newObject(rs));
         }
 

@@ -133,7 +133,7 @@ public class BuilddingToolBar extends javax.swing.JPanel {
         });
 
         lnName.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
-        lnName.setText("Quinta do joaquim");
+        lnName.setText("Selecionar Obra");
 
         jLabel4.setFont(new java.awt.Font("Cantarell", 1, 15)); // NOI18N
         jLabel4.setText("Ações");

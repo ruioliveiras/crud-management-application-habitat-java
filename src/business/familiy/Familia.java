@@ -12,8 +12,8 @@ public class Familia {
 
     private static FamiliaDAO familiaDAO = new FamiliaDAO();
 
-    private String nomeRepresentante, contactoRepresentate, moradaRepresentante;
-    private int nif, idFunc, id;
+    private String nomeRepresentante, moradaRepresentante;
+    private int nif, idFunc, id,contactoRepresentate;
     private GregorianCalendar dataNascimento, dataCriaFam;
     private String apelido;
     private ArrayList<ElementoFamilia> elementosFamilia;
@@ -27,7 +27,7 @@ public class Familia {
         candidatura = new Candidatura(this);
     }
 
-    public Familia(String nomeRepresentante, String contactoRepresentate,
+    public Familia(String nomeRepresentante, int contactoRepresentate,
             String moradaRepresentante, int nif, int idFunc, int id, GregorianCalendar dataNascimento,
             GregorianCalendar dataCriaFam, String apelido, Candidatura candidatura,
             HashMap<GregorianCalendar, Acompanhamento> acomp, ArrayList<ElementoFamilia> elem,
@@ -48,7 +48,7 @@ public class Familia {
         }
     }
 
-    public Familia(String nomeRepresentante, String contactoRepresentate,
+    public Familia(String nomeRepresentante, int contactoRepresentate,
             String moradaRepresentante, int nif, int idFunc, int id, GregorianCalendar dataNascimento,
             GregorianCalendar dataCriaFam, String apelido) {
         this.nomeRepresentante = nomeRepresentante;
@@ -101,11 +101,11 @@ public class Familia {
         this.nomeRepresentante = nomeRepresentante;
     }
 
-    public String getContactoRepresentate() {
+    public int getContactoRepresentate() {
         return contactoRepresentate;
     }
 
-    public void setContactoRepresentate(String contactoRepresentate) {
+    public void setContactoRepresentate(int contactoRepresentate) {
         this.contactoRepresentate = contactoRepresentate;
     }
 

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ui.familiy;
+package ui.familiy.candidatura;
 
 import business.familiy.Candidatura;
 import java.text.DateFormat;
@@ -113,7 +113,7 @@ public class FamilyCanDetailPanel extends javax.swing.JPanel implements UIDimens
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         obj = a = (a == null) ? new Candidatura() : a;
         EstadoLabel.setText(a.getEstado() + "");
-        DataCandLabel.setText(df.format(a.getDataCand()) + "");
+        DataCandLabel.setText(df.format(a.getDataCand().getTime()) + "");
         RendimentoLabel.setText(a.getRendimento() + "");
     }
 

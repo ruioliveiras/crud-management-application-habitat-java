@@ -1,9 +1,12 @@
 package business.funds;
 
+import java.sql.SQLException;
 import java.util.GregorianCalendar;
+import persistence.fundos.DoadorDAO;
 
 public class Donativo {
-
+    private static DoadorDAO doadorDAO = new DoadorDAO();
+    
     private int idDon;
     private String descricao;
     private int quantInicial, quantAtual, idTipoDon;
@@ -98,6 +101,10 @@ public class Donativo {
         this.idIndiv = idIndiv;
     }
 
+    public Doador getDoador() throws SQLException{
+        return doadorDAO.getById(idIndiv);
+    }
+    
     public void setIdTipoDon(int idTipoDon) {
         this.idTipoDon = idTipoDon;
     }
@@ -119,4 +126,5 @@ public class Donativo {
     public String toString() {
         return this.idDon + "." + this.descricao + "." + this.quantInicial;
     }
+
 }

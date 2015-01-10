@@ -72,8 +72,7 @@ public class FundsDonatorCreate extends javax.swing.JFrame implements UIDimensio
                 break;
             default:
         }
-        this.appState = appState;
-        
+        this.appState = appState;      
     }
     
     
