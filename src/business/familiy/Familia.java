@@ -1,6 +1,5 @@
 package business.familiy;
 
-import com.sun.istack.internal.FinalArrayList;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -173,7 +172,7 @@ public class Familia {
     
     public ArrayList<ElementoFamilia> getElementosFamiliaRemovedReset() {
         ArrayList<ElementoFamilia> ret = elementosFamiliaRemoved;
-        elementosFamiliaRemoved = new FinalArrayList<>();
+        elementosFamiliaRemoved = new ArrayList<>();
         return ret;
     }
     

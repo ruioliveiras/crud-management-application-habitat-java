@@ -268,11 +268,13 @@ public class BuildingDonationReal extends javax.swing.JPanel implements UIDimens
 
     @Override
     public void set(DonativoRealizado a) {
-        donativo = a.getDonativo();
-        txtDonativo.setText(a.getDonativo().toString());
-        quantidade.setText("" + a.getQuantidade());
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        data.setText(df.format(a.getData().getTime()));
+        if(a != null){
+            donativo = a.getDonativo();
+            txtDonativo.setText(a.getDonativo().toString());
+            quantidade.setText("" + a.getQuantidade());
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            data.setText(df.format(a.getData().getTime()));
+        }
     }
 
     @Override

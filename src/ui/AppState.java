@@ -220,10 +220,10 @@ public class AppState {
         this.buildProject = new UIDimension<>(
                 this.building,
                 new BuildingProjectPanel(),
-                new BuildingProjectCreateEdit(UIDimension.EditonType.EDIT),
-                new BuildingProjectCreateEdit(UIDimension.EditonType.NEW),
-                new BuildingProjectGeralVision(), 
-                new BuildingProjectCreateEdit(UIDimension.EditonType.DELETE)
+                new BuildingProjectCreateEdit(UIDimension.EditonType.EDIT, this),
+                new BuildingProjectCreateEdit(UIDimension.EditonType.NEW, this),
+                new BuildingProjectCreateEdit(UIDimension.EditonType.DETAILS, this), 
+                new BuildingProjectCreateEdit(UIDimension.EditonType.DELETE, this)
         );
         this.familyFamily = new UIDimension<>(
                 this.family,

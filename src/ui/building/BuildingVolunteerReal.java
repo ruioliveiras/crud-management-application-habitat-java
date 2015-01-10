@@ -270,11 +270,14 @@ public class BuildingVolunteerReal extends javax.swing.JPanel implements UIDimen
 
     @Override
     public void set(VoluntariadoRealizado a) {
-        voluntariado = a.getVoluntariado();
-        txtVoluntariado.setText(a.getVoluntariado().toString());
-        duracao.setText("" + a.getDurationMinutos());
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        data.setText(df.format(a.getData().getTime()));
+        if(a != null)
+        {
+            voluntariado = a.getVoluntariado();
+            txtVoluntariado.setText(a.getVoluntariado().toString());
+            duracao.setText("" + a.getDurationMinutos());
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            data.setText(df.format(a.getData().getTime()));
+        }
     }
 
     @Override
