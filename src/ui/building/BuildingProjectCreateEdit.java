@@ -26,10 +26,11 @@ import ui.util.UIDimension;
  * @author ruioliveiras
  */
 public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UIDimension.JDetails<Projeto> {
+
     private String title;
     private Projeto projeto;
     private AppState appState;
-    
+
     /**
      * Creates new form AdminDetailsActivity
      */
@@ -78,7 +79,7 @@ public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UID
                 title = "Detalhes";
                 btnRemove.setVisible(false);
                 btnSaveEdit.setVisible(false);
-                btSave.setVisible(false);                 
+                btSave.setVisible(false);
                 dataCriaProjText.setEditable(false);
                 jComboBox1.setEnabled(false);
                 jFormattedTextField1.setEditable(false);
@@ -94,9 +95,6 @@ public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UID
         }
         this.appState = appState;
     }
-
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -346,9 +344,9 @@ public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UID
     }//GEN-LAST:event_txtDesignacaoActionPerformed
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-         try {
-             try {
-                 get();
+        try {
+            try {
+                get();
             } catch (ParseException ex) {
                 (new ui.util.ExceptionHandler("Erro no formato das datas", ex)).fire();
             } catch (NumberFormatException ex) {
@@ -393,33 +391,35 @@ public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UID
 
     @Override
     public void set(Projeto a) {
-        if(a != null){
+        if (a != null) {
             projeto = a;
-            txtDescricao.setText(a.getDescricao());
-            txtDesignacao.setText(a.getDesignacao());
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            dataPrazoText.setText(df.format(a.getPrazo().getTime()));
-            dataCriaProjText.setText(df.format(a.getDataCriaProj().getTime()));
-            dataInicioText.setText(df.format(a.getDataInicio().getTime()));
-            dataFimText.setText(df.format(a.getDataFim().getTime()));
-            jFormattedTextField1.setText(a.getOrcamento() + "");
+
+        } else {
+            projeto = a = new Projeto();
             try {
-                jComboBox1.addItem(appState.habitat().getProjetoCandidatura(projeto));
+                for (Candidatura c : appState.habitat().getCandidaturasAprovadas()) {
+                    jComboBox1.addItem(c);
+                }
             } catch (SQLException ex) {
                 (new ui.util.ExceptionHandler("Erro no acesso a base de dados", ex)).fire();
             }
         }
-        else
-        {
-            try {
-                for(Candidatura c : appState.habitat().getCandidaturasAprovadas())
-                    jComboBox1.addItem(c);
-            } catch (SQLException ex) {
-                (new ui.util.ExceptionHandler("Erro no acesso a base de dados", ex)).fire();
-            }
+        txtDescricao.setText(a.getDescricao());
+        txtDesignacao.setText(a.getDesignacao());
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        dataPrazoText.setText(df.format(a.getPrazo().getTime()));
+        dataCriaProjText.setText(df.format(a.getDataCriaProj().getTime()));
+        dataInicioText.setText(df.format(a.getDataInicio().getTime()));
+        dataFimText.setText(df.format(a.getDataFim().getTime()));
+        jFormattedTextField1.setText(a.getOrcamento() + "");
+        try {
+            jComboBox1.removeAllItems();
+            jComboBox1.addItem(appState.habitat().getProjetoCandidatura(projeto));
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro no acesso a base de dados", ex)).fire();
         }
     }
-    
+
     public void get() throws ParseException, NumberFormatException {
         int id = (projeto != null) ? projeto.getId() : -1;
         Candidatura c = (Candidatura) jComboBox1.getSelectedItem();
@@ -428,18 +428,21 @@ public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UID
         GregorianCalendar dataInicio = new GregorianCalendar();
         GregorianCalendar dataFim = new GregorianCalendar();
         GregorianCalendar prazo = new GregorianCalendar();
-        
+
         dataInicio.setTime(sdf.parse(dataInicioText.getText()));
         dataFim.setTime(sdf.parse(dataFimText.getText()));
         prazo.setTime(sdf.parse(dataPrazoText.getText()));
-        
-        if(id == -1){ dataCriaProj = new GregorianCalendar(); }
-        else { dataCriaProj = projeto.getDataCriaProj(); }
-        
-        projeto = new Projeto(id, appState.habitat().getFuncionario().getId(), 
-            c.getId(), Integer.parseInt(jFormattedTextField1.getText()),
-            txtDesignacao.getText(), txtDescricao.getText(), dataInicio,
-            dataFim, dataCriaProj, prazo);
+
+        if (id == -1) {
+            dataCriaProj = new GregorianCalendar();
+        } else {
+            dataCriaProj = projeto.getDataCriaProj();
+        }
+
+        projeto = new Projeto(id, appState.habitat().getFuncionario().getId(),
+                c.getId(), Integer.parseInt(jFormattedTextField1.getText()),
+                txtDesignacao.getText(), txtDescricao.getText(), dataInicio,
+                dataFim, dataCriaProj, prazo);
     }
 
     @Override
@@ -455,5 +458,5 @@ public class BuildingProjectCreateEdit extends javax.swing.JPanel implements UID
         frame.pack();
         return frame;
     }
-    
+
 }

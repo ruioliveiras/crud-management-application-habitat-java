@@ -47,6 +47,16 @@ public class VoluntarioDAO  extends DAO<Voluntario> {
         
         return r;   
     }
+    
+    public void removeTarefaRealizada(VoluntariadoRealizado voluntariadoRealizado) throws SQLException {
+        newStatement();
+        executeSQL("DELETE FROM IndividuoTarefaProjeto "
+                + " where idIndiv = " + toSQL(((Voluntario) voluntariadoRealizado.getVoluntariado()).getIdIndiv())
+                + " and idProj = " + toSQL(voluntariadoRealizado.getTarefa().getIdProj())
+                + " and idTar = " + toSQL(voluntariadoRealizado.getTarefa().getIdTar()));
+        newStatement();
+    }
+
         public void updateTarefaRealizada(VoluntariadoRealizado voluntariadoRealizado) throws SQLException {
         newStatement();
         executeSQL("UPDATE IndividuoTarefaProjeto SET "

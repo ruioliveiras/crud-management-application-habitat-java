@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import ui.AppState;
 import ui.util.SkeletonPanel;
 import ui.util.UIDimension;
@@ -245,17 +246,24 @@ public class BuildingVolunteerReal extends javax.swing.JPanel implements UIDimen
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
+        try {
+            ((Tarefa) cmbTarefa.getSelectedItem()).rmVoluntariado(voluntariadoRealizado);
+            ((JFrame) SwingUtilities.getWindowAncestor(this)).setVisible(false);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(BuildingVolunteerReal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnSaveEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEditActionPerformed
         try {
             get();
             ((Tarefa) cmbTarefa.getSelectedItem()).putVoluntariado(voluntariadoRealizado);
+            ((JFrame) SwingUtilities.getWindowAncestor(this)).setVisible(false);
         } catch (SQLException ex) {
-            Logger.getLogger(BuildingVolunteerReal.class.getName()).log(Level.SEVERE, null, ex);
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
         } catch (ParseException ex) {
-            Logger.getLogger(BuildingVolunteerReal.class.getName()).log(Level.SEVERE, null, ex);
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
         }
     }//GEN-LAST:event_btnSaveEditActionPerformed
 
@@ -263,15 +271,18 @@ public class BuildingVolunteerReal extends javax.swing.JPanel implements UIDimen
         try {
             get();
             ((Tarefa) cmbTarefa.getSelectedItem()).addVoluntariado(voluntariadoRealizado);
+            ((JFrame) SwingUtilities.getWindowAncestor(this)).setVisible(false);
+            set(null);
         } catch (SQLException ex) {
-            Logger.getLogger(BuildingVolunteerReal.class.getName()).log(Level.SEVERE, null, ex);
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
         } catch (ParseException ex) {
-            Logger.getLogger(BuildingVolunteerReal.class.getName()).log(Level.SEVERE, null, ex);
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
         }
     }//GEN-LAST:event_btSaveActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        // TODO add your handling code here:
+        ((JFrame) SwingUtilities.getWindowAncestor(this)).setVisible(false);
+        set(null);
     }//GEN-LAST:event_btCancelarActionPerformed
 
 

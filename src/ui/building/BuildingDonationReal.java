@@ -10,10 +10,17 @@ import business.building.Projeto;
 import business.funds.Donativo;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import sun.util.calendar.Gregorian;
 import ui.AppState;
 import ui.util.SkeletonPanel;
 import ui.util.UIDimension;
@@ -28,6 +35,7 @@ public class BuildingDonationReal extends javax.swing.JPanel implements UIDimens
     private String title;
     private UIDimension.EditonType editonType;
     private Donativo donativo;
+    private DonativoRealizado donativoRealizado;
 
     /**
      * Creates new form AdminDetailsActivity
@@ -76,20 +84,7 @@ public class BuildingDonationReal extends javax.swing.JPanel implements UIDimens
 
     }
 
-    private MouseAdapter mouseAdapter = new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent evt) {
-            JList list = (JList) evt.getSource();
-            if (evt.getClickCount() == 2 || evt.getClickCount() == 3) {
-                int index = list.locationToIndex(evt.getPoint());
-                Object donativo = list.getModel().getElementAt(index);
-                if (donativo instanceof Donativo) {
-                    BuildingDonationReal.this.donativo = (Donativo) donativo;
-                    txtDonativo.setText(donativo.toString());
-                }
-            }
-        }
-    };
+    private MouseAdapter mouseAdapter;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -223,19 +218,48 @@ public class BuildingDonationReal extends javax.swing.JPanel implements UIDimens
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
+        try {
+            get();
+            appState.get(Projeto.class).listSelected().rmDonativo(donativoRealizado);
+            ((JFrame) SwingUtilities.getWindowAncestor(this)).setVisible(false);
+            set(null);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        } catch (ParseException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnSaveEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEditActionPerformed
-        // TODO add your handling code here:
+        try {
+            get();
+            appState.get(Projeto.class).listSelected().putDonativo(donativoRealizado);
+            ((JFrame) SwingUtilities.getWindowAncestor(this)).setVisible(false);
+            set(null);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        } catch (ParseException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
     }//GEN-LAST:event_btnSaveEditActionPerformed
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        // TODO add your handling code here:
+        try {
+            get();
+            appState.get(Projeto.class).listSelected().addDonativo(donativoRealizado);
+            ((JFrame) SwingUtilities.getWindowAncestor(this)).setVisible(false);
+            set(null);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        } catch (ParseException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
     }//GEN-LAST:event_btSaveActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        // TODO add your handling code here:
+        ((JFrame) SwingUtilities.getWindowAncestor(this)).setVisible(false);
+        set(null);
+
     }//GEN-LAST:event_btCancelarActionPerformed
 
 
@@ -254,27 +278,43 @@ public class BuildingDonationReal extends javax.swing.JPanel implements UIDimens
     private javax.swing.JLabel unidade;
     // End of variables declaration//GEN-END:variables
 
-    private void setListener() {
-        appState.getSkelaton(AppState.ViewDimension.FUNDS)
-                .addMouseClickListener(mouseAdapter);
-
-    }
-
-    private void unsetListener() {
-        appState.getSkelaton(AppState.ViewDimension.FUNDS)
-                .removeMouseClickListener(mouseAdapter);
-
-    }
-
     @Override
     public void set(DonativoRealizado a) {
-        if(a != null){
-            donativo = a.getDonativo();
-            txtDonativo.setText(a.getDonativo().toString());
-            quantidade.setText("" + a.getQuantidade());
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            data.setText(df.format(a.getData().getTime()));
+        if (a == null) {
+           a = new DonativoRealizado();
         }
+        donativoRealizado = a;
+        donativo = a.getDonativo();
+        if (donativo != null) {
+            txtDonativo.setText(a.getDonativo().toString());
+        }
+        quantidade.setText("" + a.getQuantidade());
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        data.setText(df.format(a.getData().getTime()));
+
+        mouseAdapter = appState.get(Donativo.class).listListeningStart(new UIDimension.Action<Donativo>() {
+            @Override
+            public void doo(Donativo a) {
+                donativo = a;
+                if (donativo != null) {
+                    txtDonativo.setText(donativo.toString());
+                }
+            }
+        });
+    }
+
+    private void get() throws ParseException {
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        GregorianCalendar c = new GregorianCalendar();
+        c.setTime(df.parse(data.getText()));
+        donativoRealizado.setData(c);
+        try {
+            donativoRealizado.setQuantidade(Integer.parseInt(quantidade.getText()));
+        } catch (NumberFormatException a) {
+            throw new ParseException("numero incorreto", 0);
+        }
+
+        donativoRealizado.setDonativo(donativo);
     }
 
     @Override
@@ -290,10 +330,8 @@ public class BuildingDonationReal extends javax.swing.JPanel implements UIDimens
                 super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
                 if (editonType == UIDimension.EditonType.EDIT
                         || editonType == UIDimension.EditonType.NEW) {
-                    if (b) {
-                        setListener();
-                    } else {
-                        unsetListener();
+                    if (!b) {
+                        appState.get(Donativo.class).listListeningStop(mouseAdapter);
                     }
                 }
 

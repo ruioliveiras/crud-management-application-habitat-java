@@ -272,7 +272,7 @@ public class Projeto {
      * Edita uma Tarefa do plano de obra do Projeto
      * @param t Tarefa a ser editada
      */
-    public void editTarefa(Tarefa t) {
+    public void putTarefa(Tarefa t) {
         
     }
     /**
@@ -300,6 +300,19 @@ public class Projeto {
     public List<DonativoRealizado> getDonativos() throws SQLException {
         return donativoDAO.getByProjId(id);
     }
+    
+    public void addDonativo(DonativoRealizado d)throws SQLException {
+        donativoDAO.insertRealizado(d, this);
+    }
+    
+    public void putDonativo(DonativoRealizado d)throws SQLException {
+        donativoDAO.updateRealizado(d, this);
+    }
+    
+    public void rmDonativo(DonativoRealizado d)throws SQLException {
+        donativoDAO.removeRealizado(d,this);
+    }
+    
     /**
      * Criação de uma cópia da Instância actual
      * @return Cópia da Instância actual

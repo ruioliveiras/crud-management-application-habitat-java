@@ -20,6 +20,8 @@ public class DonativoRealizado{
  * Construtor Vazio
  */
     public DonativoRealizado() {
+        data = new GregorianCalendar();
+        donativo = null;
     }
 /**
  * Construtor Parametrizado

@@ -83,6 +83,15 @@ public class EquipaDAO extends DAO<Equipa> {
         return r;
     }
 
+    public void removeTarefaRealizada(VoluntariadoRealizado voluntariadoRealizado) throws SQLException {
+        newStatement();
+        executeSQL("DELETE FROM EquipaTarefaProjeto "
+                + " where idEq = " + toSQL(((Equipa) voluntariadoRealizado.getVoluntariado()).getIdEq())
+                + " and idProj = " + toSQL(voluntariadoRealizado.getTarefa().getIdProj())
+                + " and idTar = " + toSQL(voluntariadoRealizado.getTarefa().getIdTar()));
+        newStatement();
+    }
+    
     public void updateTarefaRealizada(VoluntariadoRealizado voluntariadoRealizado) throws SQLException {
         newStatement();
         executeSQL("UPDATE EquipaTarefaProjeto SET "

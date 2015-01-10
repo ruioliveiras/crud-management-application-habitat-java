@@ -264,7 +264,7 @@ public class BuildingTask extends javax.swing.JPanel implements UIDimension.JDet
     public void set(Tarefa a) {
         if(a != null){
             txtTipo.getModel().setSelectedItem(new TipoTarefa(a.getIdTar(), a.getTipoTarefa()));
-            txtDecricao.setText("Juntar isto a BD!!!");
+           // txtDecricao.setText("Juntar isto a BD!!!");
             SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
             try{dataIniPrev.setText(df.format(a.getDataInicioPrevista().getTime()));}catch(Exception e){}
@@ -273,6 +273,10 @@ public class BuildingTask extends javax.swing.JPanel implements UIDimension.JDet
             try{dataFimEfet.setText(df.format(a.getDataFim().getTime()));}catch(Exception e){}
             this.repaint();
         }
+    }
+    
+    public void get(){
+        
     }
 
     @Override

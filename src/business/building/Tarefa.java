@@ -173,6 +173,20 @@ public class Tarefa {
             voluntarioDAO.updateTarefaRealizada(v);
         }
     }
+    
+    /**
+     * Remove um voluntario do da tarefa
+     * @param v tarefa a remover
+     * @throws java.sql.SQLException Caso exista problemas na ligação à Base de Dados 
+     */
+    public void rmVoluntariado(VoluntariadoRealizado v) throws SQLException {
+         v.setTarefa(this);
+        if (v.getVoluntariado() instanceof Equipa){
+            equipaDAO.removeTarefaRealizada(v);
+        } else {
+            voluntarioDAO.removeTarefaRealizada(v);
+        }
+    }
 
     /**
      * Actualiza o voluntario guardando
@@ -238,4 +252,6 @@ public class Tarefa {
     public String toString(){
         return new String(this.idTar+"."+this.tipoTarefa+"."+this.idProj);
     }
+
+
 }
