@@ -83,13 +83,13 @@ public class ProjetoDAO extends GenericDAO<Projeto> {
     public List<Tarefa> getTarefasAllByIdProg(int idtar) throws SQLException{
         return tarefasDAO.getByIdAll(idtar);
     }
-    public void getTarefasInsert(Tarefa idtar) throws SQLException{
-        tarefasDAO.insert(idtar);
+    public void insertTarefa(Tarefa idtar) throws SQLException{
+        tarefasDAO.insertNoAuto(idtar);
     }
-    public void getTarefasDelete(Tarefa t) throws SQLException{
+    public void removeTarefa(Tarefa t) throws SQLException{
        tarefasDAO.remove(t);
     }
-    public void getTarefasUpdate(Tarefa t) throws SQLException{
+    public void updateTarefa(Tarefa t) throws SQLException{
        tarefasDAO.update(t);
     }
     

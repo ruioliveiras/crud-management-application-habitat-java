@@ -131,7 +131,7 @@ public abstract class GenericDAO<A> extends DAO<A> {
     public void remove(A obj) throws SQLException {
         newStatement();
         executeSQL("DELETE FROM " + tableName + " WHERE "
-                + queryBuilderAttrsValues(obj, 0, indexNotKey)
+                + queryBuilderAttrsValuesAnd(obj, 0, indexNotKey)
         );
         closeStatemnet();
     }

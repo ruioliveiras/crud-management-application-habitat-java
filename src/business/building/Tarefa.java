@@ -30,7 +30,16 @@ public class Tarefa {
     public VoluntariadoDAO _voluntarioDao;
     public Voluntario _usa_Horas;
     public Voluntariado _unnamed_Voluntariado_;*/
-/**
+
+    public Tarefa() {
+        dataFim = new GregorianCalendar();
+        dataFimPrevista= new GregorianCalendar();
+        dataInicio= new GregorianCalendar();
+        dataFimPrevista=new GregorianCalendar();
+    }
+
+    
+    /**
  * Construtor Parametrizado
  * @param idProj Identificador do Projeto associado à tarefa
  * @param idTar Identificador da Tarefa
@@ -71,6 +80,24 @@ public class Tarefa {
     public int getIdProj() {
         return idProj;
     }
+
+    /**
+     * Modifica o id do projeto
+     * @param idProj 
+     */
+    public void setIdProj(int idProj) {
+        this.idProj = idProj;
+    }
+
+    /**
+     * Modifica o id do tipo tarefa
+     * @param idTar 
+     */
+    public void setIdTar(int idTar) {
+        this.idTar = idTar;
+    }
+    
+    
 /**
  * Retorna o Identificador da Tarefa
  * @return Id de Tarefa

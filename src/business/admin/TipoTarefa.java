@@ -68,8 +68,6 @@ public class TipoTarefa {
         TipoTarefa t = (TipoTarefa) obj;
         if (t.getId() == this.getId()){
             return true;
-        }else if (t.getDescricao().equals(this.getDescricao())){
-            return true;
         }
         return false;
     }

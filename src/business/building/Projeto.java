@@ -265,15 +265,22 @@ public class Projeto {
     * Adiciona uma Tarefa ao plano de obra do Projeto
     * @param t Tarefa a ser adicionada
     */
-    public void addTarefa(Tarefa t) {
-       
+    public void addTarefa(Tarefa t) throws SQLException{
+         projetoDAO.insertTarefa(t);      
     }
     /**
      * Edita uma Tarefa do plano de obra do Projeto
      * @param t Tarefa a ser editada
      */
-    public void putTarefa(Tarefa t) {
-        
+    public void putTarefa(Tarefa t) throws SQLException {
+        projetoDAO.updateTarefa(t);
+    }
+    
+    /**
+     * @param t tarefa a remover
+     */
+    public void rmTarefa(Tarefa t) throws SQLException{
+        projetoDAO.removeTarefa(t);     
     }
     /**
      * Retorna as Tarefas que estão associadas ao projeto

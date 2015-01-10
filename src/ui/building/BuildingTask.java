@@ -6,10 +6,15 @@
 package ui.building;
 
 import business.admin.TipoTarefa;
+import business.building.Projeto;
 import business.building.Tarefa;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import ui.AppState;
 import ui.util.UIDimension;
 
@@ -21,7 +26,8 @@ public class BuildingTask extends javax.swing.JPanel implements UIDimension.JDet
 
     private String title;
     private AppState appState;
-    
+    private Tarefa tarefa;
+
     /**
      * Creates new form AdminDetailsActivity
      */
@@ -33,10 +39,10 @@ public class BuildingTask extends javax.swing.JPanel implements UIDimension.JDet
         btnSaveEdit.setVisible(false);
         this.appState = appState;
         txtTipo.setModel(appState.get(TipoTarefa.class).listModel());
-        
+
     }
 
-    public BuildingTask(UIDimension.EditonType ty,AppState appState) {
+    public BuildingTask(UIDimension.EditonType ty, AppState appState) {
         this.appState = appState;
         initComponents();
         switch (ty) {
@@ -63,9 +69,10 @@ public class BuildingTask extends javax.swing.JPanel implements UIDimension.JDet
                 break;
             default:
         }
-       
-    txtTipo.setModel(appState.get(TipoTarefa.class).listModel());
+
+        txtTipo.setModel(appState.get(TipoTarefa.class).listModel());
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -224,19 +231,50 @@ public class BuildingTask extends javax.swing.JPanel implements UIDimension.JDet
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
+        try {
+            get();
+            appState.get(Projeto.class).listSelected().rmTarefa(tarefa);
+            ((JFrame) SwingUtilities.getWindowAncestor(this)).setVisible(false);
+            set(null);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        } catch (ParseException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnSaveEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEditActionPerformed
-        // TODO add your handling code here:
+        try {
+            get();
+            appState.get(Projeto.class).listSelected().putTarefa(tarefa);
+            ((JFrame) SwingUtilities.getWindowAncestor(this)).setVisible(false);
+            set(null);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        } catch (ParseException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
     }//GEN-LAST:event_btnSaveEditActionPerformed
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        // TODO add your handling code here:
+
+        try {
+            get();
+            appState.get(Projeto.class).listSelected().addTarefa(tarefa);
+            ((JFrame) SwingUtilities.getWindowAncestor(this)).setVisible(false);
+            set(null);
+        } catch (SQLException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        } catch (ParseException ex) {
+            (new ui.util.ExceptionHandler("Erro ", ex)).fire();
+        }
     }//GEN-LAST:event_btSaveActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        // TODO add your handling code here:
+
+        ((JFrame) SwingUtilities.getWindowAncestor(this)).setVisible(false);
+        set(null);
+
     }//GEN-LAST:event_btCancelarActionPerformed
 
 
@@ -262,21 +300,65 @@ public class BuildingTask extends javax.swing.JPanel implements UIDimension.JDet
 
     @Override
     public void set(Tarefa a) {
-        if(a != null){
-            txtTipo.getModel().setSelectedItem(new TipoTarefa(a.getIdTar(), a.getTipoTarefa()));
-           // txtDecricao.setText("Juntar isto a BD!!!");
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-
-            try{dataIniPrev.setText(df.format(a.getDataInicioPrevista().getTime()));}catch(Exception e){}
-            try{dataFimPrev.setText(df.format(a.getDataFimPrevista().getTime()));}catch(Exception e){}
-            try{dataIniEfet.setText(df.format(a.getDataInicio().getTime()));}catch(Exception e){}
-            try{dataFimEfet.setText(df.format(a.getDataFim().getTime()));}catch(Exception e){}
-            this.repaint();
+        if (a == null) {
+            a = new Tarefa();
         }
+        tarefa = a;
+        txtTipo.getModel().setSelectedItem(new TipoTarefa(a.getIdTar(), a.getTipoTarefa()));
+        // txtDecricao.setText("Juntar isto a BD!!!");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            dataIniPrev.setText(df.format(a.getDataInicioPrevista().getTime()));
+        } catch (Exception ex) {
+        }
+        try {
+            dataFimPrev.setText(df.format(a.getDataFimPrevista().getTime()));
+        } catch (Exception ex) {
+        }
+        try {
+            dataIniEfet.setText(df.format(a.getDataInicio().getTime()));
+        } catch (Exception ex) {
+        }
+        try {
+            dataFimEfet.setText(df.format(a.getDataFim().getTime()));
+        } catch (Exception ex) {
+        }
+
+        this.repaint();
+
     }
-    
-    public void get(){
-        
+
+    public void get() throws ParseException {
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        GregorianCalendar a = new GregorianCalendar();
+        GregorianCalendar b = new GregorianCalendar();
+        GregorianCalendar c = new GregorianCalendar();
+        GregorianCalendar d = new GregorianCalendar();
+
+        try {
+            a.setTime(df.parse(dataIniEfet.getText()));
+        } catch (Exception ex) {
+        }
+        try {
+            b.setTime(df.parse(dataFimEfet.getText()));
+        } catch (Exception ex) {
+        }
+        try {
+            c.setTime(df.parse(dataIniPrev.getText()));
+        } catch (Exception ex) {
+        }
+        try {
+            d.setTime(df.parse(dataFimPrev.getText()));
+        } catch (Exception ex) {
+        }
+
+        tarefa.setDataInicio(a);
+        tarefa.setDataFim(b);
+        tarefa.setDataInicioPrevista(c);
+        tarefa.setDataFimPrevista(d);
+        tarefa.setIdProj(appState.get(Projeto.class).listSelected().getId());
+        tarefa.setIdTar(((TipoTarefa)txtTipo.getSelectedItem()).getId());
     }
 
     @Override
