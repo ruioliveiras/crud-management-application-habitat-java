@@ -16,9 +16,10 @@ Jose Pereira
 
 **1) Introduction **
 
-**2) Database details **
+**2) Application details**
 
-**3) Application details**
+**3) Database details **
+
 
 0) Abstract
 ==============
