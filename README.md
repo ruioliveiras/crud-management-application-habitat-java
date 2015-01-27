@@ -1,4 +1,4 @@
-** \*=== HabitatUM ===\***
+# \*=== HabitatUM ===\* #
 
 Rui Oliveira  rui96pedro AT gmail DOT com
 --------------
