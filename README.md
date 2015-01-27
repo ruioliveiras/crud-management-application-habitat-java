@@ -1,14 +1,24 @@
 # \*=== HabitatUM ===\* #
 
-Rui Oliveira  rui96pedro AT gmail DOT com
+**Developers:**
+
+Pedro
+
+Tomas Ferreira
+
+(Owner) Rui Oliveira  -> rui96pedro AT gmail DOT com
+
+Jose Pereira
+
 --------------
 
-**0) Abstract**
+**0) Abstract **
 
-**1) Requirements**
+**1) Introduction **
 
-**2) Implementation highlights**
+**2) Database details **
 
+**3) Application details**
 
 0) Abstract
 ==============
@@ -19,8 +29,20 @@ In this application there are 4 types of users: (Admin, Funds staff, Family staf
 And in the other hand manage funds, volunteers, volunteers teams, and events of the association. The funds and the volunteers can be registered in a certain building.
 This work include the development of the software and the Database.
 
-2) Something goes here
+1) Introduction
 ==============
+This application was created using an development process (Unified process) and in parallel we have created the Database using a methodology too.
+In this repository can be found all the diagrams created (in the Visual Paradigm project file .vpp), the source code of the application, also the database diagrams created to develop the database.
+There exists to reports one for the Database and another to the application.
+
+2) Application Details
+UI
+...
+
+
+3) Database Details
+
+Was created a population script to test the Database.
 
 
 # README #
