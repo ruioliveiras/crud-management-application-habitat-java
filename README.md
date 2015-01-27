@@ -1,4 +1,4 @@
-# \*=== HabitatUM ===\* #
+# \*=== **# HabitatUM #** ===\* #
 
 **Developers:**
 
@@ -36,11 +36,14 @@ In this repository can be found all the diagrams created (in the Visual Paradigm
 There exists to reports one for the Database and another to the application.
 
 2) Application Details
+=================
+
 UI
 ...
 
 
 3) Database Details
+================
 
 Was created a population script to test the Database.
 
