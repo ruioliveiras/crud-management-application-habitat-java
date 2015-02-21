@@ -49,12 +49,9 @@ UI
 Was created a population script to test the Database.
 
 4) Screens
+
 ![img1.png](https://bitbucket.org/repo/qXE7EM/images/1518934228-img1.png)
 
-![Screenshot from 2015-02-01 17:48:47.png](https://bitbucket.org/repo/qXE7EM/images/2765721298-Screenshot%20from%202015-02-01%2017:48:47.png)
+![img2.png](https://bitbucket.org/repo/qXE7EM/images/3404085792-img2.png)
 
-![Screenshot from 2015-02-01 17:48:23.png](https://bitbucket.org/repo/qXE7EM/images/75305091-Screenshot%20from%202015-02-01%2017:48:23.png)
-
-![screen1](https://bitbucket.org/repo/qXE7EM/images/2250058691-2015-02-01%2017:47:58.png)
-
-![Screenshot from 2015-02-01 17:48:47.png](https://bitbucket.org/repo/qXE7EM/images/1992983337-Screenshot%20from%202015-02-01%2017:48:47.png)
+![img3.png](https://bitbucket.org/repo/qXE7EM/images/2599374953-img3.png)
