@@ -39,17 +39,18 @@ There exists to reports one for the Database and another to the application.
 2) Application Details
 =================
 
-UI
-...
-
 
 3) Database Details
 ================
 
-Was created a population script to test the Database.
+The Database was created using Mysql Workbench, also was been populated with some data. Was created 22 tables, 6 database different users, also triggers for derivated atributes and two views.
 
 4) Screens
 
+Database:
+![bd.png](https://bitbucket.org/repo/qXE7EM/images/183632372-bd.png)
+
+App:
 ![img1.png](https://bitbucket.org/repo/qXE7EM/images/1518934228-img1.png)
 
 ![img2.png](https://bitbucket.org/repo/qXE7EM/images/3404085792-img2.png)
